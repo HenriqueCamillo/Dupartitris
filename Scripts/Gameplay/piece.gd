@@ -1,4 +1,5 @@
 extends Sprite2D
+class_name Piece
 
 const blocks_per_piece: int = 4
 

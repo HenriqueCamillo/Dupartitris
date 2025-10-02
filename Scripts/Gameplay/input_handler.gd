@@ -1,8 +1,10 @@
 extends Node2D
+class_name InputHandler
+
+@export var das_timer: Timer
 
 var is_left_presed: bool
 var is_right_presed: bool
-var is_down_presed: bool
 
 var horizontal_input: int
 
@@ -13,7 +15,6 @@ signal soft_drop_input_changed(is_pressed: bool)
 signal rotate_clockwise_pressed()
 signal rotate_counterclockwise_pressed()
 
-@export var das_timer: Timer
  
 func _ready() -> void:
 	TInput.actions[TInput.ActionId.MOVE_LEFT].changed.connect(on_move_left_change)

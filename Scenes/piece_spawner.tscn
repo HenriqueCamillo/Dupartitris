@@ -1,0 +1,19 @@
+[gd_scene load_steps=11 format=3 uid="uid://5q2k55tkrw0o"]
+
+[ext_resource type="Script" uid="uid://o3nwxm0h4m2l" path="res://Scripts/Gameplay/piece_spawner.gd" id="1_fnwvi"]
+[ext_resource type="Script" uid="uid://l6sli7lu00nu" path="res://Scripts/Data/piece_data.gd" id="2_htfbb"]
+[ext_resource type="Resource" uid="uid://bufxj0a2augcj" path="res://Data/Pieces/i_piece.tres" id="3_85lbp"]
+[ext_resource type="Resource" uid="uid://plkfwo4jy00x" path="res://Data/Pieces/j_piece.tres" id="4_hf1rk"]
+[ext_resource type="Resource" uid="uid://ctkcophlr6q18" path="res://Data/Pieces/l_piece.tres" id="5_laevb"]
+[ext_resource type="Resource" uid="uid://wp1x2fkbxu3h" path="res://Data/Pieces/o_piece.tres" id="6_4nrr1"]
+[ext_resource type="Resource" uid="uid://pm1fowtng7ph" path="res://Data/Pieces/s_piece.tres" id="7_67x1v"]
+[ext_resource type="Resource" uid="uid://fbp3j8vwsbdt" path="res://Data/Pieces/t_piece.tres" id="8_ugov6"]
+[ext_resource type="Resource" uid="uid://buuktb1bv3lu0" path="res://Data/Pieces/z_piece.tres" id="9_po8wo"]
+[ext_resource type="PackedScene" uid="uid://djhogos15swoh" path="res://Scenes/piece.tscn" id="10_85lbp"]
+
+[node name="PieceSpawner" type="Node2D"]
+script = ExtResource("1_fnwvi")
+piece_types = Array[ExtResource("2_htfbb")]([ExtResource("3_85lbp"), ExtResource("4_hf1rk"), ExtResource("5_laevb"), ExtResource("6_4nrr1"), ExtResource("7_67x1v"), ExtResource("8_ugov6"), ExtResource("9_po8wo")])
+piece_template = ExtResource("10_85lbp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
