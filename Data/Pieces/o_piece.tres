@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PieceData" load_steps=2 format=3 uid="uid://wp1x2fkbxu3h"]
+
+[ext_resource type="Script" uid="uid://l6sli7lu00nu" path="res://Scripts/Data/piece_data.gd" id="1_siqns"]
+
+[resource]
+script = ExtResource("1_siqns")
+variants = 1
+piece_locations_0 = Array[Vector2i]([Vector2i(0, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(-1, 1)])
+metadata/_custom_type_script = "uid://l6sli7lu00nu"

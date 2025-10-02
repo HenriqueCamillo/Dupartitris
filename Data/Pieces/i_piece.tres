@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PieceData" load_steps=2 format=3 uid="uid://bufxj0a2augcj"]
+
+[ext_resource type="Script" uid="uid://l6sli7lu00nu" path="res://Scripts/Data/piece_data.gd" id="1_s8dyd"]
+
+[resource]
+script = ExtResource("1_s8dyd")
+variants = 2
+piece_locations_0 = Array[Vector2i]([Vector2i(-2, 0), Vector2i(-1, 0), Vector2i(0, 0), Vector2i(1, 0)])
+piece_locations_90 = Array[Vector2i]([Vector2i(0, -2), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1)])

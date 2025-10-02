@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://djhogos15swoh"]
+
+[ext_resource type="Script" uid="uid://bc74w2lw44ux1" path="res://Scripts/Gameplay/piece.gd" id="1_jf0mb"]
+[ext_resource type="PackedScene" uid="uid://dk22ny3ep23ns" path="res://Scenes/block.tscn" id="2_y70yu"]
+
+[node name="Piece" type="Sprite2D" node_paths=PackedStringArray("blocks")]
+script = ExtResource("1_jf0mb")
+blocks = [NodePath("Block1"), NodePath("Block2"), NodePath("Block3"), NodePath("Block4")]
+
+[node name="Block1" parent="." instance=ExtResource("2_y70yu")]
+position = Vector2(10, 0)
+
+[node name="Block2" parent="." instance=ExtResource("2_y70yu")]
+position = Vector2(0, 10)
+
+[node name="Block3" parent="." instance=ExtResource("2_y70yu")]
+
+[node name="Block4" parent="." instance=ExtResource("2_y70yu")]
+position = Vector2(-10, 0)
