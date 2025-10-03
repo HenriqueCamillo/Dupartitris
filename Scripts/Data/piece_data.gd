@@ -8,7 +8,7 @@ class_name PieceData
 @export var piece_locations_270: Array[Vector2i]
 
 
-func get_block_positions(rotation: Enums.Rotation = Enums.Rotation.DEGREES_0) -> Array[Vector2i]:
+func get_blocks_positions(rotation: Enums.Rotation = Enums.Rotation.DEGREES_0) -> Array[Vector2i]:
 	rotation = rotation % variants as Enums.Rotation
 	
 	match rotation:

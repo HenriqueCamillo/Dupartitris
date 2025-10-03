@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dk22ny3ep23ns"]
+[gd_scene load_steps=3 format=3 uid="uid://dk22ny3ep23ns"]
 
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="1_ejx3s"]
+[ext_resource type="Script" uid="uid://bw6c34our0cbx" path="res://Scripts/Gameplay/block.gd" id="2_8o1l4"]
 
 [node name="Block" type="Sprite2D"]
 texture = ExtResource("1_ejx3s")
+script = ExtResource("2_8o1l4")

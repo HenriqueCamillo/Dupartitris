@@ -34,10 +34,12 @@ func _exit_tree() -> void:
 	
 func on_move_left_change(is_pressed: bool):
 	is_left_presed = is_pressed
+	update_horizontal_movement()
 	
 func on_move_right_change(is_pressed: bool):
 	is_right_presed = is_pressed
-	
+	update_horizontal_movement()
+		
 func update_horizontal_movement() -> void:
 	var new_input = (1 if is_right_presed else 0) + (-1 if is_left_presed else 0)
 	if new_input == horizontal_input:
