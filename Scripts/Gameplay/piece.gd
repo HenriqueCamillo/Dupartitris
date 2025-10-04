@@ -65,6 +65,9 @@ func get_rotation_from_index(rotation: int) -> Enums.Rotation:
 		
 	return rotation % piece_data.variants as Enums.Rotation
 
+func move_down_one_row() -> void:
+	move(Vector2i(0, 1))
+
 func move_sideways(offset: int) -> void:
 	move(Vector2i(offset, 0))
 	

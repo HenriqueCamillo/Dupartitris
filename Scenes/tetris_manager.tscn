@@ -11,6 +11,24 @@ spawner = NodePath("PieceSpawner")
 input_handler = NodePath("InputHandler")
 grid = NodePath("TGrid")
 das_timer = NodePath("DASUpdateTimer")
+drop_time_transitions = Dictionary[int, float]({
+0: 0.8,
+1: 0.717,
+2: 0.633,
+3: 0.55,
+4: 0.467,
+5: 0.383,
+6: 0.3,
+7: 0.217,
+8: 0.133,
+9: 0.1,
+10: 0.083,
+13: 0.067,
+16: 0.05,
+19: 0.033,
+29: 0.017
+})
+soft_drop_time = 0.033
 
 [node name="InputHandler" parent="." instance=ExtResource("2_gy7op")]
 
@@ -24,7 +42,9 @@ metadata/_custom_type_script = "uid://d06gejtxsllr6"
 wait_time = 0.1
 
 [connection signal="das_changed" from="InputHandler" to="." method="_on_das_changed"]
+[connection signal="hard_drop_pressed" from="InputHandler" to="." method="_on_hard_drop_pressed"]
 [connection signal="horizontal_input_changed" from="InputHandler" to="." method="_on_horizontal_input_changed"]
 [connection signal="rotate_clockwise_pressed" from="InputHandler" to="." method="_on_rotate_clockwise_pressed"]
 [connection signal="rotate_counterclockwise_pressed" from="InputHandler" to="." method="_on_rotate_counterclockwise_pressed"]
+[connection signal="soft_drop_input_changed" from="InputHandler" to="." method="_on_soft_drop_input_changed"]
 [connection signal="timeout" from="DASUpdateTimer" to="." method="_on_das_timer_timeout"]

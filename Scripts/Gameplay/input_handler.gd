@@ -14,7 +14,6 @@ signal hard_drop_pressed()
 signal soft_drop_input_changed(is_pressed: bool)
 signal rotate_clockwise_pressed()
 signal rotate_counterclockwise_pressed()
-
  
 func _ready() -> void:
 	TInput.actions[TInput.ActionId.MOVE_LEFT].changed.connect(on_move_left_change)
@@ -31,7 +30,7 @@ func _exit_tree() -> void:
 	TInput.actions[TInput.ActionId.HARD_DROP].changed.disconnect(on_hard_drop_change)
 	TInput.actions[TInput.ActionId.ROTATE_CLOCKWISE].changed.disconnect(on_rotate_clockwise_change)
 	TInput.actions[TInput.ActionId.ROTATE_COUNTERCLOCKWISE].changed.disconnect(on_rotate_counterclockwise_change)
-	
+
 func on_move_left_change(is_pressed: bool):
 	is_left_presed = is_pressed
 	update_horizontal_movement()
@@ -54,6 +53,7 @@ func update_horizontal_movement() -> void:
 	horizontal_input_changed.emit(horizontal_input)
 	das_changed.emit(false)
 	
+# TODO: Consider WASD as a Vector2 to DAS and Soft Drop cancel themselves when simultaneously, just like nes tetris
 func _on_das_timer_timeout() -> void:
 	das_changed.emit(true)
 	
