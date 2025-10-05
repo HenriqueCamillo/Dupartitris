@@ -1,5 +1,5 @@
-extends Node2D
 class_name TGrid
+extends Node2D
 
 var grid: Array[Block]
 		
@@ -21,7 +21,8 @@ func place_piece_on_grid(piece: Piece) -> void:
 func place_block_on_grid(block: Block) -> void:
 	block.get_parent().remove_child(block)
 	self.add_child(block)
-	block.set_grid_position(block.grid_position)
+	print(block._grid_position)
+	block.update_position_to_new_parent(Vector2i.ZERO)
 	
 func is_empty(grid_position: Vector2i) -> bool:
 	return grid[array_index(grid_position)] == null

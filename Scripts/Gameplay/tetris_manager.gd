@@ -1,126 +1,127 @@
+class_name TetrisManager
 extends Node2D
 
-@export var spawner: PieceSpawner
-@export var input_handler: InputHandler
-@export var grid: TGrid
-@export var das_timer: Timer
+@export var _spawner: PieceSpawner
+@export var _grid: TGrid
+@export var _das_timer: Timer
 
-@export var drop_time_transitions: Dictionary[int, float]
-@export var soft_drop_time: float
+@export var _drop_time_transitions: Dictionary[int, float]
+@export var _soft_drop_time: float
 
-var drop_time: float
-var level: int:
+
+var _elapsed_drop_time: float
+var _drop_time: float
+var _level: int:
 	set(value):
-		level = value
-		if drop_time_transitions.has(level):
-			level_drop_time = drop_time_transitions[level]
+		_level = value
+		if _drop_time_transitions.has(_level):
+			_level_drop_time = _drop_time_transitions[_level]
 
-var level_drop_time: float:
+var _level_drop_time: float:
 	set(value):
-		if level_drop_time == value:
+		if _level_drop_time == value:
 			return
 			
-		level_drop_time = value
-		update_drop_time()
+		_level_drop_time = value
+		_update_drop_time()
 			
-var is_soft_dropping: bool:
+var _is_soft_dropping: bool:
 	set(value):
-		if is_soft_dropping == value:
+		if _is_soft_dropping == value:
 			return
 			
-		is_soft_dropping = value
-		update_drop_time()
+		_is_soft_dropping = value
+		_update_drop_time()
 
-var falling_piece: Piece
-var das_direction: int
-var das_enabled: bool:
+var _falling_piece: Piece
+var _das_direction: int
+var _das_enabled: bool:
 	set(value):
-		if das_enabled == value:
+		if _das_enabled == value:
 			return
 			
-		das_enabled = value
-		if das_enabled:
-			das_timer.start()
+		_das_enabled = value
+		if _das_enabled:
+			_das_timer.start()
 		else:
-			das_timer.stop()
+			_das_timer.stop()
 
 func _ready() -> void:
-	start_game(0)
+	_start_game(0)
 	
-func start_game(start_level: int) -> void:
-	level = start_level
-	level_drop_time = get_start_level_drop_time(start_level)
-	update_drop_time()
-	spawn_next_piece()
+func _start_game(start_level: int) -> void:
+	_level = start_level
+	_level_drop_time = _get_start_level_drop_time(start_level)
+	_update_drop_time()
+	_spawn_next_piece()
 
-var elapsed_drop_time: float
 func _process(delta: float) -> void:
-	elapsed_drop_time += delta
+	_elapsed_drop_time += delta
 	
-	if elapsed_drop_time >= drop_time:
-		apply_timed_drop()
+	if _elapsed_drop_time >= _drop_time:
+		_apply_timed_drop()
 
-func apply_timed_drop() -> void:
-	drop_piece_one_row()
-	elapsed_drop_time = 0
+func _apply_timed_drop() -> void:
+	_drop_piece_one_row()
+	_elapsed_drop_time = 0
 	
-func drop_piece_one_row() -> void:
-	if falling_piece != null:
-		falling_piece.move_down_one_row()
+func _drop_piece_one_row() -> void:
+	if _falling_piece != null:
+		_falling_piece.move_down_one_row()
 	
 @warning_ignore("shadowed_variable")
-func get_start_level_drop_time(level: int) -> float:
-	if drop_time_transitions.has(level):
-		return drop_time_transitions[level]
+func _get_start_level_drop_time(level: int) -> float:
+	if _drop_time_transitions.has(level):
+		return _drop_time_transitions[level]
 		
 	while level > 0:
 		level -= 1
-		if drop_time_transitions.has(level):
-			return drop_time_transitions[level]
+		if _drop_time_transitions.has(level):
+			return _drop_time_transitions[level]
 			
-	push_error("Level 0 does not have a drop_time set. Using arbitrary start drop_time")
+	push_error("Level 0 does not have a _drop_time set. Using arbitrary start _drop_time")
 	return 1.0
 	
-func update_drop_time() -> void:
-	if is_soft_dropping:
-		drop_time = min(level_drop_time, soft_drop_time)
+func _update_drop_time() -> void:
+	if _is_soft_dropping:
+		_drop_time = min(_level_drop_time, _soft_drop_time)
 	else:
-		drop_time = level_drop_time
+		_drop_time = _level_drop_time
 		
-	if elapsed_drop_time > drop_time:
-		apply_timed_drop()	
+	if _elapsed_drop_time >= _drop_time:
+		_apply_timed_drop()	
 
-func spawn_next_piece() -> void:
-	falling_piece = spawner.spawn_piece()
-	self.add_child(falling_piece)
+func _spawn_next_piece() -> void:
+	_falling_piece = _spawner.spawn_piece()
+	self.add_child(_falling_piece)
 	
 func _on_rotate_clockwise_pressed() -> void:
-	if falling_piece != null:
-		falling_piece.rotate_clockwise()
+	if _falling_piece != null:
+		_falling_piece.rotate_clockwise()
 		
 func _on_rotate_counterclockwise_pressed() -> void:
-	if falling_piece != null:
-		falling_piece.rotate_counterclockwise()
+	if _falling_piece != null:
+		_falling_piece.rotate_counterclockwise()
 
 func _on_horizontal_input_changed(direction: int) -> void:
-	if falling_piece == null:
+	if _falling_piece == null:
 		return
 		
 	if direction != 0:	
-		falling_piece.move_sideways(direction)
-		das_direction = direction
+		_falling_piece.move_sideways(direction)
+		_das_direction = direction
 		
-	das_enabled = false
+	_das_enabled = false
 	
 func _on_das_changed(enabled: bool) -> void:
-	das_enabled = enabled
+	_das_enabled = enabled
 	
 func _on_das_timer_timeout() -> void:
-	if falling_piece != null:
-		falling_piece.move_sideways(das_direction)
+	if _falling_piece != null:
+		_falling_piece.move_sideways(_das_direction)
 
 func _on_soft_drop_input_changed(is_pressed: bool) -> void:
-	is_soft_dropping = is_pressed
+	_is_soft_dropping = is_pressed
 
 # TODO:
 func _on_hard_drop_pressed() -> void:

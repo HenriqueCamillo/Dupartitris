@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cxqkhmghoy6l1" path="res://Scripts/Gameplay/input_handler.gd" id="1_qyc4o"]
 
-[node name="InputHandler" type="Node2D" node_paths=PackedStringArray("das_timer")]
+[node name="InputHandler" type="Node2D" node_paths=PackedStringArray("_das_timer")]
 script = ExtResource("1_qyc4o")
-das_timer = NodePath("DASStartTimer")
+_das_timer = NodePath("DASStartTimer")
 
 [node name="DASStartTimer" type="Timer" parent="."]
 wait_time = 0.27

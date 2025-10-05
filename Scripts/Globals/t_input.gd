@@ -2,7 +2,7 @@ extends Node
 
 var actions : Dictionary[ActionId, InputAction]
 
-const action_names: Dictionary[ActionId, String] = {
+const _ACTION_NAMES: Dictionary[ActionId, String] = {
 	ActionId.MOVE_LEFT: "move_left",
 	ActionId.MOVE_RIGHT: "move_right",
 	ActionId.HARD_DROP: "hard_drop",
@@ -21,8 +21,8 @@ enum ActionId {
 }
 
 func _ready() -> void:
-	for action_id in action_names:
-		var action_name = action_names[action_id]
+	for action_id in _ACTION_NAMES:
+		var action_name = _ACTION_NAMES[action_id]
 		var action = InputAction.new(action_name)
 		actions[action_id] = action
 
@@ -34,11 +34,11 @@ func _input(event: InputEvent) -> void:
 			break
 
 func get_action_name(action_id: ActionId) -> String:
-	if !action_names.has(action_id):
-		push_error("Missing actionId name for actionId %s" % ActionId.keys()[action_id])
+	if !_ACTION_NAMES.has(action_id):
+		push_error("Missing action name for actionId %s" % ActionId.keys()[action_id])
 		return "";
 		
-	return action_names[action_id]
+	return _ACTION_NAMES[action_id]
 
 
 class InputAction:

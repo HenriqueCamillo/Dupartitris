@@ -1,17 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://dgyg468y4vr6w"]
+[gd_scene load_steps=14 format=3 uid="uid://dgyg468y4vr6w"]
 
 [ext_resource type="Script" uid="uid://je6xx4fm0oh4" path="res://Scripts/Gameplay/tetris_manager.gd" id="1_7cpae"]
 [ext_resource type="PackedScene" uid="uid://qabb27ubsbjd" path="res://Scenes/input_handler.tscn" id="2_gy7op"]
-[ext_resource type="PackedScene" path="res://Scenes/piece_spawner.tscn" id="3_s36ej"]
+[ext_resource type="PackedScene" uid="uid://5q2k55tkrw0o" path="res://Scenes/piece_spawner.tscn" id="3_s36ej"]
 [ext_resource type="Script" uid="uid://d06gejtxsllr6" path="res://Scripts/Gameplay/t_grid.gd" id="4_ilvt5"]
+[ext_resource type="Script" uid="uid://l6sli7lu00nu" path="res://Scripts/Data/piece_data.gd" id="4_m5pxt"]
+[ext_resource type="Resource" uid="uid://bufxj0a2augcj" path="res://Data/Pieces/i_piece.tres" id="5_vayi4"]
+[ext_resource type="Resource" uid="uid://plkfwo4jy00x" path="res://Data/Pieces/j_piece.tres" id="6_4sroy"]
+[ext_resource type="Resource" uid="uid://ctkcophlr6q18" path="res://Data/Pieces/l_piece.tres" id="7_f30yl"]
+[ext_resource type="Resource" uid="uid://wp1x2fkbxu3h" path="res://Data/Pieces/o_piece.tres" id="8_yys7r"]
+[ext_resource type="Resource" uid="uid://pm1fowtng7ph" path="res://Data/Pieces/s_piece.tres" id="9_l5o1t"]
+[ext_resource type="Resource" uid="uid://fbp3j8vwsbdt" path="res://Data/Pieces/t_piece.tres" id="10_25q4x"]
+[ext_resource type="Resource" uid="uid://buuktb1bv3lu0" path="res://Data/Pieces/z_piece.tres" id="11_gmr5w"]
+[ext_resource type="PackedScene" uid="uid://djhogos15swoh" path="res://Scenes/piece.tscn" id="12_j5g3x"]
 
-[node name="TetrisManager" type="Node2D" node_paths=PackedStringArray("spawner", "input_handler", "grid", "das_timer")]
+[node name="TetrisManager" type="Node2D" node_paths=PackedStringArray("_spawner", "_grid", "_das_timer")]
 script = ExtResource("1_7cpae")
-spawner = NodePath("PieceSpawner")
-input_handler = NodePath("InputHandler")
-grid = NodePath("TGrid")
-das_timer = NodePath("DASUpdateTimer")
-drop_time_transitions = Dictionary[int, float]({
+_spawner = NodePath("PieceSpawner")
+_grid = NodePath("TGrid")
+_das_timer = NodePath("DASUpdateTimer")
+_drop_time_transitions = Dictionary[int, float]({
 0: 0.8,
 1: 0.717,
 2: 0.633,
@@ -28,11 +36,13 @@ drop_time_transitions = Dictionary[int, float]({
 19: 0.033,
 29: 0.017
 })
-soft_drop_time = 0.033
+_soft_drop_time = 0.033
 
 [node name="InputHandler" parent="." instance=ExtResource("2_gy7op")]
 
 [node name="PieceSpawner" parent="." instance=ExtResource("3_s36ej")]
+_piece_types = Array[ExtResource("4_m5pxt")]([ExtResource("5_vayi4"), ExtResource("6_4sroy"), ExtResource("7_f30yl"), ExtResource("8_yys7r"), ExtResource("9_l5o1t"), ExtResource("10_25q4x"), ExtResource("11_gmr5w")])
+_piece_template = ExtResource("12_j5g3x")
 
 [node name="TGrid" type="Node2D" parent="."]
 script = ExtResource("4_ilvt5")
