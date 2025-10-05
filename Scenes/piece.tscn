@@ -1,19 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://djhogos15swoh"]
+[gd_scene load_steps=4 format=3 uid="uid://djhogos15swoh"]
 
 [ext_resource type="Script" uid="uid://bc74w2lw44ux1" path="res://Scripts/Gameplay/piece.gd" id="1_jf0mb"]
 [ext_resource type="PackedScene" uid="uid://dk22ny3ep23ns" path="res://Scenes/block.tscn" id="2_y70yu"]
+[ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="3_l2hco"]
 
 [node name="Piece" type="Node2D" node_paths=PackedStringArray("blocks")]
 script = ExtResource("1_jf0mb")
 blocks = [NodePath("Block1"), NodePath("Block2"), NodePath("Block3"), NodePath("Block4")]
 
 [node name="Block1" parent="." instance=ExtResource("2_y70yu")]
-position = Vector2(10, 0)
+position = Vector2(15, 5)
 
 [node name="Block2" parent="." instance=ExtResource("2_y70yu")]
-position = Vector2(0, 10)
+position = Vector2(5, 15)
 
 [node name="Block3" parent="." instance=ExtResource("2_y70yu")]
+position = Vector2(5, 5)
 
 [node name="Block4" parent="." instance=ExtResource("2_y70yu")]
-position = Vector2(-10, 0)
+position = Vector2(-5, 5)
+
+[node name="Debug" type="Sprite2D" parent="."]
+modulate = Color(1, 0.3372549, 1, 1)
+position = Vector2(5, 5)
+texture = ExtResource("3_l2hco")

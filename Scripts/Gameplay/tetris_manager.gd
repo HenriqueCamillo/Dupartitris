@@ -47,6 +47,7 @@ var _das_enabled: bool:
 			_das_timer.stop()
 
 func _ready() -> void:
+	_spawner.setup(_grid)
 	_start_game(0)
 	
 func _start_game(start_level: int) -> void:
@@ -93,7 +94,6 @@ func _update_drop_time() -> void:
 
 func _spawn_next_piece() -> void:
 	_falling_piece = _spawner.spawn_piece()
-	self.add_child(_falling_piece)
 	
 func _on_rotate_clockwise_pressed() -> void:
 	if _falling_piece != null:

@@ -1,14 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://c4ov56tonoyud"]
+[gd_scene load_steps=2 format=3 uid="uid://c4ov56tonoyud"]
 
 [ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/tetris_manager.tscn" id="1_ebmjs"]
-[ext_resource type="Texture2D" uid="uid://que12xpy41kk" path="res://icon.svg" id="2_qxrlw"]
 
 [node name="Game" type="Node2D"]
 
 [node name="TetrisManager" parent="." instance=ExtResource("1_ebmjs")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(130, 31)
-texture = ExtResource("2_qxrlw")
+position = Vector2(0, -100)
+zoom = Vector2(2.7, 2.7)

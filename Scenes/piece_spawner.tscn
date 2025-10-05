@@ -15,5 +15,3 @@
 script = ExtResource("1_fnwvi")
 _piece_types = Array[ExtResource("2_htfbb")]([ExtResource("3_85lbp"), ExtResource("4_hf1rk"), ExtResource("5_laevb"), ExtResource("6_4nrr1"), ExtResource("7_67x1v"), ExtResource("8_ugov6"), ExtResource("9_po8wo")])
 _piece_template = ExtResource("10_85lbp")
-
-[node name="Camera2D" type="Camera2D" parent="."]
