@@ -1,11 +1,20 @@
 class_name TGrid
 extends Node2D
 
-@export var border: Sprite2D
-@export var background: Sprite2D
+const BLOCK_SIZE: float = 10
+
+@export var _size := Vector2i(10, 20)
+
+@export var _border: Sprite2D
+@export var _background: Sprite2D
 
 var _grid: Array[Block]
 var _origin_position: Vector2
+
+var spawn_position: Vector2:
+	get:
+		@warning_ignore("integer_division")
+		return Vector2i(_size.x / 2, 0)
 		
 func _ready() -> void:
 	_initialize_grid_array()
@@ -13,21 +22,20 @@ func _ready() -> void:
 	_calculate_origin_position()
 	
 func _initialize_grid_array() -> void:
-	var size = GridSettings.GRID_SIZE
-	var number_of_positions = size.x * size.y
+	var number_of_positions = _size.x * _size.y
 	_grid.resize(number_of_positions)
 
 func _setup_visuals() -> void:
-	var grid_shape = GridSettings.GRID_SIZE
-	background.position.y = -(grid_shape.y / 2) * GridSettings.BLOCK_SIZE
-	background.region_rect = Rect2(Vector2.ZERO, grid_shape * GridSettings.BLOCK_SIZE)
+	var grid_shape = _size
+	_background.position.y = -(grid_shape.y / 2) * BLOCK_SIZE
+	_background.region_rect = Rect2(Vector2.ZERO, grid_shape * BLOCK_SIZE)
 	
 	var border_shape = grid_shape + Vector2i(2, 2)
-	border.region_rect = Rect2(Vector2.ZERO, border_shape * GridSettings.BLOCK_SIZE)
-	border.position.y = background.position.y
+	_border.region_rect = Rect2(Vector2.ZERO, border_shape * BLOCK_SIZE)
+	_border.position.y = _background.position.y
 	
 func _calculate_origin_position() -> void:
-	_origin_position = GridSettings.GRID_SIZE * GridSettings.BLOCK_SIZE
+	_origin_position = _size * BLOCK_SIZE
 	_origin_position *= -1
 	_origin_position.x /= 2
 	
@@ -35,12 +43,8 @@ func get_origin_position() -> Vector2:
 	return _origin_position
 	
 		
-@warning_ignore("shadowed_variable_base_class")
-func _array_index(position: Vector2i) -> int:
-	return position.y * GridSettings.GRID_SIZE.y + position.x
-
-#func position_piece_on_grid(piece: Piece, grid_position: Vector2i = GridSettings.INITIAL_POSITION) -> void:
-	#piece.position = 
+func _array_index(grid_position: Vector2i) -> int:
+	return grid_position.y * _size.y + grid_position.x
 
 func place_piece_on_grid(piece: Piece) -> void:
 	for block in piece.blocks:
@@ -67,3 +71,12 @@ func are_empty_relative(base_grid_position: Vector2i, grid_positions: Array[Vect
 		if !is_empty(base_grid_position + grid_position):
 			return false
 	return true 
+
+func _convert_to_valid_grid_position(grid_position: Vector2i):
+	var x = grid_position.x
+	if x < 0:
+		@warning_ignore("integer_division")
+		x += ((-x / _size.x) + 1) * _size.x
+
+	grid_position.x = x % _size.x
+	return grid_position

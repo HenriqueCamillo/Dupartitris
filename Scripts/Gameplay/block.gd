@@ -1,14 +1,17 @@
 class_name Block
 extends Node2D
 
-const _HALF_BLOCK_OFFSET := Vector2(GridSettings.BLOCK_SIZE / 2, GridSettings.BLOCK_SIZE / 2)
+const _HALF_BLOCK_OFFSET := Vector2(TGrid.BLOCK_SIZE / 2, TGrid.BLOCK_SIZE / 2)
 
 var _parent_piece: Piece
 var _grid_position: Vector2i
-var grid_origin_position: Vector2
+var _grid: TGrid
 
 @warning_ignore("unused_signal")
 signal on_detach(block: Block)
+
+func setup(grid: TGrid) -> void:
+	_grid = grid
 
 func attach_to_piece(piece: Piece) -> void:
 	var parent = get_parent()
@@ -25,11 +28,11 @@ func detach_from_piece() -> void:
 	recalculate_position()
 
 func set_grid_position(grid_position: Vector2i) -> void:
-	_grid_position = grid_position
+	_grid_position = _grid._convert_to_valid_grid_position(grid_position)
 	recalculate_position()
 
 func recalculate_position() -> void:
-	var world_position = _grid_position * GridSettings.BLOCK_SIZE + _HALF_BLOCK_OFFSET + grid_origin_position
+	var world_position = _grid_position * TGrid.BLOCK_SIZE + _HALF_BLOCK_OFFSET + _grid.get_origin_position()
 	if _parent_piece != null:
 		position = world_position - _parent_piece.position
 	else:

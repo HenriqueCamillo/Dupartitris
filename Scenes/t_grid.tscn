@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://d06gejtxsllr6" path="res://Scripts/Gameplay/t_grid.gd" id="1_4u0e5"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="2_4142e"]
 
-[node name="TGrid" type="Node2D" node_paths=PackedStringArray("border", "background")]
+[node name="TGrid" type="Node2D" node_paths=PackedStringArray("_border", "_background")]
 script = ExtResource("1_4u0e5")
-border = NodePath("Boder")
-background = NodePath("Background")
+_border = NodePath("Boder")
+_background = NodePath("Background")
 
 [node name="Boder" type="Sprite2D" parent="."]
 self_modulate = Color(0.48962224, 0.48962224, 0.48962218, 1)

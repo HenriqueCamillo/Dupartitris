@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 Enums="*res://Scripts/Globals/enums.gd"
-GridSettings="*res://Scripts/Globals/grid_settings.gd"
 TInput="*res://Scripts/Globals/t_input.gd"
 
 [input]

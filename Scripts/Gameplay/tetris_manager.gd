@@ -70,7 +70,6 @@ func _drop_piece_one_row() -> void:
 	if _falling_piece != null:
 		_falling_piece.move_down_one_row()
 	
-@warning_ignore("shadowed_variable")
 func _get_start_level_drop_time(level: int) -> float:
 	if _drop_time_transitions.has(level):
 		return _drop_time_transitions[level]
