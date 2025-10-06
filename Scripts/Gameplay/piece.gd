@@ -45,7 +45,7 @@ func _on_block_detached(block: Block) -> void:
 	block.on_detach.disconnect(_on_block_detached)
 
 func set_grid_position(grid_position: Vector2i):
-	_grid_position = _grid._convert_to_valid_grid_position(grid_position)
+	_grid_position = _grid.apply_horizontal_index_loop(grid_position)
 	position = _grid_position * TGrid.BLOCK_SIZE + _grid.get_origin_position()
 	_update_blocks_positions()
 
@@ -81,12 +81,30 @@ func _get_rotation_from_index(rotation: int) -> Enums.Rotation:
 		
 	return rotation % _piece_data.variants as Enums.Rotation
 
-func move_down_one_row() -> void:
-	_move(Vector2i(0, 1))
+func can_apply_movement(offset: Vector2i) -> bool:
+	for block in blocks:
+		var next_position = block.get_grid_position() + offset
+		next_position = _grid.apply_horizontal_index_loop(next_position)
+		
+		if !_grid.is_empty(next_position):
+			return false
 
-func move_sideways(offset: int) -> void:
-	_move(Vector2i(offset, 0))
-	
-func _move(offset: Vector2i) -> void:
+	return true
+
+func try_move_down_one_row() -> bool:
+	return try_move(Vector2i(0, 1))
+
+func try_move_sideways(sideways_offset: int) -> bool:
+	return try_move(Vector2i(sideways_offset, 0))
+
+func try_move(offset: Vector2i):
+	if !can_apply_movement(offset):
+		return false
+
 	set_grid_position(_grid_position + offset)
+	return true
+
+func set_color(color: Color) -> void:
+	for block in blocks:
+		block.modulate = color
 	

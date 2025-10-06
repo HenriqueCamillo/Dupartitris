@@ -15,3 +15,12 @@
 script = ExtResource("1_fnwvi")
 _piece_types = Array[ExtResource("2_htfbb")]([ExtResource("3_85lbp"), ExtResource("4_hf1rk"), ExtResource("5_laevb"), ExtResource("6_4nrr1"), ExtResource("7_67x1v"), ExtResource("8_ugov6"), ExtResource("9_po8wo")])
 _piece_template = ExtResource("10_85lbp")
+_pieces_colors = Dictionary[ExtResource("2_htfbb"), Color]({
+ExtResource("4_hf1rk"): Color(0, 0.28627452, 0.9490196, 1),
+ExtResource("3_85lbp"): Color(0, 0.8862745, 0.9490196, 1),
+ExtResource("5_laevb"): Color(0.9490196, 0.5686275, 0, 1),
+ExtResource("6_4nrr1"): Color(0.9490196, 0.93333334, 0, 1),
+ExtResource("7_67x1v"): Color(0, 0.9490196, 0.22352941, 1),
+ExtResource("9_po8wo"): Color(0.9490196, 0, 0.078431375, 1),
+ExtResource("8_ugov6"): Color(0.69803923, 0, 0.9490196, 1)
+})

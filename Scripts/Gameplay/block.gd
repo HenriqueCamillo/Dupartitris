@@ -23,12 +23,15 @@ func attach_to_piece(piece: Piece) -> void:
 	recalculate_position()
 
 func detach_from_piece() -> void:
-	_parent_piece = null
 	_parent_piece.remove_child(self)
+	_parent_piece = null
 	recalculate_position()
 
+func get_grid_position() -> Vector2i:
+	return _grid_position
+
 func set_grid_position(grid_position: Vector2i) -> void:
-	_grid_position = _grid._convert_to_valid_grid_position(grid_position)
+	_grid_position = _grid.apply_horizontal_index_loop(grid_position)
 	recalculate_position()
 
 func recalculate_position() -> void:

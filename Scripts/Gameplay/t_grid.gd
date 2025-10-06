@@ -41,38 +41,28 @@ func _calculate_origin_position() -> void:
 	
 func get_origin_position() -> Vector2:
 	return _origin_position
-	
 		
 func _array_index(grid_position: Vector2i) -> int:
-	return grid_position.y * _size.y + grid_position.x
+	return grid_position.y * _size.x + grid_position.x
 
-func place_piece_on_grid(piece: Piece) -> void:
+func place_piece(piece: Piece) -> void:
 	for block in piece.blocks:
-		place_block_on_grid(block)
+		place_block(block)
 	
 	piece.queue_free()
 	
-func place_block_on_grid(block: Block) -> void:
+func place_block(block: Block) -> void:
 	block.detach_from_piece()
 	self.add_child(block)
-	# block.recalculate_position()
+	_grid[_array_index(block._grid_position)] = block
 	
 func is_empty(grid_position: Vector2i) -> bool:
+	if is_out_of_bounds(grid_position):
+		return false
+		
 	return _grid[_array_index(grid_position)] == null
 	
-func are_empty(grid_positions: Array[Vector2i]) -> bool:
-	for grid_position in grid_positions:
-		if !is_empty(grid_position):
-			return false
-	return true
-	
-func are_empty_relative(base_grid_position: Vector2i, grid_positions: Array[Vector2i]) -> bool:
-	for grid_position in grid_positions:
-		if !is_empty(base_grid_position + grid_position):
-			return false
-	return true 
-
-func _convert_to_valid_grid_position(grid_position: Vector2i):
+func apply_horizontal_index_loop(grid_position: Vector2i):
 	var x = grid_position.x
 	if x < 0:
 		@warning_ignore("integer_division")
@@ -80,3 +70,7 @@ func _convert_to_valid_grid_position(grid_position: Vector2i):
 
 	grid_position.x = x % _size.x
 	return grid_position
+
+# Never gets out of bounds horizontally because it should teleport. Just remember to use apply_horizontal_index_loop when applying position
+func is_out_of_bounds(grid_position: Vector2i) -> bool:
+	return grid_position.y >= _size.y
