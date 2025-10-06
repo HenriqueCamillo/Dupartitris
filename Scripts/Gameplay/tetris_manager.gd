@@ -104,11 +104,11 @@ func _spawn_next_piece() -> void:
 	
 func _on_rotate_clockwise_pressed() -> void:
 	if _falling_piece != null:
-		_falling_piece.rotate_clockwise()
+		_falling_piece.try_rotate_clockwise()
 		
 func _on_rotate_counterclockwise_pressed() -> void:
 	if _falling_piece != null:
-		_falling_piece.rotate_counterclockwise()
+		_falling_piece.try_rotate_counterclockwise()
 
 func _on_horizontal_input_changed(direction: int) -> void:
 	if _falling_piece == null:

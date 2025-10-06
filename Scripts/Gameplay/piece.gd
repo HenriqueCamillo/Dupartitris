@@ -49,26 +49,30 @@ func set_grid_position(grid_position: Vector2i):
 	position = _grid_position * TGrid.BLOCK_SIZE + _grid.get_origin_position()
 	_update_blocks_positions()
 
-func _get_blocks_offsets() -> Array[Vector2i]:
-	return _piece_data.get_blocks_positions(_current_rotation)
+func _get_blocks_offsets(piece_rotation: Enums.Rotation = _current_rotation) -> Array[Vector2i]:
+	return _piece_data.get_blocks_positions(piece_rotation)
 
 func _update_blocks_positions() -> void:
 	for i in range(BLOCKS_PER_PIECE):
 		var block_offsets = _get_blocks_offsets()
 		blocks[i].set_grid_position(_grid_position + block_offsets[i])
 	
-func rotate_clockwise() -> void:
-	_set_piece_rotation(_current_rotation + 1)
+func try_rotate_clockwise() -> bool:
+	return try_rotate(_current_rotation + 1)
 
-func rotate_counterclockwise() -> void:
-	_set_piece_rotation(_current_rotation - 1)
-	
-func _set_piece_rotation(rotation_index: int) -> void:
+func try_rotate_counterclockwise() -> void:
+	return try_rotate(_current_rotation - 1)
+
+func try_rotate(rotation_index: int) -> bool:
 	var new_rotation = _get_rotation_from_index(rotation_index)
 	if _current_rotation == new_rotation:
-		return
-	
+		return true
+
+	if !can_rotate_to(new_rotation):
+		return false
+
 	_current_rotation = new_rotation
+	return true
 	
 @warning_ignore("shadowed_variable_base_class")
 func _get_rotation_from_index(rotation: int) -> Enums.Rotation:
@@ -80,6 +84,18 @@ func _get_rotation_from_index(rotation: int) -> Enums.Rotation:
 		rotation += ((-rotation / _piece_data.variants) + 1) * _piece_data.variants
 		
 	return rotation % _piece_data.variants as Enums.Rotation
+
+func can_rotate_to(piece_rotation: Enums.Rotation) -> bool:
+	var block_offsets = _get_blocks_offsets(piece_rotation)
+	return can_fit_with_offsets(block_offsets)
+
+func can_fit_with_offsets(block_offsets: Array[Vector2i]) -> bool:
+	for offset in block_offsets:
+		var block_position = _grid.apply_horizontal_index_loop(_grid_position + offset)
+		if !_grid.is_empty(block_position):
+			return false
+		
+	return true
 
 func can_apply_movement(offset: Vector2i) -> bool:
 	for block in blocks:
