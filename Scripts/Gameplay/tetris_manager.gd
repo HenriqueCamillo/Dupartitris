@@ -1,6 +1,9 @@
 class_name TetrisManager
 extends Node2D
 
+const MOVE_DOWN_ON_GRID_METHOD := "move_down_on_grid"
+const CLEAR_METHOD := "clear"
+
 @export var _spawner: PieceSpawner
 @export var _grid: TGrid
 @export var _das_timer: Timer
@@ -75,9 +78,44 @@ func _drop_piece_one_row() -> void:
 		_place_piece_and_spawn_next()
 
 func _place_piece_and_spawn_next() -> void:
-	_grid.place_piece(_falling_piece)
-	_spawn_next_piece()
+	var cleared_lines = _grid.place_piece(_falling_piece)
+	if cleared_lines.size() > 0:
+		_clear_lines(cleared_lines)
+	else:
+		_spawn_next_piece()
 	
+func _clear_lines(cleared_lines: Array[int]) -> void:
+	var rows_to_move_down = 0
+	var cleared_line_index = 0
+	
+	for row in range(_grid.get_grid_size().y - 1, -1, -1): # TODO Invert after
+		var row_group = TGrid.get_row_group_name(row)
+
+		if cleared_line_index < cleared_lines.size() && row == cleared_lines[cleared_line_index]:
+			rows_to_move_down += 1
+			cleared_line_index += 1
+			call_group_fixed(row_group, CLEAR_METHOD)
+		elif rows_to_move_down > 0:
+			call_group_fixed(row_group, MOVE_DOWN_ON_GRID_METHOD, rows_to_move_down)
+
+	# TODO: Animation
+	_spawn_next_piece()
+
+# TODO: investigate
+func call_group_fixed(group_name: String, method_name: String, argument: Variant = null) -> void:
+	# This fails to call the nodes that triggered this call
+	# if argument == null:
+	# 	get_tree().call_group(group_name, method_name)
+	# else:
+	# 	get_tree().call_group(group_name, method_name, argument)
+
+	var nodes_in_group = get_tree().get_nodes_in_group(group_name)
+	for node in nodes_in_group:
+		if argument == null:
+			node.call(method_name)
+		else:
+			node.call(method_name, argument)
+
 func _get_start_level_drop_time(level: int) -> float:
 	if _drop_time_transitions.has(level):
 		return _drop_time_transitions[level]

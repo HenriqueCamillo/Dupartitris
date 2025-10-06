@@ -2,6 +2,7 @@ class_name TGrid
 extends Node2D
 
 const BLOCK_SIZE: float = 10
+const ROW_GROUP_NAME := "Row%02d"
 
 @export var _size := Vector2i(10, 20)
 
@@ -38,29 +39,79 @@ func _calculate_origin_position() -> void:
 	_origin_position = _size * BLOCK_SIZE
 	_origin_position *= -1
 	_origin_position.x /= 2
+
+func get_grid_size() -> Vector2i:
+	return _size
 	
 func get_origin_position() -> Vector2:
 	return _origin_position
+	
+func _get_grid_element(grid_position: Vector2i) -> Block:
+	var index = _array_index(grid_position)
+	return _grid[index]
+	
+func _set_grid_element(grid_position: Vector2i, block: Block) -> void:
+	var index = _array_index(grid_position)
+	_grid[index] = block
 		
 func _array_index(grid_position: Vector2i) -> int:
 	return grid_position.y * _size.x + grid_position.x
+	
+func place_piece(piece: Piece) -> Array[int]:
+	var completed_lines: Dictionary[int, bool]
 
-func place_piece(piece: Piece) -> void:
 	for block in piece.blocks:
 		place_block(block)
 	
+	for block in piece.blocks:
+		var row = block.get_grid_position().y
+		if completed_lines.has(row):
+			continue
+		
+		var row_group = get_row_group_name(row)
+		var blocks_in_row = get_tree().get_node_count_in_group(row_group)
+		if blocks_in_row == _size.x:
+			print("Completed %s" % row_group)
+			completed_lines[row] = true
+			
 	piece.queue_free()
+	
+	var lines = completed_lines.keys()
+	lines.sort()
+	lines.reverse() # TODO: Remove this when line indices go from bottom to top
+	return lines
 	
 func place_block(block: Block) -> void:
 	block.detach_from_piece()
-	self.add_child(block)
-	_grid[_array_index(block._grid_position)] = block
+	_set_grid_element(block.get_grid_position(), block)
+
+	var row_group = get_row_group_name(block.get_grid_position().y)
+	block.add_to_group(row_group)
+	print("added %s to %s" % [block.name, row_group])
+	
+func move_block_down(block: Block, number_of_rows: int) -> void:
+	var old_row_group = get_row_group_name(block.get_grid_position().y)
+	var new_row_group = get_row_group_name(block.get_grid_position().y + number_of_rows)
+	
+	block.remove_from_group(old_row_group)
+	block.add_to_group(new_row_group)
+	
+	var old_grid_position = block.get_grid_position()
+	var new_grid_position = old_grid_position + Vector2i(0, number_of_rows)
+
+	_set_grid_element(old_grid_position, null)
+	_set_grid_element(new_grid_position, block)
+
+	block.set_grid_position(new_grid_position)
+
+static func get_row_group_name(row_index: int) -> String:
+	return ROW_GROUP_NAME %  row_index
 	
 func is_empty(grid_position: Vector2i) -> bool:
 	if is_out_of_bounds(grid_position):
 		return false
 		
-	return _grid[_array_index(grid_position)] == null
+	return _get_grid_element(grid_position) == null
 	
 func apply_horizontal_index_loop(grid_position: Vector2i):
 	var x = grid_position.x

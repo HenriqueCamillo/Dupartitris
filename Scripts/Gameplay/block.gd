@@ -14,17 +14,13 @@ func setup(grid: TGrid) -> void:
 	_grid = grid
 
 func attach_to_piece(piece: Piece) -> void:
-	var parent = get_parent()
-	if parent != piece:
-		parent.remove_child(self)
-		_parent_piece.add_child(self)
-		
 	_parent_piece = piece
+	reparent(piece)
 	recalculate_position()
 
 func detach_from_piece() -> void:
-	_parent_piece.remove_child(self)
 	_parent_piece = null
+	reparent(_grid)
 	recalculate_position()
 
 func get_grid_position() -> Vector2i:
@@ -40,3 +36,14 @@ func recalculate_position() -> void:
 		position = world_position - _parent_piece.position
 	else:
 		position = world_position
+
+func move_down_on_grid(number_of_rows: int) -> void:
+	if _grid == null:
+		push_error("Trying to move block down on grid, but it doesn't have a reference to a grid")
+		return
+
+	_grid.move_block_down(self, number_of_rows)
+
+func clear() -> void:
+	print("Cleared %s in %s" % [self.name, _grid_position])
+	queue_free()
