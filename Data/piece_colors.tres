@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PieceColors" load_steps=10 format=3 uid="uid://dt1urjjhh6afe"]
+
+[ext_resource type="Script" uid="uid://l6sli7lu00nu" path="res://Scripts/Data/piece_data.gd" id="1_nte4y"]
+[ext_resource type="Resource" uid="uid://plkfwo4jy00x" path="res://Data/Pieces/j_piece.tres" id="2_e4f05"]
+[ext_resource type="Script" uid="uid://b72267tbgrhxy" path="res://Scripts/Data/piece_colors.gd" id="2_j4fgv"]
+[ext_resource type="Resource" uid="uid://bufxj0a2augcj" path="res://Data/Pieces/i_piece.tres" id="3_s874k"]
+[ext_resource type="Resource" uid="uid://ctkcophlr6q18" path="res://Data/Pieces/l_piece.tres" id="4_icn3l"]
+[ext_resource type="Resource" uid="uid://wp1x2fkbxu3h" path="res://Data/Pieces/o_piece.tres" id="5_canms"]
+[ext_resource type="Resource" uid="uid://pm1fowtng7ph" path="res://Data/Pieces/s_piece.tres" id="6_yq778"]
+[ext_resource type="Resource" uid="uid://buuktb1bv3lu0" path="res://Data/Pieces/z_piece.tres" id="7_bqi7q"]
+[ext_resource type="Resource" uid="uid://fbp3j8vwsbdt" path="res://Data/Pieces/t_piece.tres" id="8_5grix"]
+
+[resource]
+script = ExtResource("2_j4fgv")
+colors_by_piece = Dictionary[ExtResource("1_nte4y"), Color]({
+ExtResource("2_e4f05"): Color(0, 0.28627452, 0.9490196, 1),
+ExtResource("3_s874k"): Color(0, 0.8862745, 0.9490196, 1),
+ExtResource("4_icn3l"): Color(0.9490196, 0.5686275, 0, 1),
+ExtResource("5_canms"): Color(0.9490196, 0.93333334, 0, 1),
+ExtResource("6_yq778"): Color(0, 0.9490196, 0.22352941, 1),
+ExtResource("7_bqi7q"): Color(0.9490196, 0, 0.078431375, 1),
+ExtResource("8_5grix"): Color(0.69803923, 0, 0.9490196, 1)
+})
+metadata/_custom_type_script = "uid://b72267tbgrhxy"
