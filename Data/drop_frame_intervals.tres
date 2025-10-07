@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="DropFrameIntervals" load_steps=2 format=3 uid="uid://cxisf7sx1lcse"]
+
+[ext_resource type="Script" uid="uid://brdusgyy6kn8e" path="res://Scripts/Data/drop_frame_intervals.gd" id="1_udaod"]
+
+[resource]
+script = ExtResource("1_udaod")
+_level_transitions = Dictionary[int, int]({
+0: 48,
+1: 43,
+2: 38,
+3: 33,
+4: 28,
+5: 23,
+6: 18,
+7: 13,
+8: 8,
+9: 6,
+10: 5,
+13: 4,
+16: 3,
+19: 2,
+29: 1
+})
+_soft_drop_interval = 2
+metadata/_custom_type_script = "uid://brdusgyy6kn8e"

@@ -77,7 +77,7 @@ func place_piece(piece: Piece) -> Array[int]:
 	
 	var lines = completed_lines.keys()
 	lines.sort()
-	lines.reverse() # TODO: Remove this when line indices go from bottom to top
+	lines.reverse()
 	return lines
 	
 func place_block(block: Block) -> void:

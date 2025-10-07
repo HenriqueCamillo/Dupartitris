@@ -9,23 +9,23 @@ const CLEAR_METHOD := "clear"
 @export var _das_timer: Timer
 
 
-@export var _drop_times: DropTimes
+@export var _drop_frame_intervals: DropFrameIntervals
 
-var _elapsed_drop_time: float
-var _drop_time: float
+var _elapsed_frames: int
+var _frames_per_drop: int
 var _level: int:
 	set(value):
 		_level = value
-		if _drop_times.transitions.has(_level):
-			_level_drop_time = _drop_times.transitions[_level]
+		if _drop_frame_intervals.is_transition_level(_level):
+			_level_frames_per_drop = _drop_frame_intervals.get_frames_per_drop_in_level(_level)
 
-var _level_drop_time: float:
+var _level_frames_per_drop: int:
 	set(value):
-		if _level_drop_time == value:
+		if _level_frames_per_drop == value:
 			return
 			
-		_level_drop_time = value
-		_update_drop_time()
+		_level_frames_per_drop = value
+		_update_frames_per_drop()
 			
 var _is_soft_dropping: bool:
 	set(value):
@@ -33,7 +33,7 @@ var _is_soft_dropping: bool:
 			return
 			
 		_is_soft_dropping = value
-		_update_drop_time()
+		_update_frames_per_drop()
 
 var _falling_piece: Piece
 var _das_direction: int
@@ -54,19 +54,19 @@ func _ready() -> void:
 	
 func _start_game(start_level: int) -> void:
 	_level = start_level
-	_level_drop_time = _get_start_level_drop_time(start_level)
-	_update_drop_time()
+	_level_frames_per_drop = _drop_frame_intervals.get_frames_per_drop_in_level(start_level)
+	_update_frames_per_drop()
 	_spawn_next_piece()
 
-func _process(delta: float) -> void:
-	_elapsed_drop_time += delta
+func _physics_process(_delta: float) -> void:
+	_elapsed_frames += 1
 	
-	if _elapsed_drop_time >= _drop_time:
+	if _elapsed_frames >= _frames_per_drop:
 		_apply_timed_drop()
 
 func _apply_timed_drop() -> void:
 	_drop_piece_one_row()
-	_elapsed_drop_time = 0
+	_elapsed_frames = 0
 	
 func _drop_piece_one_row() -> void:
 	if _falling_piece == null:
@@ -87,7 +87,7 @@ func _clear_lines(cleared_lines: Array[int]) -> void:
 	var rows_to_move_down = 0
 	var cleared_line_index = 0
 	
-	for row in range(_grid.get_size().y - 1, -1, -1): # TODO Invert after
+	for row in range(_grid.get_size().y - 1, -1, -1):
 		var row_group = TGrid.get_row_group_name(row)
 
 		if cleared_line_index < cleared_lines.size() && row == cleared_lines[cleared_line_index]:
@@ -115,25 +115,13 @@ func call_group_fixed(group_name: String, method_name: String, argument: Variant
 		else:
 			node.call(method_name, argument)
 
-func _get_start_level_drop_time(level: int) -> float:
-	if _drop_times.transitions.has(level):
-		return _drop_times.transitions[level]
-		
-	while level > 0:
-		level -= 1
-		if _drop_times.transitions.has(level):
-			return _drop_times.transitions[level]
-			
-	push_error("Level 0 does not have a _drop_time set. Using arbitrary start _drop_time")
-	return 1.0
-	
-func _update_drop_time() -> void:
+func _update_frames_per_drop() -> void:
 	if _is_soft_dropping:
-		_drop_time = min(_level_drop_time, _drop_times.soft_drop)
+		_frames_per_drop = min(_level_frames_per_drop, _drop_frame_intervals.get_frames_per_soft_drop())
 	else:
-		_drop_time = _level_drop_time
+		_frames_per_drop = _level_frames_per_drop
 		
-	if _elapsed_drop_time >= _drop_time:
+	if _elapsed_frames >= _frames_per_drop:
 		_apply_timed_drop()	
 
 func _spawn_next_piece() -> void:
