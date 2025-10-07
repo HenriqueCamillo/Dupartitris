@@ -8,17 +8,16 @@ const CLEAR_METHOD := "clear"
 @export var _grid: TGrid
 @export var _das_timer: Timer
 
-@export var _drop_time_transitions: Dictionary[int, float]
-@export var _soft_drop_time: float
 
+@export var _drop_times: DropTimes
 
 var _elapsed_drop_time: float
 var _drop_time: float
 var _level: int:
 	set(value):
 		_level = value
-		if _drop_time_transitions.has(_level):
-			_level_drop_time = _drop_time_transitions[_level]
+		if _drop_times.transitions.has(_level):
+			_level_drop_time = _drop_times.transitions[_level]
 
 var _level_drop_time: float:
 	set(value):
@@ -101,9 +100,9 @@ func _clear_lines(cleared_lines: Array[int]) -> void:
 	# TODO: Animation
 	_spawn_next_piece()
 
-# TODO: investigate
+# TODO: use godot's call_group after fix enters the release
 func call_group_fixed(group_name: String, method_name: String, argument: Variant = null) -> void:
-	# This fails to call the nodes that triggered this call
+	# This fails to call nodes that were just reparented
 	# if argument == null:
 	# 	get_tree().call_group(group_name, method_name)
 	# else:
@@ -117,20 +116,20 @@ func call_group_fixed(group_name: String, method_name: String, argument: Variant
 			node.call(method_name, argument)
 
 func _get_start_level_drop_time(level: int) -> float:
-	if _drop_time_transitions.has(level):
-		return _drop_time_transitions[level]
+	if _drop_times.transitions.has(level):
+		return _drop_times.transitions[level]
 		
 	while level > 0:
 		level -= 1
-		if _drop_time_transitions.has(level):
-			return _drop_time_transitions[level]
+		if _drop_times.transitions.has(level):
+			return _drop_times.transitions[level]
 			
 	push_error("Level 0 does not have a _drop_time set. Using arbitrary start _drop_time")
 	return 1.0
 	
 func _update_drop_time() -> void:
 	if _is_soft_dropping:
-		_drop_time = min(_level_drop_time, _soft_drop_time)
+		_drop_time = min(_level_drop_time, _drop_times.soft_drop)
 	else:
 		_drop_time = _level_drop_time
 		

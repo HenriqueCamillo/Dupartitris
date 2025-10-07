@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="DropTimes" load_steps=2 format=3 uid="uid://cngkfeiw7v47f"]
+
+[ext_resource type="Script" uid="uid://brdusgyy6kn8e" path="res://Scripts/Data/drop_times.gd" id="1_rwxs4"]
+
+[resource]
+script = ExtResource("1_rwxs4")
+transitions = Dictionary[int, float]({
+0: 0.8,
+1: 0.717,
+2: 0.633,
+3: 0.55,
+4: 0.467,
+5: 0.383,
+6: 0.3,
+7: 0.217,
+8: 0.133,
+9: 0.1,
+10: 0.083,
+13: 0.067,
+16: 0.05,
+19: 0.033,
+29: 0.017
+})
+soft_drop = 0.033
+metadata/_custom_type_script = "uid://brdusgyy6kn8e"
