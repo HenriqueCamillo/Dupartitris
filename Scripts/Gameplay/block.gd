@@ -31,7 +31,7 @@ func set_grid_position(grid_position: Vector2i) -> void:
 	recalculate_position()
 
 func recalculate_position() -> void:
-	var world_position = _grid_position * TGrid.BLOCK_SIZE + _HALF_BLOCK_OFFSET + _grid.get_origin_position()
+	var world_position = _grid.get_position_in_grid(_grid_position) + _HALF_BLOCK_OFFSET
 	if _parent_piece != null:
 		position = world_position - _parent_piece.position
 	else:
@@ -45,5 +45,5 @@ func move_down_on_grid(number_of_rows: int) -> void:
 	_grid.move_block_down(self, number_of_rows)
 
 func clear() -> void:
-	print("Cleared %s in %s" % [self.name, _grid_position])
+	# TODO: free space on _grid
 	queue_free()

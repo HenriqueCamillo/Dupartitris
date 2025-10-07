@@ -46,7 +46,7 @@ func _on_block_detached(block: Block) -> void:
 
 func set_grid_position(grid_position: Vector2i):
 	_grid_position = _grid.apply_horizontal_index_loop(grid_position)
-	position = _grid_position * TGrid.BLOCK_SIZE + _grid.get_origin_position()
+	position = _grid.get_position_in_grid(_grid_position)
 	_update_blocks_positions()
 
 func _get_blocks_offsets(piece_rotation: Enums.Rotation = _current_rotation) -> Array[Vector2i]:
@@ -108,7 +108,10 @@ func can_apply_movement(offset: Vector2i) -> bool:
 	return true
 
 func try_move_down_one_row() -> bool:
-	return try_move(Vector2i(0, 1))
+	return try_move_down(1)
+
+func try_move_down(height: int) -> bool:
+	return try_move(Vector2i(0, height))
 
 func try_move_sideways(sideways_offset: int) -> bool:
 	return try_move(Vector2i(sideways_offset, 0))

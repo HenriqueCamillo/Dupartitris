@@ -87,7 +87,7 @@ func _clear_lines(cleared_lines: Array[int]) -> void:
 	var rows_to_move_down = 0
 	var cleared_line_index = 0
 	
-	for row in range(_grid.get_grid_size().y - 1, -1, -1): # TODO Invert after
+	for row in range(_grid.get_size().y - 1, -1, -1): # TODO Invert after
 		var row_group = TGrid.get_row_group_name(row)
 
 		if cleared_line_index < cleared_lines.size() && row == cleared_lines[cleared_line_index]:
@@ -167,7 +167,15 @@ func _on_das_timer_timeout() -> void:
 func _on_soft_drop_input_changed(is_pressed: bool) -> void:
 	_is_soft_dropping = is_pressed
 
-# TODO:
 func _on_hard_drop_pressed() -> void:
-	pass
+	if _falling_piece == null:
+		return
+
+	var min_height = _grid.get_size().y
+	for block in _falling_piece.blocks:
+		var height = _grid.get_number_of_empty_blocks_under(block.get_grid_position())
+		min_height = min(min_height, height)
+
+	_falling_piece.try_move_down(min_height)
+	_place_piece_and_spawn_next()
 	
