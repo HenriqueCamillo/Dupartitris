@@ -37,6 +37,16 @@ func _spawn_next_piece() -> void:
 	_elapsed_frames = 0
 	_falling_piece = _spawner.spawn_piece()
 
+	for block in _falling_piece.blocks:
+		if !_grid.is_empty(block.get_grid_position()):
+			_game_over()
+			break
+
+func _game_over() -> void:
+	_falling_piece = null
+	await get_tree().create_timer(2).timeout
+	get_tree().reload_current_scene()
+
 #region PieceDropping
 
 func _physics_process(_delta: float) -> void:
