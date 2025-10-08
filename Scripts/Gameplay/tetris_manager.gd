@@ -34,11 +34,15 @@ func _start_game(start_level: int) -> void:
 	_spawn_next_piece()
 
 func _spawn_next_piece() -> void:
+	_elapsed_frames = 0
 	_falling_piece = _spawner.spawn_piece()
 
 #region PieceDropping
 
 func _physics_process(_delta: float) -> void:
+	if _falling_piece == null:
+		return
+
 	_elapsed_frames += 1
 	
 	if _elapsed_frames >= _frames_per_drop:
