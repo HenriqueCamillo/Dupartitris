@@ -5,6 +5,7 @@ const _ONE_SECOND_INTERVAL: int= 60
 
 @export var _level_transitions: Dictionary[int, int]
 @export var _soft_drop_interval: int
+@export var _lines_to_level_up: int = 10
 
 func get_frames_per_drop_in_level(level: int) -> int:
 	if _level_transitions.has(level):
@@ -24,3 +25,6 @@ func is_transition_level(level: int) -> int:
 
 func get_frames_per_soft_drop() -> int:
 	return _soft_drop_interval
+
+func get_lines_to_level_up() -> int:
+	return _lines_to_level_up

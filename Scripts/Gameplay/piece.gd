@@ -10,14 +10,7 @@ var _grid_position: Vector2i
 
 var _grid: TGrid
 
-var _current_rotation := Enums.Rotation.DEGREES_0:
-	set(value):
-		if _current_rotation == value:
-			return
-			
-		_current_rotation = value
-		_update_blocks_positions()
-
+var _current_rotation := Enums.Rotation.DEGREES_0
 		
 func setup(piece_data: PieceData, grid: TGrid) -> void:
 	if piece_data.variants <= 0:
@@ -72,6 +65,8 @@ func try_rotate(rotation_index: int) -> bool:
 		return false
 
 	_current_rotation = new_rotation
+	_update_blocks_positions()
+
 	return true
 	
 @warning_ignore("shadowed_variable_base_class")

@@ -8,55 +8,35 @@ const CLEAR_METHOD := "clear"
 @export var _grid: TGrid
 @export var _das_timer: Timer
 
-
 @export var _drop_frame_intervals: DropFrameIntervals
 
-var _elapsed_frames: int
-var _frames_per_drop: int
-var _level: int:
-	set(value):
-		_level = value
-		if _drop_frame_intervals.is_transition_level(_level):
-			_level_frames_per_drop = _drop_frame_intervals.get_frames_per_drop_in_level(_level)
-
-var _level_frames_per_drop: int:
-	set(value):
-		if _level_frames_per_drop == value:
-			return
-			
-		_level_frames_per_drop = value
-		_update_frames_per_drop()
-			
-var _is_soft_dropping: bool:
-	set(value):
-		if _is_soft_dropping == value:
-			return
-			
-		_is_soft_dropping = value
-		_update_frames_per_drop()
-
 var _falling_piece: Piece
+var _lines_cleared: int
+
 var _das_direction: int
-var _das_enabled: bool:
-	set(value):
-		if _das_enabled == value:
-			return
-			
-		_das_enabled = value
-		if _das_enabled:
-			_das_timer.start()
-		else:
-			_das_timer.stop()
+var _das_enabled: bool
+
+var _is_soft_dropping: bool
+
+var _frames_per_drop: int
+var _elapsed_frames: int
+
+var _level: int
+var _level_frames_per_drop: int
 
 func _ready() -> void:
 	_spawner.setup(_grid)
 	_start_game(0)
 	
 func _start_game(start_level: int) -> void:
-	_level = start_level
-	_level_frames_per_drop = _drop_frame_intervals.get_frames_per_drop_in_level(start_level)
+	_set_level(start_level, true)
 	_update_frames_per_drop()
 	_spawn_next_piece()
+
+func _spawn_next_piece() -> void:
+	_falling_piece = _spawner.spawn_piece()
+
+#region PieceDropping
 
 func _physics_process(_delta: float) -> void:
 	_elapsed_frames += 1
@@ -76,8 +56,23 @@ func _drop_piece_one_row() -> void:
 	if reached_ground:
 		_place_piece_and_spawn_next()
 
+func _update_frames_per_drop() -> void:
+	if _is_soft_dropping:
+		_frames_per_drop = min(_level_frames_per_drop, _drop_frame_intervals.get_frames_per_soft_drop())
+	else:
+		_frames_per_drop = _level_frames_per_drop
+		
+	if _elapsed_frames >= _frames_per_drop:
+		_apply_timed_drop()	
+
+#endregion
+
+#region PiecePlacement
+
 func _place_piece_and_spawn_next() -> void:
 	var cleared_lines = _grid.place_piece(_falling_piece)
+	_falling_piece = null
+
 	if cleared_lines.size() > 0:
 		_clear_lines(cleared_lines)
 	else:
@@ -97,6 +92,8 @@ func _clear_lines(cleared_lines: Array[int]) -> void:
 		elif rows_to_move_down > 0:
 			call_group_fixed(row_group, MOVE_DOWN_ON_GRID_METHOD, rows_to_move_down)
 
+	_increase_lines_cleared(cleared_lines.size())
+
 	# TODO: Animation
 	_spawn_next_piece()
 
@@ -115,17 +112,25 @@ func call_group_fixed(group_name: String, method_name: String, argument: Variant
 		else:
 			node.call(method_name, argument)
 
-func _update_frames_per_drop() -> void:
-	if _is_soft_dropping:
-		_frames_per_drop = min(_level_frames_per_drop, _drop_frame_intervals.get_frames_per_soft_drop())
-	else:
-		_frames_per_drop = _level_frames_per_drop
-		
-	if _elapsed_frames >= _frames_per_drop:
-		_apply_timed_drop()	
+func _increase_lines_cleared(quantity: int) -> void:
+	_lines_cleared += quantity
+	@warning_ignore("integer_division")
+	while _lines_cleared / _drop_frame_intervals.get_lines_to_level_up() > _level:
+		_level_up()
 
-func _spawn_next_piece() -> void:
-	_falling_piece = _spawner.spawn_piece()
+func _level_up() -> void:
+	_set_level(_level + 1)
+
+func _set_level(new_level: int, is_first_setup: bool = false) -> void:
+	_level = new_level
+
+	if _drop_frame_intervals.is_transition_level(_level) || is_first_setup:
+		_level_frames_per_drop = _drop_frame_intervals.get_frames_per_drop_in_level(_level)
+		_update_frames_per_drop()
+
+#endregion
+
+#region PlayerInput	
 	
 func _on_rotate_clockwise_pressed() -> void:
 	if _falling_piece != null:
@@ -143,17 +148,22 @@ func _on_horizontal_input_changed(direction: int) -> void:
 		_falling_piece.try_move_sideways(direction)
 		_das_direction = direction
 		
-	_das_enabled = false
+	_set_das_enabled(false)
 	
-func _on_das_changed(enabled: bool) -> void:
-	_das_enabled = enabled
-	
+func _set_das_enabled(value: bool) -> void:
+	_das_enabled = value
+	if _das_enabled:
+		_das_timer.start()
+	else:
+		_das_timer.stop()
+		
 func _on_das_timer_timeout() -> void:
 	if _falling_piece != null:
 		_falling_piece.try_move_sideways(_das_direction)
 
-func _on_soft_drop_input_changed(is_pressed: bool) -> void:
-	_is_soft_dropping = is_pressed
+func _set_is_soft_dropping(value: bool) -> void:
+	_is_soft_dropping = value
+	_update_frames_per_drop()
 
 func _on_hard_drop_pressed() -> void:
 	if _falling_piece == null:
@@ -167,3 +177,4 @@ func _on_hard_drop_pressed() -> void:
 	_falling_piece.try_move_down(min_height)
 	_place_piece_and_spawn_next()
 	
+#endregion

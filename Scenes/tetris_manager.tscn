@@ -22,10 +22,10 @@ _drop_frame_intervals = ExtResource("2_2wuxp")
 [node name="DASUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1
 
-[connection signal="das_changed" from="InputHandler" to="." method="_on_das_changed"]
+[connection signal="das_changed" from="InputHandler" to="." method="_set_das_enabled"]
 [connection signal="hard_drop_pressed" from="InputHandler" to="." method="_on_hard_drop_pressed"]
 [connection signal="horizontal_input_changed" from="InputHandler" to="." method="_on_horizontal_input_changed"]
 [connection signal="rotate_clockwise_pressed" from="InputHandler" to="." method="_on_rotate_clockwise_pressed"]
 [connection signal="rotate_counterclockwise_pressed" from="InputHandler" to="." method="_on_rotate_counterclockwise_pressed"]
-[connection signal="soft_drop_input_changed" from="InputHandler" to="." method="_on_soft_drop_input_changed"]
+[connection signal="soft_drop_input_changed" from="InputHandler" to="." method="_set_is_soft_dropping"]
 [connection signal="timeout" from="DASUpdateTimer" to="." method="_on_das_timer_timeout"]
