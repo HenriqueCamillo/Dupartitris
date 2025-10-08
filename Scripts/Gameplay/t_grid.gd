@@ -3,31 +3,30 @@ extends Node2D
 
 const BLOCK_SIZE: float = 10
 const ROW_GROUP_NAME := "Row%02d"
+const EXTRA_ROWS_ABOVE: int = 2
 
-@export var _size := Vector2i(10, 20)
+@export var _visible_size := Vector2i(10, 20)
+var _real_size := _visible_size + Vector2i(0, EXTRA_ROWS_ABOVE)
 
 @export var _border: Sprite2D
 @export var _background: Sprite2D
 
 var _grid: Array[Block]
 var _origin_position: Vector2
-
-var spawn_position: Vector2:
-	get:
-		@warning_ignore("integer_division")
-		return Vector2i(_size.x / 2, 0)
+var _spawn_position: Vector2
 		
 func _ready() -> void:
 	_initialize_grid_array()
 	_setup_visuals()
 	_calculate_origin_position()
+	_calculate_spawn_position()
 	
 func _initialize_grid_array() -> void:
-	var number_of_positions = _size.x * _size.y
+	var number_of_positions = _real_size.x * _real_size.y
 	_grid.resize(number_of_positions)
 
 func _setup_visuals() -> void:
-	var grid_shape = _size
+	var grid_shape = _visible_size
 	_background.position.y = -(grid_shape.y / 2) * BLOCK_SIZE
 	_background.region_rect = Rect2(Vector2.ZERO, grid_shape * BLOCK_SIZE)
 	
@@ -36,12 +35,17 @@ func _setup_visuals() -> void:
 	_border.position.y = _background.position.y
 	
 func _calculate_origin_position() -> void:
-	_origin_position = _size * BLOCK_SIZE
-	_origin_position *= -1
-	_origin_position.x /= 2
+	_origin_position = Vector2(-_real_size.x / 2.0, -_real_size.y) * BLOCK_SIZE
+
+func _calculate_spawn_position() -> void:
+	@warning_ignore("integer_division")
+	_spawn_position = Vector2i(_real_size.x / 2, EXTRA_ROWS_ABOVE)
 
 func get_size() -> Vector2i:
-	return _size
+	return _real_size
+
+func get_spawn_position() -> Vector2:
+	return _spawn_position
 	
 func _get_grid_element(grid_position: Vector2i) -> Block:
 	var index = _array_index(grid_position)
@@ -55,7 +59,7 @@ func get_position_in_grid(grid_position: Vector2i) -> Vector2:
 	return grid_position * BLOCK_SIZE + _origin_position
 		
 func _array_index(grid_position: Vector2i) -> int:
-	return grid_position.y * _size.x + grid_position.x
+	return grid_position.y * _real_size.x + grid_position.x
 	
 func place_piece(piece: Piece) -> Array[int]:
 	var completed_lines: Dictionary[int, bool]
@@ -70,7 +74,7 @@ func place_piece(piece: Piece) -> Array[int]:
 		
 		var row_group = get_row_group_name(row)
 		var blocks_in_row = get_tree().get_node_count_in_group(row_group)
-		if blocks_in_row == _size.x:
+		if blocks_in_row == _real_size.x:
 			completed_lines[row] = true
 			
 	piece.queue_free()
@@ -115,14 +119,14 @@ func apply_horizontal_index_loop(grid_position: Vector2i):
 	var x = grid_position.x
 	if x < 0:
 		@warning_ignore("integer_division")
-		x += ((-x / _size.x) + 1) * _size.x
+		x += ((-x / _real_size.x) + 1) * _real_size.x
 
-	grid_position.x = x % _size.x
+	grid_position.x = x % _real_size.x
 	return grid_position
 
 # Never gets out of bounds horizontally because it should teleport. Just remember to use apply_horizontal_index_loop when applying position
 func is_out_of_bounds(grid_position: Vector2i) -> bool:
-	return grid_position.y >= _size.y
+	return grid_position.y >= _real_size.y
 
 func get_number_of_empty_blocks_under(grid_position: Vector2i) -> int:
 	var empty_blocks = 0
