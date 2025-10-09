@@ -21,8 +21,6 @@ func spawn_piece() -> Piece:
 	var color = _piece_colors.get_color(piece_type)
 	piece.set_color(color)
 	
-	piece.setup(piece_type, _grid)
-	piece.set_grid_position(_grid.get_spawn_position())
-	_grid.add_child(piece)
+	piece.setup(piece_type, _grid, _grid.get_spawn_position())
 	
 	return piece

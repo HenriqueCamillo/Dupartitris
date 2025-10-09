@@ -14,6 +14,7 @@ signal hard_drop_pressed()
 signal soft_drop_input_changed(is_pressed: bool)
 signal rotate_clockwise_pressed()
 signal rotate_counterclockwise_pressed()
+signal hold_pressed()
  
 func _ready() -> void:
 	TInput.actions[TInput.ActionId.MOVE_LEFT].changed.connect(_on_move_left_change)
@@ -22,6 +23,7 @@ func _ready() -> void:
 	TInput.actions[TInput.ActionId.HARD_DROP].changed.connect(_on_hard_drop_change)
 	TInput.actions[TInput.ActionId.ROTATE_CLOCKWISE].changed.connect(_on_rotate_clockwise_change)
 	TInput.actions[TInput.ActionId.ROTATE_COUNTERCLOCKWISE].changed.connect(_on_rotate_counterclockwise_change)
+	TInput.actions[TInput.ActionId.HOLD].changed.connect(_on_hold_change)
 	
 func _exit_tree() -> void:
 	TInput.actions[TInput.ActionId.MOVE_LEFT].changed.disconnect(_on_move_left_change)
@@ -30,6 +32,7 @@ func _exit_tree() -> void:
 	TInput.actions[TInput.ActionId.HARD_DROP].changed.disconnect(_on_hard_drop_change)
 	TInput.actions[TInput.ActionId.ROTATE_CLOCKWISE].changed.disconnect(_on_rotate_clockwise_change)
 	TInput.actions[TInput.ActionId.ROTATE_COUNTERCLOCKWISE].changed.disconnect(_on_rotate_counterclockwise_change)
+	TInput.actions[TInput.ActionId.HOLD].changed.disconnect(_on_hold_change)
 
 func _on_move_left_change(is_pressed: bool):
 	_is_left_presed = is_pressed
@@ -71,3 +74,7 @@ func _on_rotate_clockwise_change(is_pressed: bool):
 func _on_rotate_counterclockwise_change(is_pressed: bool):
 	if is_pressed:
 		rotate_counterclockwise_pressed.emit()
+
+func _on_hold_change(is_pressed: bool):
+	if is_pressed:
+		hold_pressed.emit()

@@ -10,13 +10,12 @@ var _grid: TGrid
 @warning_ignore("unused_signal")
 signal on_detach(block: Block)
 
-func setup(grid: TGrid) -> void:
+func set_grid(grid: TGrid) -> void:
 	_grid = grid
 
 func attach_to_piece(piece: Piece) -> void:
 	_parent_piece = piece
 	reparent(piece)
-	recalculate_position()
 
 func detach_from_piece() -> void:
 	_parent_piece = null

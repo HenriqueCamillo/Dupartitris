@@ -11,21 +11,37 @@ var _grid_position: Vector2i
 var _grid: TGrid
 
 var _current_rotation := Enums.Rotation.DEGREES_0
+
+func _ready() -> void:
+	_setup_blocks()
 		
-func setup(piece_data: PieceData, grid: TGrid) -> void:
+func setup(piece_data: PieceData, grid: TGrid, grid_position: Vector2i) -> void:
+	set_piece_data(piece_data)
+	add_to_grid_in_position(grid, grid_position)
+
+func set_piece_data(piece_data: PieceData) -> void:
 	if piece_data.variants <= 0:
 		push_error("Setting up Piece with Piece Data with 0 position variants (%s)." % piece_data.resource_name)
 		return
-	
-	_piece_data = piece_data
-	_grid = grid
 
-	_setup_blocks()
-	_update_blocks_positions()
+	_piece_data = piece_data
+
+func add_to_grid_in_position(grid: TGrid, grid_position: Vector2i) -> void:
+	add_to_grid(grid)
+	set_grid_position(grid_position)
+
+func add_to_grid(grid: TGrid) -> void:
+	_grid = grid
+	if get_parent() == null:
+		_grid.add_child(self)
+	else:
+		self.reparent(_grid)
+
+	for block in blocks:
+		block.set_grid(_grid)
 
 func _setup_blocks() -> void:
 	for block in blocks:
-		block.setup(_grid)
 		block.attach_to_piece(self)
 		block.on_detach.connect(_on_block_detached)
 
@@ -55,6 +71,9 @@ func try_rotate_clockwise() -> bool:
 
 func try_rotate_counterclockwise() -> void:
 	return try_rotate(_current_rotation - 1)
+
+func try_reset_rotation() -> bool:
+	return try_rotate(Enums.Rotation.DEGREES_0)
 
 func try_rotate(rotation_index: int) -> bool:
 	var new_rotation = _get_rotation_from_index(rotation_index)

@@ -44,7 +44,7 @@ func _calculate_spawn_position() -> void:
 func get_size() -> Vector2i:
 	return _real_size
 
-func get_spawn_position() -> Vector2:
+func get_spawn_position() -> Vector2i:
 	return _spawn_position
 	
 func _get_grid_element(grid_position: Vector2i) -> Block:

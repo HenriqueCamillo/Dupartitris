@@ -1,15 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgyg468y4vr6w"]
+[gd_scene load_steps=7 format=3 uid="uid://dgyg468y4vr6w"]
 
 [ext_resource type="Script" uid="uid://je6xx4fm0oh4" path="res://Scripts/Gameplay/tetris_manager.gd" id="1_7cpae"]
 [ext_resource type="Resource" uid="uid://cxisf7sx1lcse" path="res://Data/drop_frame_intervals.tres" id="2_2wuxp"]
 [ext_resource type="PackedScene" uid="uid://qabb27ubsbjd" path="res://Scenes/input_handler.tscn" id="2_gy7op"]
 [ext_resource type="PackedScene" uid="uid://whceyfg610cp" path="res://Scenes/t_grid.tscn" id="3_ilvt5"]
 [ext_resource type="PackedScene" uid="uid://5q2k55tkrw0o" path="res://Scenes/piece_spawner.tscn" id="3_s36ej"]
+[ext_resource type="PackedScene" uid="uid://libj6ut7phxu" path="res://Scenes/piece_holder.tscn" id="6_phmmh"]
 
-[node name="TetrisManager" type="Node2D" node_paths=PackedStringArray("_spawner", "_grid", "_das_timer")]
+[node name="TetrisManager" type="Node2D" node_paths=PackedStringArray("_spawner", "_grid", "_piece_holder", "_das_timer")]
 script = ExtResource("1_7cpae")
 _spawner = NodePath("PieceSpawner")
 _grid = NodePath("TGrid")
+_piece_holder = NodePath("PieceHolder")
 _das_timer = NodePath("DASUpdateTimer")
 _drop_frame_intervals = ExtResource("2_2wuxp")
 
@@ -22,8 +24,12 @@ _drop_frame_intervals = ExtResource("2_2wuxp")
 [node name="DASUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1
 
+[node name="PieceHolder" parent="." instance=ExtResource("6_phmmh")]
+position = Vector2(-123, -179)
+
 [connection signal="das_changed" from="InputHandler" to="." method="_set_das_enabled"]
 [connection signal="hard_drop_pressed" from="InputHandler" to="." method="_on_hard_drop_pressed"]
+[connection signal="hold_pressed" from="InputHandler" to="." method="_on_hold_pressed"]
 [connection signal="horizontal_input_changed" from="InputHandler" to="." method="_on_horizontal_input_changed"]
 [connection signal="rotate_clockwise_pressed" from="InputHandler" to="." method="_on_rotate_clockwise_pressed"]
 [connection signal="rotate_counterclockwise_pressed" from="InputHandler" to="." method="_on_rotate_counterclockwise_pressed"]

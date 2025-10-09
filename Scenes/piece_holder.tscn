@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://libj6ut7phxu"]
+
+[ext_resource type="PackedScene" uid="uid://whceyfg610cp" path="res://Scenes/t_grid.tscn" id="1_6x6to"]
+[ext_resource type="Script" uid="uid://fn4jtyabrkr8" path="res://Scripts/Gameplay/piece_holder.gd" id="2_hwgx3"]
+
+[node name="PieceHolder" instance=ExtResource("1_6x6to")]
+script = ExtResource("2_hwgx3")
+_visible_size = Vector2i(4, 4)
+
+[node name="Boder" parent="." index="0"]
+position = Vector2(0, 0)
+region_rect = Rect2(0, 0, 60, 60)
+
+[node name="Background" parent="." index="1"]
+position = Vector2(0, 0)
+region_rect = Rect2(0, 0, 40, 40)

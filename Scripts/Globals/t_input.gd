@@ -9,6 +9,7 @@ const _ACTION_NAMES: Dictionary[ActionId, String] = {
 	ActionId.SOFT_DROP: "soft_drop",
 	ActionId.ROTATE_CLOCKWISE: "rotate_clockwise",
 	ActionId.ROTATE_COUNTERCLOCKWISE: "rotate_counterclockwise",
+	ActionId.HOLD: "hold",
 }
 
 enum ActionId {
@@ -18,6 +19,7 @@ enum ActionId {
 	SOFT_DROP,
 	ROTATE_CLOCKWISE,
 	ROTATE_COUNTERCLOCKWISE,
+	HOLD,
 }
 
 func _ready() -> void:

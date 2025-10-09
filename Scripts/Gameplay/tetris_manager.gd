@@ -6,6 +6,7 @@ const CLEAR_METHOD := "clear"
 
 @export var _spawner: PieceSpawner
 @export var _grid: TGrid
+@export var _piece_holder: PieceHolder
 @export var _das_timer: Timer
 
 @export var _drop_frame_intervals: DropFrameIntervals
@@ -24,6 +25,8 @@ var _elapsed_frames: int
 var _level: int
 var _level_frames_per_drop: int
 
+var _can_hold_piece: bool
+
 func _ready() -> void:
 	_spawner.setup(_grid)
 	_start_game(0)
@@ -36,6 +39,7 @@ func _start_game(start_level: int) -> void:
 func _spawn_next_piece() -> void:
 	_elapsed_frames = 0
 	_falling_piece = _spawner.spawn_piece()
+	_can_hold_piece = true
 
 	for block in _falling_piece.blocks:
 		if !_grid.is_empty(block.get_grid_position()):
@@ -190,5 +194,17 @@ func _on_hard_drop_pressed() -> void:
 
 	_falling_piece.try_move_down(min_height)
 	_place_piece_and_spawn_next()
+
+func _on_hold_pressed() -> void:
+	if !_can_hold_piece || _falling_piece == null:
+		return
+
+	_falling_piece = _piece_holder.swap_piece(_falling_piece)
+	if _falling_piece != null:
+		_falling_piece.add_to_grid_in_position(_grid, _grid.get_spawn_position())
+	else:
+		_spawn_next_piece()
+
+	_can_hold_piece = false
 	
 #endregion
