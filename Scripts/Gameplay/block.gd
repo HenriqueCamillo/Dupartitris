@@ -1,14 +1,16 @@
 class_name Block
 extends Node2D
 
+# TODO: Move later
+const _CLEAR_ANIMATION_ITERATION_DLEAY: int = 4
+
 const _HALF_BLOCK_OFFSET := Vector2(TGrid.BLOCK_SIZE / 2, TGrid.BLOCK_SIZE / 2)
 
 var _parent_piece: Piece
 var _grid_position: Vector2i
 var _grid: TGrid
 
-@warning_ignore("unused_signal")
-signal on_detach(block: Block)
+signal on_cleared(block: Block)
 
 func set_grid(grid: TGrid) -> void:
     _grid = grid
@@ -44,5 +46,19 @@ func move_down_on_grid(number_of_rows: int) -> void:
     _grid.move_block_down(self, number_of_rows)
 
 func clear() -> void:
-    # TODO: free space on _grid
+    _grid.clear_position(_grid_position)
+    var delay = _get_clear_delay()
+    _destroy_after_delay(delay)
+
+func _get_clear_delay() -> int:
+    var number_of_columns = _grid.get_size().x
+    var center: float = (number_of_columns - 1) / 2.0
+    var delay_multiplier: int = abs(_grid_position.x - center)
+    return _CLEAR_ANIMATION_ITERATION_DLEAY * delay_multiplier
+
+func _destroy_after_delay(delay_in_frames: int) -> void:
+    for i in range(delay_in_frames):
+        await get_tree().physics_frame 
+
+    on_cleared.emit(self)
     queue_free()

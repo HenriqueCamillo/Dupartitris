@@ -43,15 +43,6 @@ func add_to_grid(grid: TGrid) -> void:
 func _setup_blocks() -> void:
     for block in blocks:
         block.attach_to_piece(self)
-        block.on_detach.connect(_on_block_detached)
-
-func _on_block_detached(block: Block) -> void:
-    for i in range(0, blocks.size() - 1):	
-        if blocks[i] == block:
-            blocks.remove_at(i)
-            break
-
-    block.on_detach.disconnect(_on_block_detached)
 
 func set_grid_position(grid_position: Vector2i):
     _grid_position = _grid.apply_horizontal_index_loop(grid_position)

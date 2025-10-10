@@ -14,6 +14,10 @@ var _real_size := _visible_size + Vector2i(0, EXTRA_ROWS_ABOVE)
 var _grid: Array[Block]
 var _origin_position: Vector2
 var _spawn_position: Vector2
+
+var _last_cleared_lines: Array[int]
+
+signal on_finished_line_clear(lines_cleared: Array[int])
         
 func _ready() -> void:
     _initialize_grid_array()
@@ -60,6 +64,9 @@ func get_position_in_grid(grid_position: Vector2i) -> Vector2:
         
 func _array_index(grid_position: Vector2i) -> int:
     return grid_position.y * _real_size.x + grid_position.x
+
+func clear_position(grid_postiion: Vector2i) -> void:
+    _set_grid_element(grid_postiion, null)
     
 func place_piece(piece: Piece) -> Array[int]:
     var completed_lines: Dictionary[int, bool]
@@ -79,10 +86,11 @@ func place_piece(piece: Piece) -> Array[int]:
             
     piece.queue_free()
     
-    var lines = completed_lines.keys()
-    lines.sort()
-    lines.reverse()
-    return lines
+    _last_cleared_lines = completed_lines.keys()
+    _last_cleared_lines.sort()
+    _last_cleared_lines.reverse()
+    
+    return _last_cleared_lines
     
 func place_block(block: Block) -> void:
     block.detach_from_piece()
@@ -90,6 +98,15 @@ func place_block(block: Block) -> void:
 
     var row_group = get_row_group_name(block.get_grid_position().y)
     block.add_to_group(row_group)
+    block.on_cleared.connect(_on_block_cleared)
+
+func _on_block_cleared(block: Block) -> void:
+    block.on_cleared.disconnect(_on_block_cleared)
+
+    if block.get_grid_position().x == 0:
+        if _last_cleared_lines.size() > 0:
+            on_finished_line_clear.emit(_last_cleared_lines.duplicate())
+            _last_cleared_lines.clear()
     
 func move_block_down(block: Block, number_of_rows: int) -> void:
     var old_row_group = get_row_group_name(block.get_grid_position().y)

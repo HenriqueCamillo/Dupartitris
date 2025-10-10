@@ -1,8 +1,12 @@
 class_name TetrisManager
 extends Node2D
 
-const MOVE_DOWN_ON_GRID_METHOD := "move_down_on_grid"
-const CLEAR_METHOD := "clear"
+# TODO: Move
+const _PIECE_SPAWN_DELAY: int = 10
+const _FALL_BLOCKS_DELAY: int = 1
+
+const _MOVE_DOWN_ON_GRID_METHOD := "move_down_on_grid"
+const _CLEAR_METHOD := "clear"
 
 @export var _spawner: PieceSpawner
 @export var _grid: TGrid
@@ -29,13 +33,22 @@ var _can_hold_piece: bool
 
 func _ready() -> void:
     _spawner.setup(_grid)
+    _grid.on_finished_line_clear.connect(_on_finished_line_clear)
+
     _start_game(0)
+
+func _exit_tree() -> void:
+    _grid.on_finished_line_clear.disconnect(_on_finished_line_clear)
     
 func _start_game(start_level: int) -> void:
     _set_level(start_level, true)
     _update_frames_per_drop()
-    _spawn_next_piece()
+    _spawn_next_piece_after_delay()
 
+func _spawn_next_piece_after_delay() -> void:
+    await Delay.physics_frames(_PIECE_SPAWN_DELAY)
+    _spawn_next_piece()
+    
 func _spawn_next_piece() -> void:
     _elapsed_frames = 0
     _falling_piece = _spawner.spawn_piece()
@@ -90,13 +103,22 @@ func _update_frames_per_drop() -> void:
 func _place_piece_and_spawn_next() -> void:
     var cleared_lines = _grid.place_piece(_falling_piece)
     _falling_piece = null
+    _set_is_soft_dropping(false)
 
     if cleared_lines.size() > 0:
         _clear_lines(cleared_lines)
     else:
-        _spawn_next_piece()
+        _spawn_next_piece_after_delay()
     
 func _clear_lines(cleared_lines: Array[int]) -> void:
+    for cleared_line in cleared_lines:
+        var row_group = TGrid.get_row_group_name(cleared_line)
+        call_group_fixed(row_group, _CLEAR_METHOD)
+        # And wait for line clear animation
+
+func _on_finished_line_clear(cleared_lines: Array[int]):
+    await Delay.physics_frames(_FALL_BLOCKS_DELAY)
+
     var rows_to_move_down = 0
     var cleared_line_index = 0
     
@@ -106,14 +128,11 @@ func _clear_lines(cleared_lines: Array[int]) -> void:
         if cleared_line_index < cleared_lines.size() && row == cleared_lines[cleared_line_index]:
             rows_to_move_down += 1
             cleared_line_index += 1
-            call_group_fixed(row_group, CLEAR_METHOD)
         elif rows_to_move_down > 0:
-            call_group_fixed(row_group, MOVE_DOWN_ON_GRID_METHOD, rows_to_move_down)
+            call_group_fixed(row_group, _MOVE_DOWN_ON_GRID_METHOD, rows_to_move_down)
 
     _increase_lines_cleared(cleared_lines.size())
-
-    # TODO: Animation
-    _spawn_next_piece()
+    _spawn_next_piece_after_delay()
 
 # TODO: use godot's call_group after fix enters the release
 func call_group_fixed(group_name: String, method_name: String, argument: Variant = null) -> void:
@@ -203,7 +222,7 @@ func _on_hold_pressed() -> void:
     if _falling_piece != null:
         _falling_piece.add_to_grid_in_position(_grid, _grid.get_spawn_position())
     else:
-        _spawn_next_piece()
+        _spawn_next_piece_after_delay()
 
     _can_hold_piece = false
     
