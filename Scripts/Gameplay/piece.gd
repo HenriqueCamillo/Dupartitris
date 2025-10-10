@@ -15,7 +15,7 @@ var _current_rotation := Enums.Rotation.DEGREES_0
 func _ready() -> void:
     _setup_blocks()
         
-func setup(piece_data: PieceData, grid: TGrid, grid_position: Vector2i) -> void:
+func setup(piece_data: PieceData, grid: TGrid, grid_position: Vector2i = Vector2i.ZERO) -> void:
     set_piece_data(piece_data)
     add_to_grid_in_position(grid, grid_position)
 

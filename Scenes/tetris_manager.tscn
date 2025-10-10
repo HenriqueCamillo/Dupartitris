@@ -20,12 +20,13 @@ _drop_frame_intervals = ExtResource("2_2wuxp")
 [node name="TGrid" parent="." instance=ExtResource("3_ilvt5")]
 
 [node name="PieceSpawner" parent="." instance=ExtResource("3_s36ej")]
+position = Vector2(100, -85)
 
 [node name="DASUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1
 
 [node name="PieceHolder" parent="." instance=ExtResource("6_phmmh")]
-position = Vector2(-123, -179)
+position = Vector2(-100, -180)
 
 [connection signal="das_changed" from="InputHandler" to="." method="_set_das_enabled"]
 [connection signal="hard_drop_pressed" from="InputHandler" to="." method="_on_hard_drop_pressed"]

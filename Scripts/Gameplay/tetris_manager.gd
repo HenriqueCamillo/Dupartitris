@@ -51,7 +51,7 @@ func _spawn_next_piece_after_delay() -> void:
     
 func _spawn_next_piece() -> void:
     _elapsed_frames = 0
-    _falling_piece = _spawner.spawn_piece()
+    _falling_piece = _spawner.get_next_piece()
     _can_hold_piece = true
 
     for block in _falling_piece.blocks:

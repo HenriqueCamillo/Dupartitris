@@ -4,23 +4,50 @@ extends Node2D
 @export var _piece_types: Array[PieceData]
 @export var _piece_template: PackedScene
 @export var _piece_colors: PieceColors
+@export var _next_pieces: NextPieces
 
 var _grid: TGrid
 
+# TODO: Initialize it via resources
+var _pieces_to_queue: int = 6
+
 func setup(grid: TGrid) -> void:
     _grid = grid
+    _next_pieces.visible = _pieces_to_queue > 0
 
 func _get_random_piece_type() -> PieceData:
     var index = randi_range(0, _piece_types.size() - 1)
     return _piece_types[index]
 
-func spawn_piece() -> Piece:
+func get_next_piece() -> Piece:
+    if _next_pieces.get_queue_size() < _pieces_to_queue:
+        _queue_pieces()
+
+    var spawned_piece = _spawn_piece()
+    var piece_to_return = _next_pieces.pop_from_queue()
+    if piece_to_return == null:
+        spawned_piece.add_to_grid_in_position(_grid, _grid.get_spawn_position())
+        return spawned_piece
+        
+    _next_pieces.add_to_queue(spawned_piece)
+
+    piece_to_return.add_to_grid_in_position(_grid, _grid.get_spawn_position())
+    return piece_to_return
+
+func _spawn_piece() -> Piece:
     var piece_type = _get_random_piece_type()
     var piece = _piece_template.instantiate() as Piece
-    
+    piece.set_piece_data(piece_type)
+
     var color = _piece_colors.get_color(piece_type)
     piece.set_color(color)
     
-    piece.setup(piece_type, _grid, _grid.get_spawn_position())
-    
     return piece
+
+func _queue_pieces() -> void:
+    var pieces_to_spawn = _pieces_to_queue - _next_pieces.get_queue_size()
+
+    while pieces_to_spawn > 0:
+        var spawned_piece = _spawn_piece()
+        _next_pieces.add_to_queue(spawned_piece)
+        pieces_to_spawn -= 1
