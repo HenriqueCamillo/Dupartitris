@@ -1,11 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4ov56tonoyud"]
+[gd_scene load_steps=4 format=3 uid="uid://c4ov56tonoyud"]
 
-[ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/tetris_manager.tscn" id="1_ebmjs"]
+[ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/Gameplay/tetris_manager.tscn" id="1_ebmjs"]
+[ext_resource type="Script" uid="uid://fy681vnjjcpd" path="res://Scripts/game_manager.gd" id="1_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/interface.tscn" id="2_qxrlw"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui")]
+script = ExtResource("1_wrm1d")
+_tetris_manager = NodePath("TetrisManager")
+_pause_ui = NodePath("Interface/PauseUI")
 
 [node name="TetrisManager" parent="." instance=ExtResource("1_ebmjs")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -100)
-zoom = Vector2(2.7, 2.7)
+
+[node name="Interface" parent="." instance=ExtResource("2_qxrlw")]
+
+[connection signal="paused" from="TetrisManager" to="." method="_on_paused"]
+[connection signal="unpaused" from="Interface/PauseUI" to="." method="_on_unpaused"]
+
+[editable path="Interface"]

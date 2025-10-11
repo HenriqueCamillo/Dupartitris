@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://djhogos15swoh"]
 
 [ext_resource type="Script" uid="uid://bc74w2lw44ux1" path="res://Scripts/Gameplay/piece.gd" id="1_jf0mb"]
-[ext_resource type="PackedScene" uid="uid://dk22ny3ep23ns" path="res://Scenes/block.tscn" id="2_y70yu"]
+[ext_resource type="PackedScene" uid="uid://dk22ny3ep23ns" path="res://Scenes/Gameplay/block.tscn" id="2_y70yu"]
 
 [node name="Piece" type="Node2D" node_paths=PackedStringArray("blocks")]
 script = ExtResource("1_jf0mb")

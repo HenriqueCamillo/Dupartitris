@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bc5osfknvom8l"]
 
-[ext_resource type="PackedScene" uid="uid://whceyfg610cp" path="res://Scenes/t_grid.tscn" id="1_pw4nr"]
+[ext_resource type="PackedScene" uid="uid://whceyfg610cp" path="res://Scenes/Gameplay/t_grid.tscn" id="1_pw4nr"]
 [ext_resource type="Script" uid="uid://dykf7h73buagl" path="res://Scripts/Gameplay/next_pieces.gd" id="2_moloi"]
 
 [node name="NextPieces" instance=ExtResource("1_pw4nr")]

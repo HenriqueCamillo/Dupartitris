@@ -9,9 +9,9 @@
 [ext_resource type="Resource" uid="uid://pm1fowtng7ph" path="res://Data/Pieces/s_piece.tres" id="7_67x1v"]
 [ext_resource type="Resource" uid="uid://fbp3j8vwsbdt" path="res://Data/Pieces/t_piece.tres" id="8_ugov6"]
 [ext_resource type="Resource" uid="uid://buuktb1bv3lu0" path="res://Data/Pieces/z_piece.tres" id="9_po8wo"]
-[ext_resource type="PackedScene" uid="uid://djhogos15swoh" path="res://Scenes/piece.tscn" id="10_85lbp"]
+[ext_resource type="PackedScene" uid="uid://djhogos15swoh" path="res://Scenes/Gameplay/piece.tscn" id="10_85lbp"]
 [ext_resource type="Resource" uid="uid://dt1urjjhh6afe" path="res://Data/piece_colors.tres" id="11_hf1rk"]
-[ext_resource type="PackedScene" uid="uid://bc5osfknvom8l" path="res://Scenes/next_peices.tscn" id="12_laevb"]
+[ext_resource type="PackedScene" uid="uid://bc5osfknvom8l" path="res://Scenes/Gameplay/next_peices.tscn" id="12_laevb"]
 
 [node name="PieceSpawner" type="Node2D" node_paths=PackedStringArray("_next_pieces")]
 script = ExtResource("1_fnwvi")

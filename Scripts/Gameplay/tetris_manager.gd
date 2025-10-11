@@ -8,12 +8,14 @@ const _FALL_BLOCKS_DELAY: int = 1
 const _MOVE_DOWN_ON_GRID_METHOD := "move_down_on_grid"
 const _CLEAR_METHOD := "clear"
 
+@export var _input_handler: InputHandler
 @export var _spawner: PieceSpawner
 @export var _grid: TGrid
 @export var _piece_holder: PieceHolder
 @export var _das_timer: Timer
-
 @export var _drop_frame_intervals: DropFrameIntervals
+
+signal paused()
 
 var _falling_piece: Piece
 var _lines_cleared: int
@@ -30,6 +32,7 @@ var _level: int
 var _level_frames_per_drop: int
 
 var _can_hold_piece: bool
+var _is_paused: bool
 
 func _ready() -> void:
     _spawner.setup(_grid)
@@ -226,4 +229,19 @@ func _on_hold_pressed() -> void:
 
     _can_hold_piece = false
     
+func pause() -> void:
+    _is_paused = true
+    
+    set_physics_process(false)
+    _input_handler.disable()
+    _set_das_enabled(false)
+    _set_is_soft_dropping(false)
+    
+    paused.emit()
+
+func unpause() -> void:
+    _is_paused = false
+    set_physics_process(true)
+    _input_handler.enable() 
+
 #endregion
