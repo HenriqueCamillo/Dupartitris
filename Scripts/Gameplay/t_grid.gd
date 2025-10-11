@@ -9,6 +9,8 @@ const EXTRA_ROWS_ABOVE: int = 2
 var _real_size := _visible_size + Vector2i(0, EXTRA_ROWS_ABOVE)
 
 @export var _border: Sprite2D
+@export var _upper_border: Sprite2D
+@export var _row_above_upper_border: Sprite2D
 @export var _background: Sprite2D
 
 var _grid: Array[Block]
@@ -31,12 +33,19 @@ func _initialize_grid_array() -> void:
 
 func _setup_visuals() -> void:
     var grid_shape = _visible_size
-    _background.position.y = -(grid_shape.y / 2) * BLOCK_SIZE
     _background.region_rect = Rect2(Vector2.ZERO, grid_shape * BLOCK_SIZE)
+    _background.position = Vector2(0, -(grid_shape.y / 2) * BLOCK_SIZE)
     
     var border_shape = grid_shape + Vector2i(2, 2)
     _border.region_rect = Rect2(Vector2.ZERO, border_shape * BLOCK_SIZE)
-    _border.position.y = _background.position.y
+    _border.position = _background.position
+
+    var upper_border_shape = Vector2i(border_shape.x, 1)
+    _upper_border.region_rect = Rect2(Vector2.ZERO, upper_border_shape * BLOCK_SIZE)
+    _upper_border.position = Vector2(0, -(grid_shape.y * BLOCK_SIZE + (BLOCK_SIZE / 2.0)))
+
+    _row_above_upper_border.region_rect = _upper_border.region_rect
+    _row_above_upper_border.position = _upper_border.position - Vector2(0, BLOCK_SIZE)
     
 func _calculate_origin_position() -> void:
     _origin_position = Vector2(-_real_size.x / 2.0, -_real_size.y) * BLOCK_SIZE

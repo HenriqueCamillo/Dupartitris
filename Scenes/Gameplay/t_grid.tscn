@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://d06gejtxsllr6" path="res://Scripts/Gameplay/t_grid.gd" id="1_4u0e5"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="2_4142e"]
 
-[node name="TGrid" type="Node2D" node_paths=PackedStringArray("_border", "_background")]
+[node name="TGrid" type="Node2D" node_paths=PackedStringArray("_border", "_upper_border", "_row_above_upper_border", "_background")]
 script = ExtResource("1_4u0e5")
 _border = NodePath("Boder")
+_upper_border = NodePath("UpperBorder")
+_row_above_upper_border = NodePath("AboveUpperBorder")
 _background = NodePath("Background")
 
 [node name="Boder" type="Sprite2D" parent="."]
@@ -15,6 +17,24 @@ position = Vector2(0, -100)
 texture = ExtResource("2_4142e")
 region_enabled = true
 region_rect = Rect2(0, 0, 120, 220)
+
+[node name="UpperBorder" type="Sprite2D" parent="."]
+self_modulate = Color(0.48962224, 0.48962224, 0.48962218, 1)
+z_index = 5
+texture_repeat = 2
+position = Vector2(0, -205)
+texture = ExtResource("2_4142e")
+region_enabled = true
+region_rect = Rect2(0, 0, 120, 10)
+
+[node name="AboveUpperBorder" type="Sprite2D" parent="."]
+self_modulate = Color(0.05490196, 0.05490196, 0.05490196, 1)
+z_index = 5
+texture_repeat = 2
+position = Vector2(0, -215)
+texture = ExtResource("2_4142e")
+region_enabled = true
+region_rect = Rect2(0, 0, 120, 10)
 
 [node name="Background" type="Sprite2D" parent="."]
 self_modulate = Color(0.10747976, 0.10747973, 0.10747973, 1)

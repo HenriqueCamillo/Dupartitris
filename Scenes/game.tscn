@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4ov56tonoyud"]
+[gd_scene load_steps=5 format=3 uid="uid://c4ov56tonoyud"]
 
 [ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/Gameplay/tetris_manager.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://fy681vnjjcpd" path="res://Scripts/game_manager.gd" id="1_wrm1d"]
 [ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/interface.tscn" id="2_qxrlw"]
+[ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="4_3dryh"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui")]
 script = ExtResource("1_wrm1d")
@@ -15,6 +16,15 @@ _pause_ui = NodePath("Interface/PauseUI")
 position = Vector2(0, -100)
 
 [node name="Interface" parent="." instance=ExtResource("2_qxrlw")]
+
+[node name="Background" type="Sprite2D" parent="."]
+self_modulate = Color(0.056291647, 0.056291588, 0.056291573, 1)
+z_index = -10
+texture_repeat = 2
+position = Vector2(0, -100)
+texture = ExtResource("4_3dryh")
+region_enabled = true
+region_rect = Rect2(0, 0, 280, 240)
 
 [connection signal="paused" from="TetrisManager" to="." method="_on_paused"]
 [connection signal="unpaused" from="Interface/PauseUI" to="." method="_on_unpaused"]
