@@ -1,10 +1,6 @@
 class_name TetrisManager
 extends Node2D
 
-# TODO: Move
-const _PIECE_SPAWN_DELAY: int = 10
-const _FALL_BLOCKS_DELAY: int = 1
-
 const _MOVE_DOWN_ON_GRID_METHOD := "move_down_on_grid"
 const _CLEAR_METHOD := "clear"
 
@@ -58,7 +54,7 @@ func _start_game(start_level: int) -> void:
     _spawn_next_piece_after_delay()
 
 func _spawn_next_piece_after_delay() -> void:
-    await Delay.physics_frames(_PIECE_SPAWN_DELAY)
+    await Delay.physics_frames(Constants.PIECE_SPAWN_DELAY)
     _spawn_next_piece()
     
 func _spawn_next_piece() -> void:
@@ -132,7 +128,7 @@ func _clear_lines(cleared_lines: Array[int]) -> void:
         # And wait for line clear animation
 
 func _on_finished_line_clear(cleared_lines: Array[int]):
-    await Delay.physics_frames(_FALL_BLOCKS_DELAY)
+    await Delay.physics_frames(Constants.STACK_DROP_DELAY)
 
     var rows_to_move_down = 0
     var cleared_line_index = 0

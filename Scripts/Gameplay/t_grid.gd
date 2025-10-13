@@ -1,12 +1,11 @@
 class_name TGrid
 extends Node2D
 
-const BLOCK_SIZE: float = 10
-const ROW_GROUP_NAME := "Row%02d"
-const EXTRA_ROWS_ABOVE: int = 2
+const _ROW_GROUP_NAME := "Row%02d"
+const _EXTRA_ROWS_ABOVE: int = 2
 
 @export var _visible_size := Vector2i(10, 20)
-var _real_size := _visible_size + Vector2i(0, EXTRA_ROWS_ABOVE)
+var _real_size := _visible_size + Vector2i(0, _EXTRA_ROWS_ABOVE)
 
 @export var _border: Sprite2D
 @export var _upper_border: Sprite2D
@@ -33,26 +32,26 @@ func _initialize_grid_array() -> void:
 
 func _setup_visuals() -> void:
     var grid_shape = _visible_size
-    _background.region_rect = Rect2(Vector2.ZERO, grid_shape * BLOCK_SIZE)
-    _background.position = Vector2(0, -(grid_shape.y / 2) * BLOCK_SIZE)
+    _background.region_rect = Rect2(Vector2.ZERO, grid_shape * Constants.BLOCK_SIZE)
+    _background.position = Vector2(0, -(grid_shape.y / 2) * Constants.BLOCK_SIZE)
     
     var border_shape = grid_shape + Vector2i(2, 2)
-    _border.region_rect = Rect2(Vector2.ZERO, border_shape * BLOCK_SIZE)
+    _border.region_rect = Rect2(Vector2.ZERO, border_shape * Constants.BLOCK_SIZE)
     _border.position = _background.position
 
     var upper_border_shape = Vector2i(border_shape.x, 1)
-    _upper_border.region_rect = Rect2(Vector2.ZERO, upper_border_shape * BLOCK_SIZE)
-    _upper_border.position = Vector2(0, -(grid_shape.y * BLOCK_SIZE + (BLOCK_SIZE / 2.0)))
+    _upper_border.region_rect = Rect2(Vector2.ZERO, upper_border_shape * Constants.BLOCK_SIZE)
+    _upper_border.position = Vector2(0, -(grid_shape.y * Constants.BLOCK_SIZE + (Constants.BLOCK_SIZE / 2.0)))
 
     _row_above_upper_border.region_rect = _upper_border.region_rect
-    _row_above_upper_border.position = _upper_border.position - Vector2(0, BLOCK_SIZE)
+    _row_above_upper_border.position = _upper_border.position - Vector2(0, Constants.BLOCK_SIZE)
     
 func _calculate_origin_position() -> void:
-    _origin_position = Vector2(-_real_size.x / 2.0, -_real_size.y) * BLOCK_SIZE
+    _origin_position = Vector2(-_real_size.x / 2.0, -_real_size.y) * Constants.BLOCK_SIZE
 
 func _calculate_spawn_position() -> void:
     @warning_ignore("integer_division")
-    _spawn_position = Vector2i(_real_size.x / 2, EXTRA_ROWS_ABOVE)
+    _spawn_position = Vector2i(_real_size.x / 2, _EXTRA_ROWS_ABOVE)
 
 func get_size() -> Vector2i:
     return _real_size
@@ -69,7 +68,7 @@ func _set_grid_element(grid_position: Vector2i, block: Block) -> void:
     _grid[index] = block
 
 func get_position_in_grid(grid_position: Vector2i) -> Vector2:
-    return grid_position * BLOCK_SIZE + _origin_position
+    return grid_position * Constants.BLOCK_SIZE + _origin_position
         
 func _array_index(grid_position: Vector2i) -> int:
     return grid_position.y * _real_size.x + grid_position.x
@@ -133,7 +132,7 @@ func move_block_down(block: Block, number_of_rows: int) -> void:
     block.set_grid_position(new_grid_position)
 
 static func get_row_group_name(row_index: int) -> String:
-    return ROW_GROUP_NAME %  row_index
+    return _ROW_GROUP_NAME %  row_index
     
 func is_empty(grid_position: Vector2i) -> bool:
     if is_out_of_bounds(grid_position):

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Enums="*res://Scripts/Globals/enums.gd"
 TInput="*res://Scripts/Globals/t_input.gd"
 Delay="*res://Scripts/Globals/delay.gd"
+Constants="*res://Scripts/Globals/constants.gd"
 
 [display]
 

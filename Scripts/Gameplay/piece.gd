@@ -1,8 +1,6 @@
 class_name Piece
 extends Node2D
 
-const BLOCKS_PER_PIECE: int = 4
-
 @export var blocks: Array[Block]
 
 var _piece_data: PieceData
@@ -56,7 +54,7 @@ func _get_blocks_offsets(piece_rotation: Enums.Rotation = _current_rotation) -> 
 func _update_blocks_positions() -> void:
     _is_splitted = false
 
-    for i in range(BLOCKS_PER_PIECE):
+    for i in range(Constants.BLOCKS_PER_PIECE):
         var block_offsets = _get_blocks_offsets()
         var grid_position = _grid_position + block_offsets[i]
 

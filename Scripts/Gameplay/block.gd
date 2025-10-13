@@ -1,10 +1,7 @@
 class_name Block
 extends Node2D
 
-# TODO: Move later
-const _CLEAR_ANIMATION_ITERATION_DLEAY: int = 4
-
-const _HALF_BLOCK_OFFSET := Vector2(TGrid.BLOCK_SIZE / 2, TGrid.BLOCK_SIZE / 2)
+const _HALF_BLOCK_OFFSET := Vector2(Constants.BLOCK_SIZE / 2, Constants.BLOCK_SIZE / 2)
 
 var _parent_piece: Piece
 var _grid_position: Vector2i
@@ -54,7 +51,7 @@ func _get_clear_delay() -> int:
     var number_of_columns = _grid.get_size().x
     var center: float = (number_of_columns - 1) / 2.0
     var delay_multiplier: int = abs(_grid_position.x - center)
-    return _CLEAR_ANIMATION_ITERATION_DLEAY * delay_multiplier
+    return Constants.BLOCK_CLEAR_DELAY * delay_multiplier
 
 func _destroy_after_delay(delay_in_frames: int) -> void:
     for i in range(delay_in_frames):
