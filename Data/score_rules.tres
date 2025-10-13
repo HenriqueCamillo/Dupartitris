@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ScoreRules" load_steps=2 format=3 uid="uid://bmwt7ao31jxvc"]
+
+[ext_resource type="Script" uid="uid://d02ug4r5gulix" path="res://Scripts/Data/score_rules.gd" id="1_fjvm6"]
+
+[resource]
+script = ExtResource("1_fjvm6")
+_scores_by_lines_cleared = Array[int]([40, 100, 210, 400])
+_scores_with_splitted_piece = Array[int]([80, 300, 900])
+metadata/_custom_type_script = "uid://d02ug4r5gulix"

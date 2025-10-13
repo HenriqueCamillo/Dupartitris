@@ -10,7 +10,7 @@ var _parent_piece: Piece
 var _grid_position: Vector2i
 var _grid: TGrid
 
-signal on_cleared(block: Block)
+signal cleared(block: Block)
 
 func set_grid(grid: TGrid) -> void:
     _grid = grid
@@ -60,5 +60,5 @@ func _destroy_after_delay(delay_in_frames: int) -> void:
     for i in range(delay_in_frames):
         await get_tree().physics_frame 
 
-    on_cleared.emit(self)
+    cleared.emit(self)
     queue_free()

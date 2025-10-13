@@ -14,8 +14,12 @@ const _CLEAR_METHOD := "clear"
 @export var _piece_holder: PieceHolder
 @export var _das_timer: Timer
 @export var _drop_frame_intervals: DropFrameIntervals
+@export var _score_rules: ScoreRules
 
 signal paused()
+signal score_changed(score: int)
+signal level_changed(level: int)
+signal lines_cleared_changed(lines_cleared: int)
 
 var _falling_piece: Piece
 var _lines_cleared: int
@@ -34,6 +38,9 @@ var _level_frames_per_drop: int
 var _can_hold_piece: bool
 var _is_paused: bool
 
+var _score: int
+var _score_from_last_clear: int
+
 func _ready() -> void:
     _spawner.setup(_grid)
     _grid.on_finished_line_clear.connect(_on_finished_line_clear)
@@ -45,7 +52,9 @@ func _exit_tree() -> void:
     
 func _start_game(start_level: int) -> void:
     _set_level(start_level, true)
-    _update_frames_per_drop()
+    _set_score(0)
+    _set_lines_cleared(0)
+
     _spawn_next_piece_after_delay()
 
 func _spawn_next_piece_after_delay() -> void:
@@ -104,11 +113,14 @@ func _update_frames_per_drop() -> void:
 #region PiecePlacement
 
 func _place_piece_and_spawn_next() -> void:
+    var is_splitted = _falling_piece.get_is_splitted()
     var cleared_lines = _grid.place_piece(_falling_piece)
+    
     _falling_piece = null
     _set_is_soft_dropping(false)
 
     if cleared_lines.size() > 0:
+        _score_from_last_clear = _score_rules.get_score(cleared_lines.size(), is_splitted)
         _clear_lines(cleared_lines)
     else:
         _spawn_next_piece_after_delay()
@@ -135,6 +147,7 @@ func _on_finished_line_clear(cleared_lines: Array[int]):
             call_group_fixed(row_group, _MOVE_DOWN_ON_GRID_METHOD, rows_to_move_down)
 
     _increase_lines_cleared(cleared_lines.size())
+    _increase_score(_score_from_last_clear)
     _spawn_next_piece_after_delay()
 
 # TODO: use godot's call_group after fix enters the release
@@ -152,21 +165,38 @@ func call_group_fixed(group_name: String, method_name: String, argument: Variant
         else:
             node.call(method_name, argument)
 
+#endregion
+
+#region ScoreAndLeveling
+
 func _increase_lines_cleared(quantity: int) -> void:
-    _lines_cleared += quantity
+    _set_lines_cleared(_lines_cleared + quantity)
+    
     @warning_ignore("integer_division")
     while _lines_cleared / _drop_frame_intervals.get_lines_to_level_up() > _level:
         _level_up()
+
+func _set_lines_cleared(value: int) -> void:
+    _lines_cleared = value
+    lines_cleared_changed.emit(_lines_cleared)
 
 func _level_up() -> void:
     _set_level(_level + 1)
 
 func _set_level(new_level: int, is_first_setup: bool = false) -> void:
     _level = new_level
+    level_changed.emit(_level)
 
     if _drop_frame_intervals.is_transition_level(_level) || is_first_setup:
         _level_frames_per_drop = _drop_frame_intervals.get_frames_per_drop_in_level(_level)
         _update_frames_per_drop()
+
+func _increase_score(amount: int) -> void:
+    _set_score(_score + amount)
+
+func _set_score(value: int) -> void:
+    _score = value
+    score_changed.emit(_score)
 
 #endregion
 

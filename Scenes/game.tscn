@@ -1,21 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4ov56tonoyud"]
+[gd_scene load_steps=6 format=3 uid="uid://c4ov56tonoyud"]
 
 [ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/Gameplay/tetris_manager.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://fy681vnjjcpd" path="res://Scripts/game_manager.gd" id="1_wrm1d"]
-[ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/interface.tscn" id="2_qxrlw"]
+[ext_resource type="Resource" uid="uid://bmwt7ao31jxvc" path="res://Data/score_rules.tres" id="3_i6g32"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="4_3dryh"]
+[ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/interface.tscn" id="5_i6g32"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui", "_score_ui", "_cleared_lines_ui", "_level_ui")]
 script = ExtResource("1_wrm1d")
 _tetris_manager = NodePath("TetrisManager")
-_pause_ui = NodePath("Interface/PauseUI")
+_pause_ui = NodePath("Interface/Pause")
+_score_ui = NodePath("Interface/InGameInterface/VBoxContainer/Score")
+_cleared_lines_ui = NodePath("Interface/InGameInterface/VBoxContainer/Lines")
+_level_ui = NodePath("Interface/InGameInterface/VBoxContainer/Level")
 
 [node name="TetrisManager" parent="." instance=ExtResource("1_ebmjs")]
+_score_rules = ExtResource("3_i6g32")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -100)
-
-[node name="Interface" parent="." instance=ExtResource("2_qxrlw")]
 
 [node name="Background" type="Sprite2D" parent="."]
 self_modulate = Color(0.056291647, 0.056291588, 0.056291573, 1)
@@ -26,7 +29,12 @@ texture = ExtResource("4_3dryh")
 region_enabled = true
 region_rect = Rect2(0, 0, 280, 240)
 
+[node name="Interface" parent="." instance=ExtResource("5_i6g32")]
+
+[connection signal="level_changed" from="TetrisManager" to="." method="_on_level_changed"]
+[connection signal="lines_cleared_changed" from="TetrisManager" to="." method="_on_lines_cleared_changed"]
 [connection signal="paused" from="TetrisManager" to="." method="_on_paused"]
-[connection signal="unpaused" from="Interface/PauseUI" to="." method="_on_unpaused"]
+[connection signal="score_changed" from="TetrisManager" to="." method="_on_score_changed"]
+[connection signal="unpaused" from="Interface/Pause" to="." method="_on_unpaused"]
 
 [editable path="Interface"]

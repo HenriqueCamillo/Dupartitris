@@ -11,6 +11,6 @@ _visible_size = Vector2i(4, 4)
 position = Vector2(0, 0)
 region_rect = Rect2(0, 0, 60, 60)
 
-[node name="Background" parent="." index="1"]
+[node name="Background" parent="." index="3"]
 position = Vector2(0, 0)
 region_rect = Rect2(0, 0, 40, 40)

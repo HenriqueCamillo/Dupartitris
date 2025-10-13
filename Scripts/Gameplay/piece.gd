@@ -11,6 +11,7 @@ var _grid_position: Vector2i
 var _grid: TGrid
 
 var _current_rotation := Enums.Rotation.DEGREES_0
+var _is_splitted: bool
 
 func _ready() -> void:
     _setup_blocks()
@@ -53,10 +54,19 @@ func _get_blocks_offsets(piece_rotation: Enums.Rotation = _current_rotation) -> 
     return _piece_data.get_blocks_positions(piece_rotation)
 
 func _update_blocks_positions() -> void:
+    _is_splitted = false
+
     for i in range(BLOCKS_PER_PIECE):
         var block_offsets = _get_blocks_offsets()
-        blocks[i].set_grid_position(_grid_position + block_offsets[i])
+        var grid_position = _grid_position + block_offsets[i]
+
+        _is_splitted = _is_splitted || (grid_position.x < 0 || grid_position.x >= _grid.get_size().x)
+
+        blocks[i].set_grid_position(grid_position)
     
+func get_is_splitted() -> bool:
+    return _is_splitted
+
 func try_rotate_clockwise() -> bool:
     return try_rotate(_current_rotation + 1)
 

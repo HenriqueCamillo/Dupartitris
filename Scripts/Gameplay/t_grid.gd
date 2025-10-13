@@ -107,10 +107,10 @@ func place_block(block: Block) -> void:
 
     var row_group = get_row_group_name(block.get_grid_position().y)
     block.add_to_group(row_group)
-    block.on_cleared.connect(_on_block_cleared)
+    block.cleared.connect(_on_block_cleared)
 
 func _on_block_cleared(block: Block) -> void:
-    block.on_cleared.disconnect(_on_block_cleared)
+    block.cleared.disconnect(_on_block_cleared)
 
     if block.get_grid_position().x == 0:
         if _last_cleared_lines.size() > 0:

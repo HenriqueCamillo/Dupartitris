@@ -27,7 +27,7 @@ position = Vector2(100, -85)
 wait_time = 0.1
 
 [node name="PieceHolder" parent="." instance=ExtResource("6_phmmh")]
-position = Vector2(-100, -180)
+position = Vector2(-100, -150)
 
 [connection signal="das_changed" from="InputHandler" to="." method="_set_das_enabled"]
 [connection signal="hard_drop_pressed" from="InputHandler" to="." method="_on_hard_drop_pressed"]
