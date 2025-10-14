@@ -4,13 +4,21 @@ extends Node2D
 const _MOVE_DOWN_ON_GRID_METHOD := "move_down_on_grid"
 const _CLEAR_METHOD := "clear"
 
+@export_group("Node References")
 @export var _input_handler: InputHandler
 @export var _spawner: PieceSpawner
 @export var _grid: TGrid
 @export var _piece_holder: PieceHolder
 @export var _das_timer: Timer
+
+@export_group("Data Resources references")
 @export var _drop_frame_intervals: DropFrameIntervals
 @export var _score_rules: ScoreRules
+
+@export_group("SFX")
+@export var _line_clear_sound_effects: LineClearSoundEffects
+@export var _game_over_sfx: AudioStream
+
 
 signal paused()
 signal score_changed(score: int)
@@ -68,8 +76,11 @@ func _spawn_next_piece() -> void:
             break
 
 func _game_over() -> void:
+    # TODO: Better game over animation
     _falling_piece = null
-    await get_tree().create_timer(2).timeout
+    await get_tree().create_timer(1).timeout
+    AudioManager.instance.play_sfx(_game_over_sfx)
+    await get_tree().create_timer(3).timeout
     get_tree().reload_current_scene()
 
 #region PieceDropping
@@ -110,13 +121,18 @@ func _update_frames_per_drop() -> void:
 
 func _place_piece_and_spawn_next() -> void:
     var is_splitted = _falling_piece.get_is_splitted()
+
     var cleared_lines = _grid.place_piece(_falling_piece)
+    var lines_cleared = cleared_lines.size()
+
+    var sfx = _line_clear_sound_effects.get_sfx(lines_cleared, is_splitted)
+    AudioManager.instance.play_sfx(sfx)
     
     _falling_piece = null
     _set_is_soft_dropping(false)
 
-    if cleared_lines.size() > 0:
-        _score_from_last_clear = _score_rules.get_score(cleared_lines.size(), is_splitted)
+    if lines_cleared > 0:
+        _score_from_last_clear = _score_rules.get_score(lines_cleared, is_splitted)
         _clear_lines(cleared_lines)
     else:
         _spawn_next_piece_after_delay()

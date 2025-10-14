@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://djhogos15swoh"]
+[gd_scene load_steps=5 format=3 uid="uid://djhogos15swoh"]
 
 [ext_resource type="Script" uid="uid://bc74w2lw44ux1" path="res://Scripts/Gameplay/piece.gd" id="1_jf0mb"]
-[ext_resource type="PackedScene" uid="uid://dk22ny3ep23ns" path="res://Scenes/Gameplay/block.tscn" id="2_y70yu"]
+[ext_resource type="AudioStream" uid="uid://dejltq8iro5dc" path="res://Audio/SFX/rotate_piece.ogg" id="2_704ek"]
+[ext_resource type="AudioStream" uid="uid://ijunuqsvgfjk" path="res://Audio/SFX/move_piece.ogg" id="2_re1ga"]
+[ext_resource type="PackedScene" uid="uid://dk22ny3ep23ns" path="res://Scenes/General/block.tscn" id="2_y70yu"]
 
 [node name="Piece" type="Node2D" node_paths=PackedStringArray("blocks")]
 script = ExtResource("1_jf0mb")
 blocks = [NodePath("Block1"), NodePath("Block2"), NodePath("Block3"), NodePath("Block4")]
+_rotate_sfx = ExtResource("2_704ek")
+_move_sfx = ExtResource("2_re1ga")
 
 [node name="Block1" parent="." instance=ExtResource("2_y70yu")]
 position = Vector2(15, 5)

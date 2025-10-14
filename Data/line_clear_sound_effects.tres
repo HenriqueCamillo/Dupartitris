@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LineClearSoundEffects" load_steps=3 format=3 uid="uid://b5niot51iuiyy"]
+
+[ext_resource type="AudioStream" uid="uid://drxoy77iuth4g" path="res://Audio/SFX/place_piece.ogg" id="1_0snub"]
+[ext_resource type="Script" uid="uid://du2vmny7krk7i" path="res://Scripts/Data/line_clear_sound_effects.gd" id="1_y307t"]
+
+[resource]
+script = ExtResource("1_y307t")
+_piece_placement_sfx = ExtResource("1_0snub")
+metadata/_custom_type_script = "uid://du2vmny7krk7i"

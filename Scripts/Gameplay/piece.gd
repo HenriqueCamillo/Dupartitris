@@ -2,6 +2,8 @@ class_name Piece
 extends Node2D
 
 @export var blocks: Array[Block]
+@export var _rotate_sfx: AudioStream
+@export var _move_sfx: AudioStream
 
 var _piece_data: PieceData
 var _grid_position: Vector2i
@@ -72,9 +74,9 @@ func try_rotate_counterclockwise() -> void:
     return try_rotate(_current_rotation - 1)
 
 func try_reset_rotation() -> bool:
-    return try_rotate(Enums.Rotation.DEGREES_0)
+    return try_rotate(Enums.Rotation.DEGREES_0, false)
 
-func try_rotate(rotation_index: int) -> bool:
+func try_rotate(rotation_index: int, play_sfx: bool = true) -> bool:
     var new_rotation = _get_rotation_from_index(rotation_index)
     if _current_rotation == new_rotation:
         return true
@@ -84,6 +86,9 @@ func try_rotate(rotation_index: int) -> bool:
 
     _current_rotation = new_rotation
     _update_blocks_positions()
+
+    if play_sfx:
+        AudioManager.instance.play_sfx(_rotate_sfx)
 
     return true
     
@@ -127,7 +132,11 @@ func try_move_down(height: int) -> bool:
     return try_move(Vector2i(0, height))
 
 func try_move_sideways(sideways_offset: int) -> bool:
-    return try_move(Vector2i(sideways_offset, 0))
+    var moved = try_move(Vector2i(sideways_offset, 0))
+    if moved:
+        AudioManager.instance.play_sfx(_move_sfx)
+
+    return moved
 
 func try_move(offset: Vector2i):
     if !can_apply_movement(offset):

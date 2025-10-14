@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnqpubkrdplki"]
+
+[ext_resource type="Script" uid="uid://crenmhwlxo1h4" path="res://Scripts/Globals/audio_manager.gd" id="1_v3ulf"]
+
+[node name="AudioManager" type="Node2D" node_paths=PackedStringArray("_music_player", "_sfx_players")]
+script = ExtResource("1_v3ulf")
+_music_player = NodePath("MusicPlayer")
+_sfx_players = [NodePath("SFX Players/SFX Player"), NodePath("SFX Players/SFX Player2"), NodePath("SFX Players/SFX Player3"), NodePath("SFX Players/SFX Player4")]
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+
+[node name="SFX Players" type="Node2D" parent="."]
+
+[node name="SFX Player" type="AudioStreamPlayer2D" parent="SFX Players"]
+
+[node name="SFX Player2" type="AudioStreamPlayer2D" parent="SFX Players"]
+
+[node name="SFX Player3" type="AudioStreamPlayer2D" parent="SFX Players"]
+
+[node name="SFX Player4" type="AudioStreamPlayer2D" parent="SFX Players"]
