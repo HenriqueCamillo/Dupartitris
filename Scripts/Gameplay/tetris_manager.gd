@@ -140,6 +140,10 @@ func _place_piece_and_spawn_next() -> void:
     var sfx = _line_clear_sound_effects.get_sfx(lines_cleared, is_splitted)
     AudioManager.instance.play_sfx(sfx)
 
+    var was_a_titris = is_splitted && lines_cleared == 3
+    if was_a_titris:
+        _grid.flash_background()
+
     if lines_cleared > 0:
         _score_from_last_clear = _score_rules.get_score(lines_cleared, is_splitted)
         _clear_lines(cleared_lines)

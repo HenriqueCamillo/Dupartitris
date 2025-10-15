@@ -1,14 +1,52 @@
-[gd_scene load_steps=3 format=3 uid="uid://whceyfg610cp"]
+[gd_scene load_steps=6 format=3 uid="uid://whceyfg610cp"]
 
 [ext_resource type="Script" uid="uid://d06gejtxsllr6" path="res://Scripts/Gameplay/t_grid.gd" id="1_4u0e5"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="2_4142e"]
 
-[node name="TGrid" type="Node2D" node_paths=PackedStringArray("_border", "_upper_border", "_row_above_upper_border", "_background")]
+[sub_resource type="Animation" id="Animation_tdvxu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.10747976, 0.10747973, 0.10747973, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_2ulpr"]
+resource_name = "flash_background"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.43333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.10747976, 0.10747973, 0.10747973, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ukp7h"]
+_data = {
+&"RESET": SubResource("Animation_tdvxu"),
+&"flash_background": SubResource("Animation_2ulpr")
+}
+
+[node name="TGrid" type="Node2D" node_paths=PackedStringArray("_border", "_upper_border", "_row_above_upper_border", "_background", "_animation_player")]
 script = ExtResource("1_4u0e5")
 _border = NodePath("Boder")
 _upper_border = NodePath("UpperBorder")
 _row_above_upper_border = NodePath("AboveUpperBorder")
 _background = NodePath("Background")
+_animation_player = NodePath("AnimationPlayer")
 
 [node name="Boder" type="Sprite2D" parent="."]
 self_modulate = Color(0.48962224, 0.48962224, 0.48962218, 1)
@@ -43,3 +81,8 @@ position = Vector2(0, -100)
 texture = ExtResource("2_4142e")
 region_enabled = true
 region_rect = Rect2(0, 0, 100, 200)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ukp7h")
+}

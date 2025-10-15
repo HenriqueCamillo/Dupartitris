@@ -11,6 +11,7 @@ var _real_size := _visible_size + Vector2i(0, _EXTRA_ROWS_ABOVE)
 @export var _upper_border: Sprite2D
 @export var _row_above_upper_border: Sprite2D
 @export var _background: Sprite2D
+@export var _animation_player: AnimationPlayer
 
 var _grid: Array[Block]
 var _origin_position: Vector2
@@ -162,6 +163,9 @@ func get_number_of_empty_blocks_under(grid_position: Vector2i) -> int:
         grid_position.y += 1
 
     return empty_blocks
+
+func flash_background() -> void:
+    _animation_player.play("flash_background")
 
 func reset() -> void:
     for i in range(_grid.size()):
