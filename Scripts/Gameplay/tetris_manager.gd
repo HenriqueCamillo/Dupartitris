@@ -115,6 +115,8 @@ func _drop_piece_one_row() -> void:
     var reached_ground = !_falling_piece.try_move_down_one_row()
     if reached_ground:
         _place_piece_and_spawn_next()
+    elif _is_soft_dropping:
+        _increase_score(_score_rules.get_soft_drop_score_per_row())
 
 func _update_frames_per_drop() -> void:
     if _is_soft_dropping:
@@ -271,6 +273,8 @@ func _on_hard_drop_pressed() -> void:
 
     _falling_piece.try_move_down(min_height)
     _place_piece_and_spawn_next()
+    
+    _increase_score(min_height * _score_rules.get_hard_drop_score_per_row())
 
 func _on_hold_pressed() -> void:
     if !_can_hold_piece || _falling_piece == null:
