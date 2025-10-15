@@ -18,3 +18,10 @@ func _hold_piece(piece: Piece) -> void:
     _held_piece = piece
     _held_piece.add_to_grid_in_position(self, _spawn_position)
     _held_piece.try_reset_rotation()
+
+func reset() -> void:
+    super.reset();
+
+    if _held_piece != null:
+        _held_piece.queue_free()
+        _held_piece = null

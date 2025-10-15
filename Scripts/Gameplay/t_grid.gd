@@ -162,3 +162,11 @@ func get_number_of_empty_blocks_under(grid_position: Vector2i) -> int:
         grid_position.y += 1
 
     return empty_blocks
+
+func reset() -> void:
+    for i in range(_grid.size()):
+        if _grid[i] != null:
+            _grid[i].queue_free()
+            _grid[i] = null
+
+    _last_cleared_lines.clear()

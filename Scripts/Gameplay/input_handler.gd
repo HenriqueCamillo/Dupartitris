@@ -100,3 +100,10 @@ func _on_hold_change(is_pressed: bool):
 func _on_pause_change(is_pressed: bool):
     if _is_enabled && is_pressed:
         pause_pressed.emit()
+
+func reset() -> void:
+    disable()
+
+    _is_left_presed = false
+    _is_right_presed = false
+    _horizontal_input = 0

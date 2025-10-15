@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://iu4upnlwao3m" path="res://Scripts/UI/pause_ui.gd" id="2_udk7p"]
 [ext_resource type="PackedScene" uid="uid://cqkmkt7seds4m" path="res://Scenes/UI/label_value_ui.tscn" id="3_udk7p"]
 
-[node name="Interface" type="CanvasLayer"]
+[node name="InGameInterface" type="CanvasLayer"]
 
 [node name="Pause" type="Label" parent="."]
 anchors_preset = 15

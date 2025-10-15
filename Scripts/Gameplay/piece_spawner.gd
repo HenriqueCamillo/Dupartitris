@@ -51,3 +51,6 @@ func _queue_pieces() -> void:
         var spawned_piece = _spawn_piece()
         _next_pieces.add_to_queue(spawned_piece)
         pieces_to_spawn -= 1
+
+func reset() -> void:
+    _next_pieces.reset()

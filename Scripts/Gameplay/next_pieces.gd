@@ -36,3 +36,14 @@ func _set_piece_position(piece: Piece, position_index: int) -> void:
     if piece.visible:
         var grid_position = _get_piece_grid_position(position_index)
         piece.set_grid_position(grid_position)
+
+func reset() -> void:
+    super.reset()
+
+    for piece in _piece_queue:
+        if piece != null:
+            piece.queue_free()
+            
+    _piece_queue.clear()
+        
+        

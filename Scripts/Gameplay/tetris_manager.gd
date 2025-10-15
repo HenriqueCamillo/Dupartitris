@@ -19,8 +19,8 @@ const _CLEAR_METHOD := "clear"
 @export var _line_clear_sound_effects: LineClearSoundEffects
 @export var _game_over_sfx: AudioStream
 
-
 signal paused()
+signal game_over()
 signal score_changed(score: int)
 signal level_changed(level: int)
 signal lines_cleared_changed(lines_cleared: int)
@@ -40,21 +40,25 @@ var _level: int
 var _level_frames_per_drop: int
 
 var _can_hold_piece: bool
-var _is_paused: bool
+var _is_enabled: bool
 
 var _score: int
 var _score_from_last_clear: int
+
+var _has_lost: bool
+var _in_game_over_animation: bool
+var _piece_that_caused_loss: Piece
 
 func _ready() -> void:
     _spawner.setup(_grid)
     _grid.on_finished_line_clear.connect(_on_finished_line_clear)
 
-    _start_game(0)
-
 func _exit_tree() -> void:
     _grid.on_finished_line_clear.disconnect(_on_finished_line_clear)
     
-func _start_game(start_level: int) -> void:
+func start_game(start_level: int) -> void:
+    enable()
+    
     _set_level(start_level, true)
     _set_score(0)
     _set_lines_cleared(0)
@@ -77,11 +81,17 @@ func _spawn_next_piece() -> void:
 
 func _game_over() -> void:
     # TODO: Better game over animation
+    _has_lost = true
+    _in_game_over_animation = true
+
+    _piece_that_caused_loss = _falling_piece
     _falling_piece = null
+
     await get_tree().create_timer(1).timeout
     AudioManager.instance.play_sfx(_game_over_sfx)
     await get_tree().create_timer(3).timeout
-    get_tree().reload_current_scene()
+
+    _in_game_over_animation = false
 
 #region PieceDropping
 
@@ -123,13 +133,12 @@ func _place_piece_and_spawn_next() -> void:
     var is_splitted = _falling_piece.get_is_splitted()
 
     var cleared_lines = _grid.place_piece(_falling_piece)
+    _falling_piece = null
+    _set_is_soft_dropping(false)
     var lines_cleared = cleared_lines.size()
 
     var sfx = _line_clear_sound_effects.get_sfx(lines_cleared, is_splitted)
     AudioManager.instance.play_sfx(sfx)
-    
-    _falling_piece = null
-    _set_is_soft_dropping(false)
 
     if lines_cleared > 0:
         _score_from_last_clear = _score_rules.get_score(lines_cleared, is_splitted)
@@ -272,18 +281,42 @@ func _on_hold_pressed() -> void:
     _can_hold_piece = false
     
 func pause() -> void:
-    _is_paused = true
-    
+    if !_has_lost:
+        disable()
+        paused.emit()
+    else:
+        if !_in_game_over_animation:
+            _finish_game()
+
+func _finish_game() -> void:
+    _piece_that_caused_loss.queue_free()
+    _piece_that_caused_loss = null
+    game_over.emit()
+
+#endregion
+
+#region SetEnabled
+
+func enable() -> void:
+    _is_enabled = false
+    set_physics_process(true)
+    _input_handler.enable() 
+
+func disable() -> void:
+    _is_enabled = true
     set_physics_process(false)
     _input_handler.disable()
     _set_das_enabled(false)
     _set_is_soft_dropping(false)
-    
-    paused.emit()
 
-func unpause() -> void:
-    _is_paused = false
-    set_physics_process(true)
-    _input_handler.enable() 
+func reset() -> void:
+    disable()
+    _spawner.reset()
+    _input_handler.reset()
+    _grid.reset()
+    _piece_holder.reset()
+    
+    _in_game_over_animation = false
+    _has_lost = false
 
 #endregion
