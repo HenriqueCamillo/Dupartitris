@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c4ov56tonoyud"]
+[gd_scene load_steps=9 format=3 uid="uid://c4ov56tonoyud"]
 
 [ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/General/tetris_manager.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://fy681vnjjcpd" path="res://Scripts/game_manager.gd" id="1_wrm1d"]
+[ext_resource type="AudioStream" uid="uid://c6sex6hj6fmas" path="res://Audio/SFX/pause_in.ogg" id="2_v158k"]
+[ext_resource type="AudioStream" uid="uid://fpylusolbft8" path="res://Audio/SFX/pause_out.ogg" id="3_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="4_3dryh"]
 [ext_resource type="PackedScene" uid="uid://c5462v4qv4ilr" path="res://Scenes/UI/main_menu.tscn" id="5_1l0tm"]
 [ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/in_game_interface.tscn" id="5_i6g32"]
@@ -15,6 +17,8 @@ _score_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Score")
 _cleared_lines_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Lines")
 _level_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Level")
 _menus = NodePath("Menus")
+_pause_in_sfx = ExtResource("2_v158k")
+_pause_out_sfx = ExtResource("3_h4fw4")
 
 [node name="TetrisManager" parent="." instance=ExtResource("1_ebmjs")]
 

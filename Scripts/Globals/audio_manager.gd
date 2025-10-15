@@ -1,6 +1,7 @@
 class_name AudioManager
 extends Node2D
 
+# Questionable design. Scenes that use the instance will either need to check for null, or they will throw errors and not be modular
 static var instance: AudioManager
 
 @export var _music_player: AudioStreamPlayer2D
@@ -35,6 +36,12 @@ func play_music(music: AudioStream) -> void:
 
 func stop_music() -> void:
     _music_player.stop()
+
+func pause_music() -> void:
+    _music_player.stream_paused = true
+    
+func resume_music() -> void:
+    _music_player.stream_paused = true
         
 func play_sfx(sfx: AudioStream) -> void:
     if sfx == null:
