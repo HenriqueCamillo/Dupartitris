@@ -8,16 +8,32 @@ extends Node2D
 
 var _grid: TGrid
 
-# TODO: Initialize it via resources
-var _pieces_to_queue: int = 6
+var _pieces_to_queue: int = 1
+var _spawn_mode := Enums.SpawnMode.Random
 
-func setup(grid: TGrid) -> void:
+var _available_piece_types: Array[PieceData]
+
+func _reset_available_piece_types() -> void:
+    _available_piece_types = _piece_types.duplicate()
+
+func setup(grid: TGrid, spawn_mode: Enums.SpawnMode, next_pieces_look_ahead: int) -> void:
     _grid = grid
+    _pieces_to_queue = next_pieces_look_ahead
+    _spawn_mode = spawn_mode
+    
     _next_pieces.visible = _pieces_to_queue > 0
 
 func _get_random_piece_type() -> PieceData:
-    var index = randi_range(0, _piece_types.size() - 1)
-    return _piece_types[index]
+    if _available_piece_types.size() == 0:
+        _reset_available_piece_types()
+    
+    var index = randi_range(0, _available_piece_types.size() - 1)
+    var piece_type = _available_piece_types[index]
+    
+    if _spawn_mode == Enums.SpawnMode.SevenBag:
+        _available_piece_types.remove_at(index)
+    
+    return piece_type
 
 func get_next_piece() -> Piece:
     if _next_pieces.get_queue_size() < _pieces_to_queue:

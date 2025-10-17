@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GameMode" load_steps=2 format=3 uid="uid://b3rct8xkamekc"]
+
+[ext_resource type="Script" uid="uid://chse8776a56xe" path="res://Scripts/Data/game_mode.gd" id="1_v6y1b"]
+
+[resource]
+script = ExtResource("1_v6y1b")
+_display_name = "Trankvila Dupartitris"
+_next_pieces_look_ahead = 4
+_piece_spawn_mode = 1
+metadata/_custom_type_script = "uid://chse8776a56xe"

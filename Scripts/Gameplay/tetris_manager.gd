@@ -49,17 +49,36 @@ var _has_lost: bool
 var _in_game_over_animation: bool
 var _piece_that_caused_loss: Piece
 
+var _game_rules: GameRules
+
+var _is_hard_drop_enabled: bool:
+    get:
+        return _game_rules.hard_drop_enabled
+
+var _is_hold_piece_enabled: bool:
+    get:
+        return _game_rules.hold_piece_enabled
+
 func _ready() -> void:
-    _spawner.setup(_grid)
     _grid.on_finished_line_clear.connect(_on_finished_line_clear)
 
 func _exit_tree() -> void:
     _grid.on_finished_line_clear.disconnect(_on_finished_line_clear)
+
+
+func set_game_rules(game_rules: GameRules) -> void:
+    _game_rules = game_rules
+    _grid.set_split_enabled(game_rules.split_enabled)
+    _spawner.setup(_grid, game_rules.piece_spawn_mode, game_rules.next_pieces_look_ahead)
     
-func start_game(start_level: int) -> void:
+func start_game() -> void:
+    if _game_rules == null:
+        push_error("Tetris Manager was not initialized with a game mode. Using default values.")
+        set_game_rules(GameRules.new())
+    
     enable()
     
-    _set_level(start_level, true)
+    _set_level(_game_rules.initial_level, true)
     _set_score(0)
     _set_lines_cleared(0)
 
@@ -263,6 +282,9 @@ func _set_is_soft_dropping(value: bool) -> void:
     _update_frames_per_drop()
 
 func _on_hard_drop_pressed() -> void:
+    if !_is_hard_drop_enabled:
+        return
+        
     if _falling_piece == null:
         return
 
@@ -277,6 +299,9 @@ func _on_hard_drop_pressed() -> void:
     _increase_score(min_height * _score_rules.get_hard_drop_score_per_row())
 
 func _on_hold_pressed() -> void:
+    if !_is_hold_piece_enabled:
+        return
+
     if !_can_hold_piece || _falling_piece == null:
         return
 

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CustomGameMode" load_steps=2 format=3 uid="uid://ckqh56m5rs180"]
+
+[ext_resource type="Script" uid="uid://cm3g8yt4ojc1l" path="res://Scripts/Data/custom_game_mode.gd" id="1_yc4m8"]
+
+[resource]
+script = ExtResource("1_yc4m8")
+_display_name = "Agordi"
+metadata/_custom_type_script = "uid://cm3g8yt4ojc1l"

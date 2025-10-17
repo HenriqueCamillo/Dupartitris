@@ -13,6 +13,8 @@ var _real_size := _visible_size + Vector2i(0, _EXTRA_ROWS_ABOVE)
 @export var _background: Sprite2D
 @export var _animation_player: AnimationPlayer
 
+var _split_enabled: bool = true
+
 var _grid: Array[Block]
 var _origin_position: Vector2
 var _spawn_position: Vector2
@@ -53,6 +55,9 @@ func _calculate_origin_position() -> void:
 func _calculate_spawn_position() -> void:
     @warning_ignore("integer_division")
     _spawn_position = Vector2i(_real_size.x / 2, _EXTRA_ROWS_ABOVE)
+
+func set_split_enabled(value: bool) -> void:
+    _split_enabled = value
 
 func get_size() -> Vector2i:
     return _real_size
@@ -142,6 +147,9 @@ func is_empty(grid_position: Vector2i) -> bool:
     return _get_grid_element(grid_position) == null
     
 func apply_horizontal_index_loop(grid_position: Vector2i):
+    if !_split_enabled:
+        return grid_position
+
     var x = grid_position.x
     if x < 0:
         @warning_ignore("integer_division")
@@ -152,7 +160,12 @@ func apply_horizontal_index_loop(grid_position: Vector2i):
 
 # Never gets out of bounds horizontally because it should teleport. Just remember to use apply_horizontal_index_loop when applying position
 func is_out_of_bounds(grid_position: Vector2i) -> bool:
-    return grid_position.y >= _real_size.y
+    var vertically_out_of_bounds = grid_position.y < 0 || grid_position.y >= _real_size.y
+    if _split_enabled:
+        return vertically_out_of_bounds
+
+    var horizontally_out_of_bounds = grid_position.x < 0 || grid_position.x >= _real_size.x
+    return vertically_out_of_bounds || horizontally_out_of_bounds
 
 func get_number_of_empty_blocks_under(grid_position: Vector2i) -> int:
     var empty_blocks = 0

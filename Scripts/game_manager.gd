@@ -12,8 +12,10 @@ extends Node2D
 @export var _menu_music: AudioStream
 @export var _gameplay_music: AudioStream
 @export var _pause_in_sfx: AudioStream
-@export var _pause_out_sfx: AudioStream
 
+@export_group("Game Rules")
+@export var _game_mode: GameMode
+@export var _initial_level: int
 
 func _ready() -> void:
     _tetris_manager.disable()
@@ -27,7 +29,6 @@ func _on_unpaused() -> void:
     await Delay.one_frame()
     _tetris_manager.enable()
     AudioManager.instance.resume_music()
-    AudioManager.instance.play_sfx(_pause_out_sfx)
 
 func _on_score_changed(score: int) -> void:
     _score_ui.set_value(score)
@@ -39,7 +40,16 @@ func _on_level_changed(level: int) -> void:
     _level_ui.set_value(level)
     
 func _on_pressed_play() -> void:
-    _tetris_manager.start_game(0)
+    var game_rules: GameRules
+
+    if _game_mode == null:
+        game_rules = GameRules.new()
+    else:
+        game_rules = GameRules.create_from_game_mode(_game_mode, _initial_level)
+
+    _tetris_manager.set_game_rules(game_rules)
+    _tetris_manager.start_game()
+
     AudioManager.instance.play_music(_gameplay_music)
 
 func _on_game_over() -> void:

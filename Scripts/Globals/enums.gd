@@ -6,3 +6,8 @@ enum Rotation {
     DEGREES_180,
     DEGREES_270,
 }
+
+enum SpawnMode {
+    Random,
+    SevenBag,
+}
