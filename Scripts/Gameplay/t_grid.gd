@@ -22,8 +22,14 @@ var _spawn_position: Vector2
 var _last_cleared_lines: Array[int]
 
 signal on_finished_line_clear(lines_cleared: Array[int])
-        
+
 func _ready() -> void:
+    setup()
+        
+func setup(size: Vector2i = _visible_size) -> void:
+    _visible_size = size
+    _real_size = _visible_size + Vector2i(0, _EXTRA_ROWS_ABOVE)
+    
     _initialize_grid_array()
     _setup_visuals()
     _calculate_origin_position()

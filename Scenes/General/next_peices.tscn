@@ -5,12 +5,19 @@
 
 [node name="NextPieces" instance=ExtResource("1_pw4nr")]
 script = ExtResource("2_moloi")
+_max_pieces_in_queue = 6
 _visible_size = Vector2i(4, 17)
 
 [node name="Boder" parent="." index="0"]
-position = Vector2(0, 0)
+position = Vector2(0, 85)
 region_rect = Rect2(0, 0, 60, 190)
 
-[node name="Background" parent="." index="1"]
-position = Vector2(0, 0)
+[node name="UpperBorder" parent="." index="1"]
+position = Vector2(0, -120)
+
+[node name="AboveUpperBorder" parent="." index="2"]
+position = Vector2(0, -130)
+
+[node name="Background" parent="." index="3"]
+position = Vector2(0, 85)
 region_rect = Rect2(0, 0, 40, 170)

@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/in_game_interface.tscn" id="5_i6g32"]
 [ext_resource type="PackedScene" uid="uid://cnqpubkrdplki" path="res://Scenes/General/audio_manager.tscn" id="6_i6g32"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui", "_score_ui", "_cleared_lines_ui", "_level_ui", "_menus")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui", "_score_ui", "_cleared_lines_ui", "_level_ui", "_menus", "_next_pieces_ui", "_hold_piece_ui")]
 script = ExtResource("1_wrm1d")
 _tetris_manager = NodePath("TetrisManager")
 _pause_ui = NodePath("InGameInterface/Pause")
@@ -17,6 +17,8 @@ _score_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Score")
 _cleared_lines_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Lines")
 _level_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Level")
 _menus = NodePath("Menus")
+_next_pieces_ui = NodePath("InGameInterface/InGameInterface/Next")
+_hold_piece_ui = NodePath("InGameInterface/InGameInterface/Hold")
 _pause_in_sfx = ExtResource("2_v158k")
 _game_mode = ExtResource("3_v158k")
 

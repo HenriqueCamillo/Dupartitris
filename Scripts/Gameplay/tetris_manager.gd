@@ -71,6 +71,7 @@ func set_game_rules(game_rules: GameRules) -> void:
     _game_rules = game_rules
     _grid.set_split_enabled(game_rules.split_enabled)
     _spawner.setup(_grid, game_rules.piece_spawn_mode, game_rules.next_pieces_look_ahead)
+    _piece_holder.visible = game_rules.next_pieces_look_ahead > 0
     
 func start_game() -> void:
     if _game_rules == null:

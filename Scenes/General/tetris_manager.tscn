@@ -27,7 +27,7 @@ _game_over_sfx = ExtResource("5_0rma8")
 [node name="TGrid" parent="." instance=ExtResource("3_ilvt5")]
 
 [node name="PieceSpawner" parent="." instance=ExtResource("3_s36ej")]
-position = Vector2(100, -85)
+position = Vector2(100, -170)
 
 [node name="DASUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1

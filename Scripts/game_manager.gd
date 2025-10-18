@@ -7,6 +7,8 @@ extends Node2D
 @export var _cleared_lines_ui: LabelValueUI
 @export var _level_ui: LabelValueUI
 @export var _menus: Menus
+@export var _next_pieces_ui: Label
+@export var _hold_piece_ui: Label
 
 @export_group("Music and SFX")
 @export var _menu_music: AudioStream
@@ -45,10 +47,8 @@ func _on_game_over() -> void:
     _menus.show_game_rules_menu()
     AudioManager.instance.play_music(_menu_music)
 
-
 func _on_game_mode_selected(game_mode: GameMode) -> void:
     _game_mode = game_mode 
-    # TODO: Update some of the UI
 
 func _on_start_pressed() -> void:
     var game_rules: GameRules
@@ -60,9 +60,16 @@ func _on_start_pressed() -> void:
     _tetris_manager.set_game_rules(game_rules)
     _tetris_manager.start_game()
     
+    _upate_ui_according_to_game_rules(game_rules)
     _menus.hide()
 
     AudioManager.instance.play_music(_gameplay_music)
+    
+func _upate_ui_according_to_game_rules(game_rules: GameRules) -> void:     
+    _hold_piece_ui.visible = game_rules.hold_piece_enabled
+    _next_pieces_ui.visible = game_rules.next_pieces_look_ahead > 0
+    if _next_pieces_ui.visible:
+        _next_pieces_ui.text = "Sekva" if game_rules.next_pieces_look_ahead == 1 else "Sekvaj"
 
 func _on_initial_level_selected(level: int) -> void:
     _initial_level = level

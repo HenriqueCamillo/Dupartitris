@@ -1,11 +1,21 @@
 class_name NextPieces
-extends CenterAnchoredGrid
+extends TopAnchoredGrid
 
 const _ROWS_PER_PIECE: int = 3
+const _SIZE_X: int = 4
+const _MIN_SIZE_Y: int = 4
 
 @export var _max_pieces_in_queue: int = 6
 var _piece_queue: Array[Piece]
 
+func set_capacity(max_pieces_in_queue: int) -> void:
+    _max_pieces_in_queue = max_pieces_in_queue
+    visible = _max_pieces_in_queue > 0
+    
+    var size_y = _ROWS_PER_PIECE * _max_pieces_in_queue - 1
+    size_y = max(size_y, _MIN_SIZE_Y)
+    setup(Vector2i(_SIZE_X, size_y))
+    
 func _get_piece_grid_position(position_in_queue: int) -> Vector2i:
     return Vector2i(2, position_in_queue * _ROWS_PER_PIECE)
 
@@ -45,5 +55,11 @@ func reset() -> void:
             piece.queue_free()
             
     _piece_queue.clear()
+    
+func _calculate_origin_position() -> void:
+    _origin_position = Vector2(-(_visible_size.x / 2.0), 0.0) * Constants.BLOCK_SIZE
+    
+    if _visible_size.y == _MIN_SIZE_Y:
+        _origin_position.y += Constants.BLOCK_SIZE
         
         
