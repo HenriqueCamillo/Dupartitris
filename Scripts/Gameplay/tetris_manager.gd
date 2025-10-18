@@ -27,6 +27,7 @@ signal lines_cleared_changed(lines_cleared: int)
 
 var _falling_piece: Piece
 var _lines_cleared: int
+var _intial_level_lines_cleared_equivalent: int
 
 var _das_direction: int
 var _das_enabled: bool
@@ -218,8 +219,10 @@ func call_group_fixed(group_name: String, method_name: String, argument: Variant
 func _increase_lines_cleared(quantity: int) -> void:
     _set_lines_cleared(_lines_cleared + quantity)
     
+    var lines_per_level = _drop_frame_intervals.get_lines_to_level_up()
+    var total_lines = _lines_cleared + _intial_level_lines_cleared_equivalent
     @warning_ignore("integer_division")
-    while _lines_cleared / _drop_frame_intervals.get_lines_to_level_up() > _level:
+    while total_lines / lines_per_level > _level:
         _level_up()
 
 func _set_lines_cleared(value: int) -> void:
@@ -229,13 +232,17 @@ func _set_lines_cleared(value: int) -> void:
 func _level_up() -> void:
     _set_level(_level + 1)
 
-func _set_level(new_level: int, is_first_setup: bool = false) -> void:
-    _level = new_level
+func _set_level(level: int, is_first_setup: bool = false) -> void:
+    _level = level
     level_changed.emit(_level)
 
     if _drop_frame_intervals.is_transition_level(_level) || is_first_setup:
         _level_frames_per_drop = _drop_frame_intervals.get_frames_per_drop_in_level(_level)
         _update_frames_per_drop()
+        
+    if is_first_setup:
+        var lines_per_level = _drop_frame_intervals.get_lines_to_level_up()
+        _intial_level_lines_cleared_equivalent = lines_per_level * _level
 
 func _increase_score(amount: int) -> void:
     _set_score(_score + amount)

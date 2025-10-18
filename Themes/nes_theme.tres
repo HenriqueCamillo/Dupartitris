@@ -1,0 +1,29 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cxt2wr8nqu1fn"]
+
+[ext_resource type="FontFile" uid="uid://dke1h07idd3p1" path="res://Fonts/Super Mario Bros. NES.ttf" id="1_lcgpc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcgpc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rtqas"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lpyjq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ly52x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1q50b"]
+
+[resource]
+default_font = ExtResource("1_lcgpc")
+default_font_size = 8
+Button/colors/font_color = Color(0.60932976, 0.60933024, 0.60932994, 1)
+Button/colors/font_disabled_color = Color(0.36659443, 0.36659467, 0.36659458, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 8
+Button/styles/disabled = SubResource("StyleBoxEmpty_lcgpc")
+Button/styles/focus = SubResource("StyleBoxEmpty_rtqas")
+Button/styles/hover = SubResource("StyleBoxEmpty_lpyjq")
+Button/styles/normal = SubResource("StyleBoxEmpty_ly52x")
+Button/styles/pressed = SubResource("StyleBoxEmpty_1q50b")
+Label/constants/line_spacing = 1
+VBoxContainer/constants/separation = 10

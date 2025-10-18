@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://hh0y26dcdfox"]
+
+[ext_resource type="Theme" uid="uid://cxt2wr8nqu1fn" path="res://Themes/nes_theme.tres" id="1_tp8do"]
+[ext_resource type="Script" uid="uid://b7e2vnp720v34" path="res://Scripts/UI/game_mode_button.gd" id="2_srdct"]
+
+[node name="ModeSelectButton" type="Button"]
+offset_right = 48.0
+offset_bottom = 9.0
+mouse_filter = 2
+theme = ExtResource("1_tp8do")
+action_mode = 0
+button_mask = 0
+text = "Reĝimo
+"
+flat = true
+alignment = 0
+script = ExtResource("2_srdct")
+metadata/_custom_type_script = "uid://b7e2vnp720v34"

@@ -3,9 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/General/tetris_manager.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://fy681vnjjcpd" path="res://Scripts/game_manager.gd" id="1_wrm1d"]
 [ext_resource type="AudioStream" uid="uid://c6sex6hj6fmas" path="res://Audio/SFX/pause.ogg" id="2_v158k"]
-[ext_resource type="Resource" uid="uid://b3rct8xkamekc" path="res://Data/GameModes/relaxed_dupartitris_gm.tres" id="3_v158k"]
+[ext_resource type="Resource" uid="uid://bsdhxmma3m4se" path="res://Data/GameModes/dupartitris_game_mode.tres" id="3_v158k"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="4_3dryh"]
-[ext_resource type="PackedScene" uid="uid://c5462v4qv4ilr" path="res://Scenes/UI/main_menu.tscn" id="5_1l0tm"]
+[ext_resource type="PackedScene" uid="uid://c5462v4qv4ilr" path="res://Scenes/UI/menus.tscn" id="5_1l0tm"]
 [ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/in_game_interface.tscn" id="5_i6g32"]
 [ext_resource type="PackedScene" uid="uid://cnqpubkrdplki" path="res://Scenes/General/audio_manager.tscn" id="6_i6g32"]
 
@@ -19,7 +19,6 @@ _level_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Level")
 _menus = NodePath("Menus")
 _pause_in_sfx = ExtResource("2_v158k")
 _game_mode = ExtResource("3_v158k")
-_initial_level = 5
 
 [node name="TetrisManager" parent="." instance=ExtResource("1_ebmjs")]
 
@@ -47,6 +46,10 @@ region_rect = Rect2(0, 0, 280, 240)
 [connection signal="paused" from="TetrisManager" to="." method="_on_paused"]
 [connection signal="score_changed" from="TetrisManager" to="." method="_on_score_changed"]
 [connection signal="unpaused" from="InGameInterface/Pause" to="." method="_on_unpaused"]
-[connection signal="pressed_play" from="Menus" to="." method="_on_pressed_play"]
+[connection signal="game_mode_selected" from="Menus/GameRulesMenu/ModeSelectButton" to="." method="_on_game_mode_selected"]
+[connection signal="intial_level_selected" from="Menus/GameRulesMenu/InitialLevelButton" to="." method="_on_initial_level_selected"]
+[connection signal="pressed" from="Menus/GameRulesMenu/Start" to="." method="_on_start_pressed"]
 
 [editable path="InGameInterface"]
+[editable path="Menus"]
+[editable path="Menus/GameRulesMenu"]

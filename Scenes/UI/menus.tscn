@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5462v4qv4ilr"]
+
+[ext_resource type="Script" uid="uid://d155d1ul1138e" path="res://Scripts/UI/menus.gd" id="1_o14dv"]
+[ext_resource type="PackedScene" uid="uid://bbipntwlkdg2g" path="res://Scenes/UI/main_menu.tscn" id="2_8nrc5"]
+[ext_resource type="PackedScene" uid="uid://ciiltmtr4x70q" path="res://Scenes/UI/game_rules_menu.tscn" id="3_ajfag"]
+
+[node name="Menus" type="CanvasLayer" node_paths=PackedStringArray("_main_menu", "_game_rules_menu")]
+script = ExtResource("1_o14dv")
+_main_menu = NodePath("MainMenu")
+_game_rules_menu = NodePath("GameRulesMenu")
+metadata/_custom_type_script = "uid://d155d1ul1138e"
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MainMenu" parent="." instance=ExtResource("2_8nrc5")]
+
+[node name="GameRulesMenu" parent="." instance=ExtResource("3_ajfag")]
+
+[editable path="GameRulesMenu"]

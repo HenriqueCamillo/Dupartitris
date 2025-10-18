@@ -7,3 +7,5 @@ const BLOCK_SIZE: float = 10
 const PIECE_SPAWN_DELAY: int = 10
 const BLOCK_CLEAR_DELAY: int = 4
 const STACK_DROP_DELAY: int = 4
+
+const MAX_LEVEL: int = 29

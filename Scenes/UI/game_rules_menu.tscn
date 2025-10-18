@@ -1,0 +1,149 @@
+[gd_scene load_steps=12 format=3 uid="uid://ciiltmtr4x70q"]
+
+[ext_resource type="Script" uid="uid://r6obyy5ujr60" path="res://Scripts/UI/game_rules_menu.gd" id="1_ehhff"]
+[ext_resource type="Theme" uid="uid://cxt2wr8nqu1fn" path="res://Themes/nes_theme.tres" id="2_owx6h"]
+[ext_resource type="Script" uid="uid://bsp1wg33f3vo6" path="res://Scripts/UI/mode_select_button.gd" id="3_kg0ql"]
+[ext_resource type="PackedScene" uid="uid://hh0y26dcdfox" path="res://Scenes/UI/game_mode_button_button.tscn" id="4_6gd1g"]
+[ext_resource type="Resource" uid="uid://bsdhxmma3m4se" path="res://Data/GameModes/dupartitris_game_mode.tres" id="5_ga510"]
+[ext_resource type="Resource" uid="uid://b3rct8xkamekc" path="res://Data/GameModes/relaxed_dupartitris_gm.tres" id="6_5exu8"]
+[ext_resource type="Resource" uid="uid://cmcs6rs5utr5n" path="res://Data/GameModes/classic_tetris_game_mode.tres" id="7_31fj5"]
+[ext_resource type="Resource" uid="uid://udlun4shlnow" path="res://Data/GameModes/modern_tetris_game_mode.tres" id="8_y8v5b"]
+[ext_resource type="Resource" uid="uid://ckqh56m5rs180" path="res://Data/GameModes/custom_game_mode.tres" id="9_ifpb7"]
+[ext_resource type="Script" uid="uid://cipnc24jjpm2c" path="res://Scripts/UI/initial_level_button.gd" id="10_owx6h"]
+[ext_resource type="Script" uid="uid://b888l7t1mf4i7" path="res://Scripts/UI/initial_level_adjuster.gd" id="11_owx6h"]
+
+[node name="GameRulesMenu" type="Control" node_paths=PackedStringArray("_first_selected")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ehhff")
+_first_selected = NodePath("ModeSelectButton")
+metadata/_custom_type_script = "uid://r6obyy5ujr60"
+
+[node name="ModeSelectButton" type="Button" parent="." node_paths=PackedStringArray("_submenu_first_selected")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 17.0
+offset_top = -66.0
+offset_right = 89.0
+offset_bottom = -57.0
+grow_vertical = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Start")
+focus_neighbor_bottom = NodePath("../InitialLevelButton")
+mouse_filter = 2
+theme = ExtResource("2_owx6h")
+action_mode = 0
+button_mask = 0
+text = "Ludreĝimo"
+script = ExtResource("3_kg0ql")
+_submenu_first_selected = NodePath("GameModesVContainer/NormalMode")
+metadata/_custom_type_script = "uid://bsp1wg33f3vo6"
+
+[node name="GameModesVContainer" type="VBoxContainer" parent="ModeSelectButton"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 124.0
+offset_bottom = 120.0
+
+[node name="NormalMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
+layout_mode = 2
+focus_neighbor_top = NodePath(".")
+_game_mode = ExtResource("5_ga510")
+
+[node name="RelaxedMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
+layout_mode = 2
+_game_mode = ExtResource("6_5exu8")
+
+[node name="ClassicTetrisMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
+layout_mode = 2
+_game_mode = ExtResource("7_31fj5")
+
+[node name="ModernTetrisMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
+layout_mode = 2
+_game_mode = ExtResource("8_y8v5b")
+
+[node name="Custom" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
+layout_mode = 2
+focus_neighbor_bottom = NodePath(".")
+_game_mode = ExtResource("9_ifpb7")
+
+[node name="Indicator" type="Label" parent="ModeSelectButton"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 29.0
+theme = ExtResource("2_owx6h")
+text = "→"
+
+[node name="InitialLevelButton" type="Button" parent="." node_paths=PackedStringArray("_level_adjuster", "_submenu_first_selected")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 17.0
+offset_top = 69.0
+offset_right = 65.0
+offset_bottom = 78.0
+grow_vertical = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ModeSelectButton")
+focus_neighbor_right = NodePath("../Start")
+focus_neighbor_bottom = NodePath(".")
+mouse_filter = 2
+theme = ExtResource("2_owx6h")
+action_mode = 0
+button_mask = 0
+text = "Nivelo"
+script = ExtResource("10_owx6h")
+_level_adjuster = NodePath("InitialLevelAdjuster")
+_submenu_first_selected = NodePath("InitialLevelAdjuster")
+metadata/_custom_type_script = "uid://cipnc24jjpm2c"
+
+[node name="InitialLevelAdjuster" type="Button" parent="InitialLevelButton"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 15.5
+offset_right = 72.0
+offset_bottom = 24.5
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+mouse_filter = 2
+theme = ExtResource("2_owx6h")
+action_mode = 0
+button_mask = 0
+text = "< 00 >"
+script = ExtResource("11_owx6h")
+metadata/_custom_type_script = "uid://b888l7t1mf4i7"
+
+[node name="Start" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_top = -46.0
+offset_right = -13.0
+offset_bottom = -37.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_neighbor_left = NodePath("../InitialLevelButton")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+mouse_filter = 2
+theme = ExtResource("2_owx6h")
+button_mask = 0
+text = "komenci"

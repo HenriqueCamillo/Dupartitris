@@ -1,9 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxt2wr8nqu1fn"]
-
-[ext_resource type="FontFile" uid="uid://dke1h07idd3p1" path="res://Fonts/Super Mario Bros. NES.ttf" id="1_m7ogn"]
-
-[resource]
-default_font = ExtResource("1_m7ogn")
-default_font_size = 8
-Label/constants/line_spacing = 1
-VBoxContainer/constants/separation = 10

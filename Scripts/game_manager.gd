@@ -38,10 +38,19 @@ func _on_lines_cleared_changed(lines_cleared: int) -> void:
 
 func _on_level_changed(level: int) -> void:
     _level_ui.set_value(level)
-    
-func _on_pressed_play() -> void:
-    var game_rules: GameRules
 
+func _on_game_over() -> void:
+    _tetris_manager.reset()
+    _menus.show_game_rules_menu()
+    AudioManager.instance.play_music(_menu_music)
+
+
+func _on_game_mode_selected(game_mode: GameMode) -> void:
+    _game_mode = game_mode 
+    # TODO: Update some of the UI
+
+func _on_start_pressed() -> void:
+    var game_rules: GameRules
     if _game_mode == null:
         game_rules = GameRules.new()
     else:
@@ -49,10 +58,10 @@ func _on_pressed_play() -> void:
 
     _tetris_manager.set_game_rules(game_rules)
     _tetris_manager.start_game()
+    
+    _menus.hide()
 
     AudioManager.instance.play_music(_gameplay_music)
 
-func _on_game_over() -> void:
-    _tetris_manager.reset()
-    _menus.show_main_menu()
-    AudioManager.instance.play_music(_menu_music)
+func _on_initial_level_selected(level: int) -> void:
+    _initial_level = level
