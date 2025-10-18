@@ -40,6 +40,7 @@ func _on_level_changed(level: int) -> void:
     _level_ui.set_value(level)
 
 func _on_game_over() -> void:
+    await Delay.one_frame()
     _tetris_manager.reset()
     _menus.show_game_rules_menu()
     AudioManager.instance.play_music(_menu_music)

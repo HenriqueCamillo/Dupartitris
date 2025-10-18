@@ -8,6 +8,8 @@ func _ready() -> void:
     focus_entered.connect(_on_gain_focus)
     focus_exited.connect(_on_lose_focus)
     
+    _set_level(0)
+    
 func _exit_tree() -> void:
     focus_entered.disconnect(_on_gain_focus)
     focus_exited.disconnect(_on_lose_focus)
@@ -23,7 +25,7 @@ func _input(event: InputEvent) -> void:
         
 func _set_level(value: int) -> void:
     _level = (value + Constants.MAX_LEVEL + 1) % (Constants.MAX_LEVEL + 1)
-    text = "< %02d >" % _level
+    text = "<%02d>" % _level
     
 func get_level() -> int:
     return _level

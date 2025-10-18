@@ -23,3 +23,8 @@ color = Color(0, 0, 0, 1)
 [node name="GameRulesMenu" parent="." instance=ExtResource("3_ajfag")]
 
 [editable path="GameRulesMenu"]
+[editable path="GameRulesMenu/ModeSelectButton/GameModeDisplayer/Split"]
+[editable path="GameRulesMenu/ModeSelectButton/GameModeDisplayer/Spawn"]
+[editable path="GameRulesMenu/ModeSelectButton/GameModeDisplayer/Hold"]
+[editable path="GameRulesMenu/ModeSelectButton/GameModeDisplayer/Next"]
+[editable path="GameRulesMenu/ModeSelectButton/GameModeDisplayer/Hard Drop"]

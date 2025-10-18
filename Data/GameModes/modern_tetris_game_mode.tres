@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_wsfp6")
-_display_name = "Moderna Tetriso"
+_display_name = "Moderna"
 _next_pieces_look_ahead = 4
 _piece_spawn_mode = 1
 _split_enabled = false

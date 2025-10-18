@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ciiltmtr4x70q"]
+[gd_scene load_steps=14 format=3 uid="uid://ciiltmtr4x70q"]
 
 [ext_resource type="Script" uid="uid://r6obyy5ujr60" path="res://Scripts/UI/game_rules_menu.gd" id="1_ehhff"]
 [ext_resource type="Theme" uid="uid://cxt2wr8nqu1fn" path="res://Themes/nes_theme.tres" id="2_owx6h"]
@@ -9,6 +9,8 @@
 [ext_resource type="Resource" uid="uid://cmcs6rs5utr5n" path="res://Data/GameModes/classic_tetris_game_mode.tres" id="7_31fj5"]
 [ext_resource type="Resource" uid="uid://udlun4shlnow" path="res://Data/GameModes/modern_tetris_game_mode.tres" id="8_y8v5b"]
 [ext_resource type="Resource" uid="uid://ckqh56m5rs180" path="res://Data/GameModes/custom_game_mode.tres" id="9_ifpb7"]
+[ext_resource type="Script" uid="uid://cifgly2w8usgp" path="res://Scripts/UI/game_mode_displayer.gd" id="10_6gd1g"]
+[ext_resource type="PackedScene" uid="uid://dh385fcqhjtjn" path="res://Scenes/UI/option_with_label.tscn" id="10_kg0ql"]
 [ext_resource type="Script" uid="uid://cipnc24jjpm2c" path="res://Scripts/UI/initial_level_button.gd" id="10_owx6h"]
 [ext_resource type="Script" uid="uid://b888l7t1mf4i7" path="res://Scripts/UI/initial_level_adjuster.gd" id="11_owx6h"]
 
@@ -28,9 +30,9 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 17.0
+offset_left = 10.0
 offset_top = -66.0
-offset_right = 89.0
+offset_right = 82.0
 offset_bottom = -57.0
 grow_vertical = 2
 focus_neighbor_left = NodePath(".")
@@ -48,50 +50,129 @@ metadata/_custom_type_script = "uid://bsp1wg33f3vo6"
 
 [node name="GameModesVContainer" type="VBoxContainer" parent="ModeSelectButton"]
 layout_mode = 0
-offset_left = 24.0
+offset_left = 12.0
 offset_top = 20.0
-offset_right = 124.0
+offset_right = 112.0
 offset_bottom = 120.0
 
 [node name="NormalMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../RelaxedMode")
 _game_mode = ExtResource("5_ga510")
 
 [node name="RelaxedMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../NormalMode")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ClassicTetrisMode")
 _game_mode = ExtResource("6_5exu8")
 
 [node name="ClassicTetrisMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../RelaxedMode")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ModernTetrisMode")
 _game_mode = ExtResource("7_31fj5")
 
 [node name="ModernTetrisMode" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ClassicTetrisMode")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Custom")
 _game_mode = ExtResource("8_y8v5b")
 
 [node name="Custom" parent="ModeSelectButton/GameModesVContainer" instance=ExtResource("4_6gd1g")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ModernTetrisMode")
+focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath(".")
 _game_mode = ExtResource("9_ifpb7")
 
 [node name="Indicator" type="Label" parent="ModeSelectButton"]
 layout_mode = 0
-offset_left = 12.0
 offset_top = 20.0
-offset_right = 20.0
+offset_right = 8.0
 offset_bottom = 29.0
 theme = ExtResource("2_owx6h")
 text = "→"
+
+[node name="GameModeDisplayer" type="VBoxContainer" parent="ModeSelectButton"]
+layout_mode = 1
+offset_left = 106.0
+offset_top = 20.0
+offset_right = 250.0
+offset_bottom = 141.0
+script = ExtResource("10_6gd1g")
+metadata/_custom_type_script = "uid://cifgly2w8usgp"
+
+[node name="Split" parent="ModeSelectButton/GameModeDisplayer" instance=ExtResource("10_kg0ql")]
+layout_mode = 2
+
+[node name="OptionName" parent="ModeSelectButton/GameModeDisplayer/Split" index="0"]
+text = "Dupartigo"
+
+[node name="SelectableOption" parent="ModeSelectButton/GameModeDisplayer/Split" index="1"]
+focus_neighbor_bottom = NodePath("../../Spawn/SelectableOption")
+_selected_option = 1
+
+[node name="Spawn" parent="ModeSelectButton/GameModeDisplayer" instance=ExtResource("10_kg0ql")]
+layout_mode = 2
+
+[node name="OptionName" parent="ModeSelectButton/GameModeDisplayer/Spawn" index="0"]
+text = "Generado"
+
+[node name="SelectableOption" parent="ModeSelectButton/GameModeDisplayer/Spawn" index="1"]
+focus_neighbor_top = NodePath("../../Split/SelectableOption")
+focus_neighbor_bottom = NodePath("../../Hold/SelectableOption")
+text = "<Hazarde>"
+_options = Array[String](["Hazarde", "7-pake"])
+
+[node name="Hold" parent="ModeSelectButton/GameModeDisplayer" instance=ExtResource("10_kg0ql")]
+layout_mode = 2
+
+[node name="OptionName" parent="ModeSelectButton/GameModeDisplayer/Hold" index="0"]
+text = "Tenado"
+
+[node name="SelectableOption" parent="ModeSelectButton/GameModeDisplayer/Hold" index="1"]
+focus_neighbor_top = NodePath("../../Spawn/SelectableOption")
+focus_neighbor_bottom = NodePath("../../Next/SelectableOption")
+
+[node name="Next" parent="ModeSelectButton/GameModeDisplayer" instance=ExtResource("10_kg0ql")]
+layout_mode = 2
+
+[node name="OptionName" parent="ModeSelectButton/GameModeDisplayer/Next" index="0"]
+text = "Sekvaj pecoj"
+
+[node name="SelectableOption" parent="ModeSelectButton/GameModeDisplayer/Next" index="1"]
+focus_neighbor_top = NodePath("../../Hold/SelectableOption")
+focus_neighbor_bottom = NodePath("../../Hard Drop/SelectableOption")
+text = "<0>"
+_options = Array[String](["0", "1", "2", "3", "4", "5", "6"])
+
+[node name="Hard Drop" parent="ModeSelectButton/GameModeDisplayer" instance=ExtResource("10_kg0ql")]
+layout_mode = 2
+
+[node name="OptionName" parent="ModeSelectButton/GameModeDisplayer/Hard Drop" index="0"]
+text = "Tuja metado"
+
+[node name="SelectableOption" parent="ModeSelectButton/GameModeDisplayer/Hard Drop" index="1"]
+focus_neighbor_top = NodePath("../../Next/SelectableOption")
 
 [node name="InitialLevelButton" type="Button" parent="." node_paths=PackedStringArray("_level_adjuster", "_submenu_first_selected")]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 17.0
+offset_left = 10.0
 offset_top = 69.0
-offset_right = 65.0
+offset_right = 58.0
 offset_bottom = 78.0
 grow_vertical = 2
 focus_neighbor_left = NodePath(".")
@@ -110,9 +191,9 @@ metadata/_custom_type_script = "uid://cipnc24jjpm2c"
 
 [node name="InitialLevelAdjuster" type="Button" parent="InitialLevelButton"]
 layout_mode = 0
-offset_left = 24.0
+offset_left = 12.0
 offset_top = 15.5
-offset_right = 72.0
+offset_right = 60.0
 offset_bottom = 24.5
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath(".")
@@ -122,7 +203,8 @@ mouse_filter = 2
 theme = ExtResource("2_owx6h")
 action_mode = 0
 button_mask = 0
-text = "< 00 >"
+text = "<00>"
+alignment = 0
 script = ExtResource("11_owx6h")
 metadata/_custom_type_script = "uid://b888l7t1mf4i7"
 
@@ -133,9 +215,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -69.0
+offset_left = -67.0
 offset_top = -46.0
-offset_right = -13.0
+offset_right = -11.0
 offset_bottom = -37.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -147,3 +229,11 @@ mouse_filter = 2
 theme = ExtResource("2_owx6h")
 button_mask = 0
 text = "komenci"
+
+[connection signal="customization_finished" from="ModeSelectButton/GameModeDisplayer" to="." method="_on_customization_finished"]
+
+[editable path="ModeSelectButton/GameModeDisplayer/Split"]
+[editable path="ModeSelectButton/GameModeDisplayer/Spawn"]
+[editable path="ModeSelectButton/GameModeDisplayer/Hold"]
+[editable path="ModeSelectButton/GameModeDisplayer/Next"]
+[editable path="ModeSelectButton/GameModeDisplayer/Hard Drop"]

@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh385fcqhjtjn"]
+
+[ext_resource type="Theme" uid="uid://cxt2wr8nqu1fn" path="res://Themes/nes_theme.tres" id="1_tgox1"]
+[ext_resource type="Script" uid="uid://b8ccske8hqe1d" path="res://Scripts/UI/option_with_label.gd" id="2_algwl"]
+[ext_resource type="Script" uid="uid://c443y8yxq3sip" path="res://Scripts/UI/selectable_option.gd" id="3_uxwge"]
+
+[node name="OptionWithLabel" type="HBoxContainer"]
+offset_right = 116.0
+offset_bottom = 9.0
+theme = ExtResource("1_tgox1")
+script = ExtResource("2_algwl")
+metadata/_custom_type_script = "uid://b8ccske8hqe1d"
+
+[node name="OptionName" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("1_tgox1")
+text = "Opcionomo"
+
+[node name="SelectableOption" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 10
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+mouse_filter = 2
+theme = ExtResource("1_tgox1")
+button_mask = 0
+text = "<Jes>"
+script = ExtResource("3_uxwge")
+metadata/_custom_type_script = "uid://c443y8yxq3sip"

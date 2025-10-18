@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_cl84p")
-_display_name = "Klasika Tetriso"
+_display_name = "Klasika"
 _hard_drop_enabled = false
 _hold_piece_enabled = false
 _split_enabled = false
