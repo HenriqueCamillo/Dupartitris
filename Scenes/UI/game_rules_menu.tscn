@@ -25,6 +25,23 @@ script = ExtResource("1_ehhff")
 _first_selected = NodePath("ModeSelectButton")
 metadata/_custom_type_script = "uid://r6obyy5ujr60"
 
+[node name="HighScore" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -90.0
+offset_top = 16.0
+offset_right = -10.0
+offset_bottom = 35.0
+grow_horizontal = 0
+theme = ExtResource("2_owx6h")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "plej bona:
+000000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ModeSelectButton" type="Button" parent="." node_paths=PackedStringArray("_submenu_first_selected")]
 layout_mode = 1
 anchors_preset = 4

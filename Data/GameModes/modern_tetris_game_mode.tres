@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_wsfp6")
 _display_name = "Moderna"
+_hold_piece_enabled = true
 _next_pieces_look_ahead = 4
 _piece_spawn_mode = 1
 _split_enabled = false

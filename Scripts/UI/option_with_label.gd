@@ -7,7 +7,8 @@ var _font_focus_color: Color
 @onready var _selectable_option: SelectableOption = $SelectableOption
 @onready var _option_name: Label = $OptionName
 
-signal confirmed
+signal confirmed()
+signal changed()
 
 func _ready() -> void:
     _fetch_font_colors()
@@ -16,11 +17,13 @@ func _ready() -> void:
     _selectable_option.focus_entered.connect(_set_focus_color)
     _selectable_option.focus_exited.connect(_set_normal_color)
     _selectable_option.pressed.connect(_confirm)
+    _selectable_option.option_selected.connect(_option_selected)
     
 func _exit_tree() -> void:
     _selectable_option.focus_entered.disconnect(_set_focus_color)
     _selectable_option.focus_exited.disconnect(_set_normal_color)
     _selectable_option.pressed.disconnect(_confirm)
+    _selectable_option.option_selected.disconnect(_option_selected)
     
 func _set_focus_color() -> void:
     _option_name.add_theme_color_override("font_color", _font_focus_color)
@@ -37,6 +40,9 @@ func get_selected_option() -> int:
 
 func set_option(index: int) -> void:
     _selectable_option.set_option(index)
+    
+func _option_selected(__) -> void:
+    changed.emit()    
     
 func _confirm() -> void:
     confirmed.emit()

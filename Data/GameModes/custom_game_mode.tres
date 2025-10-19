@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_yc4m8")
 _display_name = "Agordi"
+_hold_piece_enabled = true
 metadata/_custom_type_script = "uid://cm3g8yt4ojc1l"

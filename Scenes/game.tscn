@@ -1,15 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4ov56tonoyud"]
+[gd_scene load_steps=10 format=3 uid="uid://c4ov56tonoyud"]
 
 [ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/General/tetris_manager.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://fy681vnjjcpd" path="res://Scripts/game_manager.gd" id="1_wrm1d"]
 [ext_resource type="AudioStream" uid="uid://c6sex6hj6fmas" path="res://Audio/SFX/pause.ogg" id="2_v158k"]
 [ext_resource type="Resource" uid="uid://bsdhxmma3m4se" path="res://Data/GameModes/dupartitris_game_mode.tres" id="3_v158k"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="4_3dryh"]
+[ext_resource type="Resource" uid="uid://cbllb0umtb60o" path="res://Data/save_data.tres" id="4_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://c5462v4qv4ilr" path="res://Scenes/UI/menus.tscn" id="5_1l0tm"]
 [ext_resource type="PackedScene" uid="uid://bbbjs7nrhfape" path="res://Scenes/UI/in_game_interface.tscn" id="5_i6g32"]
 [ext_resource type="PackedScene" uid="uid://cnqpubkrdplki" path="res://Scenes/General/audio_manager.tscn" id="6_i6g32"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui", "_score_ui", "_cleared_lines_ui", "_level_ui", "_menus", "_next_pieces_ui", "_hold_piece_ui")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("_tetris_manager", "_pause_ui", "_score_ui", "_cleared_lines_ui", "_level_ui", "_menus", "_next_pieces_ui", "_hold_piece_ui", "_high_score_label")]
 script = ExtResource("1_wrm1d")
 _tetris_manager = NodePath("TetrisManager")
 _pause_ui = NodePath("InGameInterface/Pause")
@@ -19,8 +20,10 @@ _level_ui = NodePath("InGameInterface/InGameInterface/VBoxContainer/Level")
 _menus = NodePath("Menus")
 _next_pieces_ui = NodePath("InGameInterface/InGameInterface/Next")
 _hold_piece_ui = NodePath("InGameInterface/InGameInterface/Hold")
+_high_score_label = NodePath("Menus/GameRulesMenu/HighScore")
 _pause_in_sfx = ExtResource("2_v158k")
 _game_mode = ExtResource("3_v158k")
+_save_data = ExtResource("4_h4fw4")
 
 [node name="TetrisManager" parent="." instance=ExtResource("1_ebmjs")]
 
@@ -47,7 +50,9 @@ region_rect = Rect2(0, 0, 280, 240)
 [connection signal="lines_cleared_changed" from="TetrisManager" to="." method="_on_lines_cleared_changed"]
 [connection signal="paused" from="TetrisManager" to="." method="_on_paused"]
 [connection signal="score_changed" from="TetrisManager" to="." method="_on_score_changed"]
+[connection signal="score_defined" from="TetrisManager" to="." method="_on_set_new_score"]
 [connection signal="unpaused" from="InGameInterface/Pause" to="." method="_on_unpaused"]
+[connection signal="game_mode_focused" from="Menus/GameRulesMenu/ModeSelectButton" to="." method="_on_game_mode_focused"]
 [connection signal="game_mode_selected" from="Menus/GameRulesMenu/ModeSelectButton" to="." method="_on_game_mode_selected"]
 [connection signal="intial_level_selected" from="Menus/GameRulesMenu/InitialLevelButton" to="." method="_on_initial_level_selected"]
 [connection signal="pressed" from="Menus/GameRulesMenu/Start" to="." method="_on_start_pressed"]

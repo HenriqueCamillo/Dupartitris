@@ -3,8 +3,8 @@ extends RefCounted
 
 # From GameMode
 var hard_drop_enabled: bool = true
-var hold_piece_enabled: bool = true
-var next_pieces_look_ahead: int = 3
+var hold_piece_enabled: bool = false
+var next_pieces_look_ahead: int = 1
 var piece_spawn_mode: = Enums.SpawnMode.Random
 var split_enabled: bool = true
 

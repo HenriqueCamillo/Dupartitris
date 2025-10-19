@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_v6y1b")
 _display_name = "Trankvila"
+_hold_piece_enabled = true
 _next_pieces_look_ahead = 4
 _piece_spawn_mode = 1
 metadata/_custom_type_script = "uid://chse8776a56xe"

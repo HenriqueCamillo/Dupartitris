@@ -19,6 +19,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="MainMenu" parent="." instance=ExtResource("2_8nrc5")]
+visible = false
 
 [node name="GameRulesMenu" parent="." instance=ExtResource("3_ajfag")]
 

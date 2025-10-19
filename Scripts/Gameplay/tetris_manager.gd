@@ -24,6 +24,7 @@ var _score_rules: ScoreRules
 
 signal paused()
 signal game_over()
+signal score_defined(score: int)
 signal score_changed(score: int)
 signal level_changed(level: int)
 signal lines_cleared_changed(lines_cleared: int)
@@ -107,6 +108,8 @@ func _spawn_next_piece() -> void:
 
 func _game_over() -> void:
     # TODO: Better game over animation
+    score_defined.emit(_score)
+    
     _has_lost = true
     _in_game_over_animation = true
 

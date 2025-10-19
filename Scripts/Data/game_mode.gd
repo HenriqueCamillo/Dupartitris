@@ -4,7 +4,7 @@ extends Resource
 @export var _display_name: String = "Ludreĝimo"
 
 @export var _hard_drop_enabled: bool = true
-@export var _hold_piece_enabled: bool = true
+@export var _hold_piece_enabled: bool = false
 @export var _next_pieces_look_ahead: int = 1
 @export var _piece_spawn_mode:= Enums.SpawnMode.Random
 @export var _split_enabled: bool = true
@@ -26,3 +26,14 @@ func get_piece_spawn_mode() -> Enums.SpawnMode:
 
 func get_split_enabled() -> bool:
     return _split_enabled
+    
+func hash() -> String:
+    return str(_split_enabled as int) + \
+           str(_piece_spawn_mode as int) + \
+           str(_hold_piece_enabled as int) + \
+           str(_next_pieces_look_ahead) + \
+           str(_hard_drop_enabled as int)
+        
+        
+            
+    
