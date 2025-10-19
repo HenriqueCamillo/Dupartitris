@@ -74,7 +74,7 @@ func set_game_rules(game_rules: GameRules) -> void:
     _game_rules = game_rules
     _grid.set_split_enabled(game_rules.split_enabled)
     _spawner.setup(_grid, game_rules.piece_spawn_mode, game_rules.next_pieces_look_ahead)
-    _piece_holder.visible = game_rules.next_pieces_look_ahead > 0
+    _piece_holder.visible = game_rules.hold_piece_enabled
     
     _score_rules = _dupartitris_score_rules if _game_rules.split_enabled else _classic_tetris_score_rules
     
