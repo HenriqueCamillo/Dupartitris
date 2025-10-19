@@ -13,7 +13,10 @@ const _CLEAR_METHOD := "clear"
 
 @export_group("Data Resources references")
 @export var _drop_frame_intervals: DropFrameIntervals
-@export var _score_rules: ScoreRules
+@export var _dupartitris_score_rules: ScoreRules
+@export var _classic_tetris_score_rules: ScoreRules
+
+var _score_rules: ScoreRules
 
 @export_group("SFX")
 @export var _line_clear_sound_effects: LineClearSoundEffects
@@ -72,6 +75,8 @@ func set_game_rules(game_rules: GameRules) -> void:
     _grid.set_split_enabled(game_rules.split_enabled)
     _spawner.setup(_grid, game_rules.piece_spawn_mode, game_rules.next_pieces_look_ahead)
     _piece_holder.visible = game_rules.next_pieces_look_ahead > 0
+    
+    _score_rules = _dupartitris_score_rules if _game_rules.split_enabled else _classic_tetris_score_rules
     
 func start_game() -> void:
     if _game_rules == null:
@@ -163,12 +168,11 @@ func _place_piece_and_spawn_next() -> void:
     var sfx = _line_clear_sound_effects.get_sfx(lines_cleared, is_splitted)
     AudioManager.instance.play_sfx(sfx)
 
-    var was_a_titris = is_splitted && lines_cleared == 3
-    if was_a_titris:
+    if _score_rules.is_perfect_score(lines_cleared, is_splitted):
         _grid.flash_background()
 
     if lines_cleared > 0:
-        _score_from_last_clear = _score_rules.get_score(lines_cleared, is_splitted)
+        _score_from_last_clear = _score_rules.get_score(_level, lines_cleared, is_splitted)
         _clear_lines(cleared_lines)
     else:
         _spawn_next_piece_after_delay()

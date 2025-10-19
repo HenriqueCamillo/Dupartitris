@@ -8,4 +8,6 @@ _scores_by_lines_cleared = Array[int]([40, 100, 210, 400])
 _scores_with_splitted_piece = Array[int]([80, 300, 900])
 _soft_drop_score_per_row = 1
 _hard_drop_score_per_row = 2
+_split_for_perfect_score = true
+_lines_for_perfect_score = 3
 metadata/_custom_type_script = "uid://d02ug4r5gulix"

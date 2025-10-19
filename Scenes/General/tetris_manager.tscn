@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dgyg468y4vr6w"]
+[gd_scene load_steps=11 format=3 uid="uid://dgyg468y4vr6w"]
 
 [ext_resource type="Script" uid="uid://je6xx4fm0oh4" path="res://Scripts/Gameplay/tetris_manager.gd" id="1_7cpae"]
 [ext_resource type="Resource" uid="uid://cxisf7sx1lcse" path="res://Data/drop_frame_intervals.tres" id="2_2wuxp"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://whceyfg610cp" path="res://Scenes/General/t_grid.tscn" id="3_ilvt5"]
 [ext_resource type="PackedScene" uid="uid://5q2k55tkrw0o" path="res://Scenes/General/piece_spawner.tscn" id="3_s36ej"]
 [ext_resource type="Resource" uid="uid://b5niot51iuiyy" path="res://Data/line_clear_sound_effects.tres" id="4_mm7po"]
+[ext_resource type="Resource" uid="uid://knm4wgjw4v5o" path="res://Data/tetris_score_rules.tres" id="4_qrra4"]
 [ext_resource type="AudioStream" uid="uid://bfwerx184ojgq" path="res://Audio/SFX/game_over.ogg" id="5_0rma8"]
 [ext_resource type="PackedScene" uid="uid://libj6ut7phxu" path="res://Scenes/General/piece_holder.tscn" id="6_phmmh"]
 
@@ -18,7 +19,8 @@ _grid = NodePath("TGrid")
 _piece_holder = NodePath("PieceHolder")
 _das_timer = NodePath("DASUpdateTimer")
 _drop_frame_intervals = ExtResource("2_2wuxp")
-_score_rules = ExtResource("3_3kiel")
+_dupartitris_score_rules = ExtResource("3_3kiel")
+_classic_tetris_score_rules = ExtResource("4_qrra4")
 _line_clear_sound_effects = ExtResource("4_mm7po")
 _game_over_sfx = ExtResource("5_0rma8")
 
