@@ -21,6 +21,7 @@ func setup(grid: TGrid, spawn_mode: Enums.SpawnMode, next_pieces_look_ahead: int
     _pieces_to_queue = next_pieces_look_ahead
     _spawn_mode = spawn_mode
     
+    _reset_available_piece_types()
     _next_pieces.set_capacity(_pieces_to_queue)
 
 func _get_random_piece_type() -> PieceData:
@@ -70,3 +71,4 @@ func _queue_pieces() -> void:
 
 func reset() -> void:
     _next_pieces.reset()
+    _reset_available_piece_types()
