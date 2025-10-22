@@ -40,5 +40,5 @@ func _input(event: InputEvent) -> void:
     if !_is_active:
         return
         
-    if event.is_action_pressed("pause"):
+    if event.is_action_pressed(TInput.get_action_name(TInput.ActionId.PAUSE)):
         _unpause()

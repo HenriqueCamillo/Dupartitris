@@ -334,10 +334,11 @@ func pause() -> void:
     if !_has_lost:
         disable()
         paused.emit()
-    else:
-        if !_in_game_over_animation:
-            _finish_game()
 
+func _on_ui_confirm_pressed() -> void:
+    if _has_lost && !_in_game_over_animation:
+        _finish_game()
+        
 func _finish_game() -> void:
     _piece_that_caused_loss.queue_free()
     _piece_that_caused_loss = null

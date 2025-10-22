@@ -45,4 +45,5 @@ position = Vector2(-100, -150)
 [connection signal="rotate_clockwise_pressed" from="InputHandler" to="." method="_on_rotate_clockwise_pressed"]
 [connection signal="rotate_counterclockwise_pressed" from="InputHandler" to="." method="_on_rotate_counterclockwise_pressed"]
 [connection signal="soft_drop_input_changed" from="InputHandler" to="." method="_set_is_soft_dropping"]
+[connection signal="ui_confirm_pressed" from="InputHandler" to="." method="_on_ui_confirm_pressed"]
 [connection signal="timeout" from="DASUpdateTimer" to="." method="_on_das_timer_timeout"]

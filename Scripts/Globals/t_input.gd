@@ -11,6 +11,7 @@ const _ACTION_NAMES: Dictionary[ActionId, String] = {
     ActionId.ROTATE_COUNTERCLOCKWISE: "rotate_counterclockwise",
     ActionId.HOLD: "hold",
     ActionId.PAUSE: "pause",
+    ActionId.UI_CONFIRM: "ui_accept",
 }
 
 enum ActionId {
@@ -22,6 +23,7 @@ enum ActionId {
     ROTATE_COUNTERCLOCKWISE,
     HOLD,
     PAUSE,
+    UI_CONFIRM,
 }
 
 func _ready() -> void:
@@ -35,7 +37,6 @@ func _input(event: InputEvent) -> void:
         var action = actions[action_id]
         if event.is_action(action.name):
             action.is_pressed = event.is_pressed()
-            break
 
 func get_action_name(action_id: ActionId) -> String:
     if !_ACTION_NAMES.has(action_id):

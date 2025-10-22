@@ -18,6 +18,7 @@ signal rotate_clockwise_pressed()
 signal rotate_counterclockwise_pressed()
 signal hold_pressed()
 signal pause_pressed()
+signal ui_confirm_pressed()
  
 func _ready() -> void:
     enable()
@@ -30,6 +31,7 @@ func _ready() -> void:
     TInput.actions[TInput.ActionId.ROTATE_COUNTERCLOCKWISE].changed.connect(_on_rotate_counterclockwise_change)
     TInput.actions[TInput.ActionId.HOLD].changed.connect(_on_hold_change)
     TInput.actions[TInput.ActionId.PAUSE].changed.connect(_on_pause_change)
+    TInput.actions[TInput.ActionId.UI_CONFIRM].changed.connect(_on_ui_confirm)
     
 func _exit_tree() -> void:
     TInput.actions[TInput.ActionId.MOVE_LEFT].changed.disconnect(_on_move_left_change)
@@ -40,6 +42,7 @@ func _exit_tree() -> void:
     TInput.actions[TInput.ActionId.ROTATE_COUNTERCLOCKWISE].changed.disconnect(_on_rotate_counterclockwise_change)
     TInput.actions[TInput.ActionId.HOLD].changed.disconnect(_on_hold_change)
     TInput.actions[TInput.ActionId.PAUSE].changed.disconnect(_on_pause_change)
+    TInput.actions[TInput.ActionId.UI_CONFIRM].changed.disconnect(_on_ui_confirm)
     
 func enable() -> void:
     _is_enabled = true
@@ -100,6 +103,10 @@ func _on_hold_change(is_pressed: bool):
 func _on_pause_change(is_pressed: bool):
     if _is_enabled && is_pressed:
         pause_pressed.emit()
+        
+func _on_ui_confirm(is_pressed: bool):
+    if _is_enabled && is_pressed:
+        ui_confirm_pressed.emit()
 
 func reset() -> void:
     disable()
