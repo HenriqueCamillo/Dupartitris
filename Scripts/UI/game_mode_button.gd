@@ -2,6 +2,7 @@ class_name GameModeButton
 extends Button
 
 @export var _game_mode: GameMode
+@export var _select_sfx: AudioStream
 
 signal mode_focused(game_mode: GameModeButton)
 signal mode_selected(game_mode: GameModeButton)
@@ -15,6 +16,7 @@ func _exit_tree() -> void:
     focus_entered.disconnect(_on_focus_entered)
     
 func _on_focus_entered() -> void:
+    AudioManager.instance.play_sfx(_select_sfx)
     mode_focused.emit(self)
 
 func _on_pressed() -> void:

@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dh385fcqhjtjn"]
+[gd_scene load_steps=6 format=3 uid="uid://dh385fcqhjtjn"]
 
 [ext_resource type="Theme" uid="uid://cxt2wr8nqu1fn" path="res://Themes/nes_theme.tres" id="1_tgox1"]
 [ext_resource type="Script" uid="uid://b8ccske8hqe1d" path="res://Scripts/UI/option_with_label.gd" id="2_algwl"]
 [ext_resource type="Script" uid="uid://c443y8yxq3sip" path="res://Scripts/UI/selectable_option.gd" id="3_uxwge"]
+[ext_resource type="AudioStream" uid="uid://dejltq8iro5dc" path="res://Audio/SFX/rotate_piece.ogg" id="4_uxwge"]
+[ext_resource type="AudioStream" uid="uid://ijunuqsvgfjk" path="res://Audio/SFX/move_piece.ogg" id="5_b8i0g"]
 
 [node name="OptionWithLabel" type="HBoxContainer"]
 offset_right = 116.0
@@ -28,4 +30,6 @@ theme = ExtResource("1_tgox1")
 button_mask = 0
 text = "<Jes>"
 script = ExtResource("3_uxwge")
+_select_sfx = ExtResource("5_b8i0g")
+_change_selection_sfx = ExtResource("4_uxwge")
 metadata/_custom_type_script = "uid://c443y8yxq3sip"

@@ -3,12 +3,15 @@ extends Button
 
 var _level: int = 0
 
+@export var _select_sfx: AudioStream
+@export var _change_selection_sfx: AudioStream
+
 func _ready() -> void:
     set_process_input(false)
     focus_entered.connect(_on_gain_focus)
     focus_exited.connect(_on_lose_focus)
     
-    _set_level(0)
+    _set_level(0, false)
     
 func _exit_tree() -> void:
     focus_entered.disconnect(_on_gain_focus)
@@ -21,17 +24,20 @@ func _input(event: InputEvent) -> void:
     if event.is_action_pressed("ui_right"):
         _set_level(_level + 1)   
     elif event.is_action_pressed("ui_left"):
-      _set_level(_level - 1) 
+        _set_level(_level - 1) 
         
-func _set_level(value: int) -> void:
+func _set_level(value: int, play_sfx: bool = true) -> void:
     _level = (value + Constants.MAX_LEVEL + 1) % (Constants.MAX_LEVEL + 1)
     text = "<%02d>" % _level
+    if play_sfx:
+        AudioManager.instance.play_sfx(_change_selection_sfx)
     
 func get_level() -> int:
     return _level
 
 func _on_gain_focus() -> void:
     set_process_input(true)
+    AudioManager.instance.play_sfx(_select_sfx)
     
 func _on_lose_focus() -> void:
     set_process_input(false)

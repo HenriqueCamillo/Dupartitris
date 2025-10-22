@@ -5,6 +5,9 @@ extends ButtonWithSubmenu
 @onready var _indicator: Label = $Indicator
 @onready var _game_mode_displayer: GameModeDisplayer = $GameModeDisplayer
 
+@export var _select_sfx: AudioStream
+
+
 var _font_color: Color
 var _font_focus_color: Color
 
@@ -72,3 +75,8 @@ func _fetch_font_colors() -> void:
 func _show_submenu() -> void:
     super._show_submenu()
     _indicator.add_theme_color_override("font_color", _font_focus_color)
+    
+
+
+func _on_focus_entered() -> void:
+    AudioManager.instance.play_sfx(_select_sfx)

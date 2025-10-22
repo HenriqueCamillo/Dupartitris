@@ -3,6 +3,9 @@ extends ButtonWithSubmenu
 
 @export var _level_adjuster: InitialLevelAdjuster
 
+@export var _select_sfx: AudioStream
+
+
 signal intial_level_selected(level: int)
 
 func _ready() -> void:
@@ -15,3 +18,7 @@ func _exit_tree() -> void:
 func _confirm_level() -> void:
     grab_focus()
     intial_level_selected.emit(_level_adjuster.get_level())
+
+
+func _on_focus_entered() -> void:
+    AudioManager.instance.play_sfx(_select_sfx)

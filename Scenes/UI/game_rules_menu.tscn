@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ciiltmtr4x70q"]
+[gd_scene load_steps=17 format=3 uid="uid://ciiltmtr4x70q"]
 
 [ext_resource type="Script" uid="uid://r6obyy5ujr60" path="res://Scripts/UI/game_rules_menu.gd" id="1_ehhff"]
 [ext_resource type="Theme" uid="uid://cxt2wr8nqu1fn" path="res://Themes/nes_theme.tres" id="2_owx6h"]
@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://dh385fcqhjtjn" path="res://Scenes/UI/option_with_label.tscn" id="10_kg0ql"]
 [ext_resource type="Script" uid="uid://cipnc24jjpm2c" path="res://Scripts/UI/initial_level_button.gd" id="10_owx6h"]
 [ext_resource type="Script" uid="uid://b888l7t1mf4i7" path="res://Scripts/UI/initial_level_adjuster.gd" id="11_owx6h"]
+[ext_resource type="AudioStream" uid="uid://dejltq8iro5dc" path="res://Audio/SFX/rotate_piece.ogg" id="14_5exu8"]
+[ext_resource type="AudioStream" uid="uid://ijunuqsvgfjk" path="res://Audio/SFX/move_piece.ogg" id="15_31fj5"]
+[ext_resource type="Script" uid="uid://cv4xc8cpbbgks" path="res://Scripts/UI/start_button.gd" id="16_31fj5"]
 
 [node name="GameRulesMenu" type="Control" node_paths=PackedStringArray("_first_selected")]
 layout_mode = 3
@@ -62,6 +65,7 @@ action_mode = 0
 button_mask = 0
 text = "Ludreĝimo"
 script = ExtResource("3_kg0ql")
+_select_sfx = ExtResource("15_31fj5")
 _submenu_first_selected = NodePath("GameModesVContainer/NormalMode")
 metadata/_custom_type_script = "uid://bsp1wg33f3vo6"
 
@@ -203,6 +207,7 @@ button_mask = 0
 text = "Nivelo"
 script = ExtResource("10_owx6h")
 _level_adjuster = NodePath("InitialLevelAdjuster")
+_select_sfx = ExtResource("15_31fj5")
 _submenu_first_selected = NodePath("InitialLevelAdjuster")
 metadata/_custom_type_script = "uid://cipnc24jjpm2c"
 
@@ -223,6 +228,8 @@ button_mask = 0
 text = "<00>"
 alignment = 0
 script = ExtResource("11_owx6h")
+_select_sfx = ExtResource("15_31fj5")
+_change_selection_sfx = ExtResource("14_5exu8")
 metadata/_custom_type_script = "uid://b888l7t1mf4i7"
 
 [node name="Start" type="Button" parent="."]
@@ -246,8 +253,13 @@ mouse_filter = 2
 theme = ExtResource("2_owx6h")
 button_mask = 0
 text = "komenci"
+script = ExtResource("16_31fj5")
+_select_sfx = ExtResource("15_31fj5")
 
+[connection signal="focus_entered" from="ModeSelectButton" to="ModeSelectButton" method="_on_focus_entered"]
 [connection signal="customization_finished" from="ModeSelectButton/GameModeDisplayer" to="." method="_on_customization_finished"]
+[connection signal="focus_entered" from="InitialLevelButton" to="InitialLevelButton" method="_on_focus_entered"]
+[connection signal="focus_entered" from="Start" to="Start" method="_on_focus_entered"]
 
 [editable path="ModeSelectButton/GameModeDisplayer/Split"]
 [editable path="ModeSelectButton/GameModeDisplayer/Spawn"]
