@@ -1,8 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4ov56tonoyud"]
+[gd_scene load_steps=13 format=3 uid="uid://c4ov56tonoyud"]
 
 [ext_resource type="PackedScene" uid="uid://dgyg468y4vr6w" path="res://Scenes/General/tetris_manager.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://fy681vnjjcpd" path="res://Scripts/game_manager.gd" id="1_wrm1d"]
+[ext_resource type="AudioStream" uid="uid://y3b0w2ta7vjp" path="res://Audio/Music/SwingingLevel.ogg" id="2_ldgsr"]
 [ext_resource type="AudioStream" uid="uid://c6sex6hj6fmas" path="res://Audio/SFX/pause.ogg" id="2_v158k"]
+[ext_resource type="AudioStream" uid="uid://jo8owbnu75vo" path="res://Audio/Music/FranticLevel.ogg" id="3_o5yvi"]
+[ext_resource type="AudioStream" uid="uid://cyhfcvnvs031k" path="res://Audio/Music/8BitMetal.ogg" id="3_rku1e"]
 [ext_resource type="Resource" uid="uid://bsdhxmma3m4se" path="res://Data/GameModes/dupartitris_game_mode.tres" id="3_v158k"]
 [ext_resource type="Texture2D" uid="uid://dbi8ojrv127cx" path="res://Sprites/block.png" id="4_3dryh"]
 [ext_resource type="Resource" uid="uid://cbllb0umtb60o" path="res://Data/save_data.tres" id="4_h4fw4"]
@@ -21,6 +24,8 @@ _menus = NodePath("Menus")
 _next_pieces_ui = NodePath("InGameInterface/InGameInterface/Next")
 _hold_piece_ui = NodePath("InGameInterface/InGameInterface/Hold")
 _high_score_label = NodePath("Menus/GameRulesMenu/HighScore")
+_menu_music = ExtResource("2_ldgsr")
+_gameplay_musics = Array[AudioStream]([ExtResource("3_rku1e"), ExtResource("3_o5yvi")])
 _pause_in_sfx = ExtResource("2_v158k")
 _game_mode = ExtResource("3_v158k")
 _save_data = ExtResource("4_h4fw4")

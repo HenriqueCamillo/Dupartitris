@@ -115,10 +115,12 @@ func _game_over() -> void:
 
     _piece_that_caused_loss = _falling_piece
     _falling_piece = null
+    
+    AudioManager.instance.stop_music()
 
     await get_tree().create_timer(1).timeout
     AudioManager.instance.play_sfx(_game_over_sfx)
-    await get_tree().create_timer(3).timeout
+    await get_tree().create_timer(1).timeout
 
     _in_game_over_animation = false
 

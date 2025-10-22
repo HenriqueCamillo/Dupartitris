@@ -13,7 +13,7 @@ extends Node2D
 
 @export_group("Music and SFX")
 @export var _menu_music: AudioStream
-@export var _gameplay_music: AudioStream
+@export var _gameplay_musics: Array[AudioStream]
 @export var _pause_in_sfx: AudioStream
 
 @export_group("Game Rules")
@@ -26,8 +26,12 @@ extends Node2D
 func _ready() -> void:
     _load()
     _update_high_score_label()
+    AudioManager.instance.play_music(_menu_music)
     
     _tetris_manager.disable()
+    
+func _get_random_gameplay_music() -> AudioStream:
+    return _gameplay_musics[randi_range(0, _gameplay_musics.size() - 1)]
     
 func _on_paused() -> void:
     _pause_ui.show_ui()
@@ -92,7 +96,7 @@ func _on_start_pressed() -> void:
     _upate_ui_according_to_game_rules(game_rules)
     _menus.hide()
 
-    AudioManager.instance.play_music(_gameplay_music)
+    AudioManager.instance.play_music(_get_random_gameplay_music())
     
 func _upate_ui_according_to_game_rules(game_rules: GameRules) -> void:     
     _hold_piece_ui.visible = game_rules.hold_piece_enabled

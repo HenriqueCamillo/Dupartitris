@@ -41,7 +41,7 @@ func pause_music() -> void:
     _music_player.stream_paused = true
     
 func resume_music() -> void:
-    _music_player.stream_paused = true
+    _music_player.stream_paused = false
         
 func play_sfx(sfx: AudioStream) -> void:
     if sfx == null:
