@@ -3,6 +3,7 @@ extends Node2D
 
 @export var _piece_types: Array[PieceData]
 @export var _piece_template: PackedScene
+@export var _ghost_piece_template: PackedScene
 @export var _piece_colors: PieceColors
 @export var _next_pieces: NextPieces
 
@@ -59,6 +60,10 @@ func _spawn_piece() -> Piece:
     var color = _piece_colors.get_color(piece_type)
     piece.set_color(color)
     
+    return piece
+    
+func spawn_ghost_piece() -> Piece:
+    var piece = _ghost_piece_template.instantiate() as Piece
     return piece
 
 func _queue_pieces() -> void:

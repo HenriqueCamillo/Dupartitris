@@ -30,6 +30,7 @@ signal level_changed(level: int)
 signal lines_cleared_changed(lines_cleared: int)
 
 var _falling_piece: Piece
+var _ghost_piece: Piece
 var _lines_cleared: int
 var _intial_level_lines_cleared_equivalent: int
 
@@ -66,17 +67,17 @@ var _is_hold_piece_enabled: bool:
 
 func _ready() -> void:
     _grid.on_finished_line_clear.connect(_on_finished_line_clear)
+    _ghost_piece = _spawner.spawn_ghost_piece()
 
 func _exit_tree() -> void:
     _grid.on_finished_line_clear.disconnect(_on_finished_line_clear)
-
 
 func set_game_rules(game_rules: GameRules) -> void:
     _game_rules = game_rules
     _grid.set_split_enabled(game_rules.split_enabled)
     _spawner.setup(_grid, game_rules.piece_spawn_mode, game_rules.next_pieces_look_ahead)
     _piece_holder.visible = game_rules.hold_piece_enabled
-    
+    _ghost_piece.visible = _game_rules.hard_drop_enabled
     _score_rules = _dupartitris_score_rules if _game_rules.split_enabled else _classic_tetris_score_rules
     
 func start_game() -> void:
@@ -99,12 +100,34 @@ func _spawn_next_piece_after_delay() -> void:
 func _spawn_next_piece() -> void:
     _elapsed_frames = 0
     _falling_piece = _spawner.get_next_piece()
+    _setup_ghost_piece()
     _can_hold_piece = true
 
     for block in _falling_piece.blocks:
         if !_grid.is_empty(block.get_grid_position()):
             _game_over()
             break
+            
+func _setup_ghost_piece() -> void:
+    if _falling_piece != null:
+        _ghost_piece.setup(_falling_piece.get_piece_data(), _grid)
+        _ghost_piece.set_color(_falling_piece.self_modulate)
+    
+    _update_ghost_piece()
+            
+func _update_ghost_piece() -> void:
+    if !_game_rules.hard_drop_enabled:
+        return
+       
+    var has_falling_piece = _falling_piece != null
+    _ghost_piece.visible = has_falling_piece
+    if !has_falling_piece:
+        return
+    
+    var grid_rotation = _falling_piece.get_grid_rotation()
+    var grid_position = _falling_piece.get_grid_position()
+    grid_position.y += _get_falling_block_fall_height()
+    _ghost_piece.set_grid_position_and_rotation(grid_position, grid_rotation)
 
 func _game_over() -> void:
     # TODO: Better game over animation
@@ -115,6 +138,7 @@ func _game_over() -> void:
 
     _piece_that_caused_loss = _falling_piece
     _falling_piece = null
+    _update_ghost_piece()
     
     AudioManager.instance.stop_music()
 
@@ -148,6 +172,8 @@ func _drop_piece_one_row() -> void:
         _place_piece_and_spawn_next()
     elif _is_soft_dropping:
         _increase_score(_score_rules.get_soft_drop_score_per_row())
+        
+    _update_ghost_piece()
 
 func _update_frames_per_drop() -> void:
     if _is_soft_dropping:
@@ -167,6 +193,7 @@ func _place_piece_and_spawn_next() -> void:
 
     var cleared_lines = _grid.place_piece(_falling_piece)
     _falling_piece = null
+    _update_ghost_piece()
     _set_is_soft_dropping(false)
     var lines_cleared = cleared_lines.size()
 
@@ -268,10 +295,12 @@ func _set_score(value: int) -> void:
 func _on_rotate_clockwise_pressed() -> void:
     if _falling_piece != null:
         _falling_piece.try_rotate_clockwise()
+        _update_ghost_piece()
         
 func _on_rotate_counterclockwise_pressed() -> void:
     if _falling_piece != null:
         _falling_piece.try_rotate_counterclockwise()
+        _update_ghost_piece()
 
 func _on_horizontal_input_changed(direction: int) -> void:
     if _falling_piece == null:
@@ -279,6 +308,7 @@ func _on_horizontal_input_changed(direction: int) -> void:
         
     if direction != 0:	
         _falling_piece.try_move_sideways(direction)
+        _update_ghost_piece()
         _das_direction = direction
         
     _set_das_enabled(false)
@@ -293,6 +323,7 @@ func _set_das_enabled(value: bool) -> void:
 func _on_das_timer_timeout() -> void:
     if _falling_piece != null:
         _falling_piece.try_move_sideways(_das_direction)
+        _update_ghost_piece()
 
 func _set_is_soft_dropping(value: bool) -> void:
     _is_soft_dropping = value
@@ -305,15 +336,19 @@ func _on_hard_drop_pressed() -> void:
     if _falling_piece == null:
         return
 
+    var fall_height = _get_falling_block_fall_height()
+    _falling_piece.try_move_down(fall_height)
+    _place_piece_and_spawn_next()
+    
+    _increase_score(fall_height * _score_rules.get_hard_drop_score_per_row())
+    
+func _get_falling_block_fall_height() -> int:
     var min_height = _grid.get_size().y
     for block in _falling_piece.blocks:
         var height = _grid.get_number_of_empty_blocks_under(block.get_grid_position())
         min_height = min(min_height, height)
-
-    _falling_piece.try_move_down(min_height)
-    _place_piece_and_spawn_next()
-    
-    _increase_score(min_height * _score_rules.get_hard_drop_score_per_row())
+        
+    return min_height
 
 func _on_hold_pressed() -> void:
     if !_is_hold_piece_enabled:
@@ -322,12 +357,13 @@ func _on_hold_pressed() -> void:
     if !_can_hold_piece || _falling_piece == null:
         return
 
-    _falling_piece = _piece_holder.swap_piece(_falling_piece)
+    _falling_piece = _piece_holder.swap_piece(_falling_piece)    
     if _falling_piece != null:
         _falling_piece.add_to_grid_in_position(_grid, _grid.get_spawn_position())
     else:
         _spawn_next_piece_after_delay()
 
+    _setup_ghost_piece()
     _can_hold_piece = false
     
 func pause() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://5q2k55tkrw0o"]
+[gd_scene load_steps=14 format=3 uid="uid://5q2k55tkrw0o"]
 
 [ext_resource type="Script" uid="uid://o3nwxm0h4m2l" path="res://Scripts/Gameplay/piece_spawner.gd" id="1_fnwvi"]
 [ext_resource type="Script" uid="uid://l6sli7lu00nu" path="res://Scripts/Data/piece_data.gd" id="2_htfbb"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://fbp3j8vwsbdt" path="res://Data/Pieces/t_piece.tres" id="8_ugov6"]
 [ext_resource type="Resource" uid="uid://buuktb1bv3lu0" path="res://Data/Pieces/z_piece.tres" id="9_po8wo"]
 [ext_resource type="PackedScene" uid="uid://djhogos15swoh" path="res://Scenes/General/piece.tscn" id="10_85lbp"]
+[ext_resource type="PackedScene" uid="uid://rgf3hxu4ksl6" path="res://Scenes/General/ghost_piece.tscn" id="11_ds7s1"]
 [ext_resource type="Resource" uid="uid://dt1urjjhh6afe" path="res://Data/piece_colors.tres" id="11_hf1rk"]
 [ext_resource type="PackedScene" uid="uid://bc5osfknvom8l" path="res://Scenes/General/next_peices.tscn" id="12_laevb"]
 
@@ -17,6 +18,7 @@
 script = ExtResource("1_fnwvi")
 _piece_types = Array[ExtResource("2_htfbb")]([ExtResource("3_85lbp"), ExtResource("4_hf1rk"), ExtResource("5_laevb"), ExtResource("6_4nrr1"), ExtResource("7_67x1v"), ExtResource("8_ugov6"), ExtResource("9_po8wo")])
 _piece_template = ExtResource("10_85lbp")
+_ghost_piece_template = ExtResource("11_ds7s1")
 _piece_colors = ExtResource("11_hf1rk")
 _next_pieces = NodePath("NextPieces")
 

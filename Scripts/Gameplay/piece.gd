@@ -19,6 +19,9 @@ func _ready() -> void:
 func setup(piece_data: PieceData, grid: TGrid, grid_position: Vector2i = Vector2i.ZERO) -> void:
     set_piece_data(piece_data)
     add_to_grid_in_position(grid, grid_position)
+    
+func get_piece_data() -> PieceData:
+    return _piece_data
 
 func set_piece_data(piece_data: PieceData) -> void:
     if piece_data.variants <= 0:
@@ -44,6 +47,16 @@ func add_to_grid(grid: TGrid) -> void:
 func _setup_blocks() -> void:
     for block in blocks:
         block.attach_to_piece(self)
+        
+func get_grid_position() -> Vector2i:
+    return _grid_position    
+    
+func get_grid_rotation() -> Enums.Rotation:
+    return _current_rotation  
+    
+func set_grid_position_and_rotation(grid_position: Vector2i, piece_rotation: Enums.Rotation) -> void:
+    _current_rotation = piece_rotation
+    set_grid_position(grid_position)
 
 func set_grid_position(grid_position: Vector2i):
     _grid_position = _grid.apply_horizontal_index_loop(grid_position)
@@ -146,6 +159,7 @@ func try_move(offset: Vector2i):
     return true
 
 func set_color(color: Color) -> void:
+    self_modulate = color
     for block in blocks:
         block.modulate = color
     
