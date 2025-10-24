@@ -82,7 +82,8 @@ func _on_das_timer_timeout() -> void:
         das_changed.emit(true)
     
 func _on_soft_drop_change(is_pressed: bool):
-    soft_drop_input_changed.emit(is_pressed)
+    if _is_enabled:
+        soft_drop_input_changed.emit(is_pressed)
     
 func _on_hard_drop_change(is_pressed: bool):
     if _is_enabled && is_pressed:
