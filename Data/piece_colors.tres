@@ -13,12 +13,12 @@
 [resource]
 script = ExtResource("2_j4fgv")
 colors_by_piece = Dictionary[ExtResource("1_nte4y"), Color]({
-ExtResource("2_e4f05"): Color(0, 0.28627452, 0.9490196, 1),
+ExtResource("2_e4f05"): Color(0, 0.38039216, 0.9490196, 1),
 ExtResource("3_s874k"): Color(0, 0.8862745, 0.9490196, 1),
 ExtResource("4_icn3l"): Color(0.9490196, 0.5686275, 0, 1),
 ExtResource("5_canms"): Color(0.9490196, 0.93333334, 0, 1),
 ExtResource("6_yq778"): Color(0, 0.9490196, 0.22352941, 1),
 ExtResource("7_bqi7q"): Color(0.9490196, 0, 0.078431375, 1),
-ExtResource("8_5grix"): Color(0.69803923, 0, 0.9490196, 1)
+ExtResource("8_5grix"): Color(0.7607843, 0, 0.9490196, 1)
 })
 metadata/_custom_type_script = "uid://b72267tbgrhxy"
